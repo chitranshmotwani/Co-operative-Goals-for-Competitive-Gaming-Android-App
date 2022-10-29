@@ -1,9 +1,9 @@
-//  File name style
-//  Capitalize the first word in file name, point what does this file do as short as posible, 
-//  if the file name is too long, use understandable abbreviation, use CamelCase.
-//  ex. "MainMenu.xml", "VarChangeListener.java", "ExcaliburBeam.png"
+//  Class file naming style
+//  Capitalize the first word in file name, use CamelCase, point what does this file do as short as posible, 
+//  if the file name is too long, use understandable abbreviation.
+//  ex. "MainMenu", "VarChangeListener"
 
-//  Package name style
+//  Package naming style
 //  Start with "ca.cmpt276.Calcium", you may add the directory name after that.
 //  ex. "ca.cmpt276.Calcium.model", "ca.cmpt276.Calcium.UI"
 
@@ -14,14 +14,14 @@
 //  Indentation style
 //  Tab size is 4, use tab whenever you start a new line within the braces.
 
-//  Class name style
+//  Class naming style
 //  Capitalize the first word in file name, use CamelCase, describe what does this class do as short
 //  as possible, if the file name is too long, use understandable abbreviation.
 //  ex.
 public class BattleStage;
 private class HeroicSpirits {
 
-    //  Constant name style
+    //  Constant naming style
     //  All letters in upper case, point what does this constant do as short as possible,
     //  if the file name is too long, use understandable abbreviation, connect the words by
     //  underlines '_'.
@@ -29,15 +29,15 @@ private class HeroicSpirits {
     const String NAME = "Artoria Pendragon";
     final String CLASS_NAME = "Saber";
 
-    //  Variable name style
+    //  Variable naming style
     //  All letters in lower case, point what does this constant do as short as possible,
     //  use CamelCase, if the file name is too long, use understandable abbreviation.
     //  ex.
     int currentHp;
     Card blueEyesWhiteDragon;
 
-    //  Method/Function name style
-    //  Same as class name style.
+    //  Method/Function naming style
+    //  Same as class naming style.
     public void DestroyAllFaceUp(Card[][] field, int width, int height){
 
         //  Spacing style
@@ -58,3 +58,27 @@ private class HeroicSpirits {
         }
     }
 }
+
+
+//  Resources file naming style
+//  All letters in lower case, separate the words by '_', point what does this file do as short as posible, 
+//  properly use abbreviation.   If it is a drawable file, add the type of it at the beginning.
+//  ex. "main_menu_bg.png", "ic_map_port.png", "btn_main_menu_map.png", "battle_stage.xml"
+
+//  ID naming style
+//  All letters in lower case, start with the type of the element, connect the words with '_'.
+//  ex. 
+android:id="@+id/image_battle_field 
+android:id="@+id/button_shuffle
+android:id="@+id/text_monster_effect
+
+//  String naming style in string.xml
+//  All letters in lower case, start with the name of the file that this string is usd in, separate the 
+//  words by '_', properly use abbreviation.
+//  ex. 
+<string name="activity_help_content"></string>
+<string name="activity_menu_title"></string>
+<string-array name="battle_stage_field_size">
+    <item>5 x 5</item>
+    <item>6 x 6</item>
+</string-array>
