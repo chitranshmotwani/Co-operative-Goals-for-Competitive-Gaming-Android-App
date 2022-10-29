@@ -68,9 +68,9 @@ private class HeroicSpirits {
 //  ID naming style
 //  All letters in lower case, start with the type of the element, connect the words with '_'.
 //  ex. 
-android:id="@+id/image_battle_field 
-android:id="@+id/button_shuffle
-android:id="@+id/text_monster_effect
+android:id="@+id/image_battle_field"
+android:id="@+id/button_shuffle"
+android:id="@+id/text_monster_effect"
 
 //  String naming style in string.xml
 //  All letters in lower case, start with the name of the file that this string is usd in, separate the 
