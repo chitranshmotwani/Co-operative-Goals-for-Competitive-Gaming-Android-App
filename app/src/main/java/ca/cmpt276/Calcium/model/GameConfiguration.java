@@ -2,13 +2,14 @@ package ca.cmpt276.Calcium.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class GameConfiguration {
     private ArrayList<Game> gameList = new ArrayList<>();
-    private String name = null;
-    private String scoreSystemDescription = null;
-    private int highPerPlayerScore = 0;
-    private int lowPerPlayerScore = 0;
+    private String name;
+    private String scoreSystemDescription;
+    private int highPerPlayerScore;
+    private int lowPerPlayerScore;
 
     public enum AchievementLevel {
         LEVEL_1, //highest score
@@ -66,41 +67,75 @@ public class GameConfiguration {
     }
 
     public void addGame(int numPlayers, int score) {
-        int achievementLevelIndex = calculateAchievementLevel(numPlayers, score);
-        AchievementLevel levelObtained = AchievementLevel.values()[achievementLevelIndex];
+        AchievementLevel levelObtained = calculateAchievementLevel(numPlayers, score);
 
         gameList.add(new Game(LocalDateTime.now(), numPlayers, score, levelObtained));
     }
 
-    private int calculateAchievementLevel(int numPlayers, int score) {
+    public void deleteGame(int index) {
+        gameList.remove(index);
+    }
+
+    public void changeGameNumberOfPlayers(int index, int newNumberOfPlayers) {
+        Game gameToBeChanged = gameList.get(index);
+        gameToBeChanged.setNumPlayers(newNumberOfPlayers);
+        gameToBeChanged.setAchievementLevel(
+                calculateAchievementLevel(gameToBeChanged.getNumPlayers(), gameToBeChanged.getScore())
+        );
+    }
+
+    public void changeGameScore(int index, int newScore) {
+        Game gameToBeChanged = gameList.get(index);
+        gameToBeChanged.setScore(newScore);
+        gameToBeChanged.setAchievementLevel(
+                calculateAchievementLevel(gameToBeChanged.getNumPlayers(), gameToBeChanged.getScore())
+        );
+    }
+
+    public ArrayList<Integer> getMinimumScoresForAchievementLevels(int numPlayers) {
+        float scaledHighScore = highPerPlayerScore * numPlayers;
+        float scaledLowScore = lowPerPlayerScore * numPlayers;
+        float interval = (scaledHighScore - scaledLowScore) / ((AchievementLevel.values().length) - 2);
+
+        ArrayList<Integer> minScores = new ArrayList<>();
+        minScores.add(0);
+        for (int i = 0; i < AchievementLevel.values().length - 1; i++) {
+            minScores.add((int) (scaledLowScore + (interval * i))); //type casting into an integer floors the value
+        }
+
+        Collections.reverse(minScores);
+        return minScores;
+    }
+
+    private AchievementLevel calculateAchievementLevel(int numPlayers, int score) {
         float scaledHighScore = highPerPlayerScore * numPlayers;
         float scaledLowScore = lowPerPlayerScore * numPlayers;
         if(score < scaledLowScore) {
             //return the ranking that is below the expected low score
-            return AchievementLevel.values().length - 1;
+            return AchievementLevel.values()[AchievementLevel.values().length - 1];
         }else if(score > scaledHighScore) {
             //return highest rank possible
-            return 0;
+            return AchievementLevel.values()[0];
         }
 
         //top and bottom tiers already accounted for
         float interval = (scaledHighScore - scaledLowScore) / ((AchievementLevel.values().length) - 2);
         int index = 0;
         for (int i = 0; i < AchievementLevel.values().length; i++) {
-            if (score < (scaledLowScore + (interval * i))) {
+            if (score < (int)((scaledLowScore + (interval * i)))) {
                 index = i + 1;
                 break;
             }
         }
 
         //since the ranking is highest to lowest
-        return AchievementLevel.values().length - index;
+        return AchievementLevel.values()[AchievementLevel.values().length - index];
     }
 
     public class Game {
         private LocalDateTime dateTimeCreated;
-        private int numPlayers = 0;
-        private int score = 0;
+        private int numPlayers;
+        private int score;
         private AchievementLevel achievementLevel;
 
         public Game(LocalDateTime dateTimeCreated, int numPlayers, int score, AchievementLevel achievementLevel) {
@@ -114,7 +149,6 @@ public class GameConfiguration {
         public LocalDateTime getDateTimeCreated() {
             return dateTimeCreated;
         }
-
 
         public int getNumPlayers() {
             return numPlayers;
