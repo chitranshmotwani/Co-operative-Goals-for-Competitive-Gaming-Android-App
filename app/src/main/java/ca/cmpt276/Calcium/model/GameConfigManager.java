@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class GameConfigManager {
     private static GameConfigManager manager;
     private GameConfigManager(){}
+    private ArrayList<GameConfiguration> configs = new ArrayList<>();
 
     public static synchronized GameConfigManager getInstance(){
         if (manager == null) {
@@ -12,9 +13,6 @@ public class GameConfigManager {
         }
         return manager;
     }
-
-
-    private ArrayList<GameConfiguration> configs = new ArrayList<>();
 
     public GameConfiguration getConfig(int index)   { return configs.get(index); }
 
