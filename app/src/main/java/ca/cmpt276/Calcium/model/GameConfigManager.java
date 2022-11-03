@@ -13,6 +13,7 @@ public class GameConfigManager {
         return manager;
     }
 
+
     private ArrayList<GameConfiguration> configs = new ArrayList<>();
 
     public GameConfiguration getConfig(int index)   { return configs.get(index); }
@@ -21,7 +22,7 @@ public class GameConfigManager {
 
     public void addConfig(GameConfiguration newConfig)  { configs.add(newConfig); }
 
-    public int getNumOfConfigs()    { return configs.size(); }
+    public void deleteConfig(int index)  { configs.remove(index); }
 
-    
+    public int getNumOfConfigs()    { return configs.size(); }
 }
