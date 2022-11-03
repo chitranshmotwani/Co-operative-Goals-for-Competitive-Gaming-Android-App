@@ -1,4 +1,4 @@
 package ca.cmpt276.Calcium.model;
 
-public class abc {
+public class GameConfigManager {
 }
