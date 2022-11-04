@@ -6,4 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".GameListActivity">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_baseline_add"
+        tools:ignore="VectorDrawableCompat" />
+
+    <ListView
+        android:id="@+id/listViewGames"
+        android:layout_width="410dp"
+        android:layout_height="609dp"
+        android:layout_marginTop="24dp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp">
+
+    </ListView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
