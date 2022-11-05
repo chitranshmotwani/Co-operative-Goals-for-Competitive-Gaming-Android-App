@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GameListActivity">
+    tools:context=".GameConfigurationListActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -20,7 +20,7 @@
         tools:ignore="VectorDrawableCompat" />
 
     <ListView
-        android:id="@+id/listViewGame"
+        android:id="@+id/listViewGameConfiguration"
         android:layout_width="410dp"
         android:layout_height="609dp"
         android:layout_marginTop="24dp"
@@ -28,5 +28,6 @@
         tools:layout_editor_absoluteX="0dp">
 
     </ListView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
