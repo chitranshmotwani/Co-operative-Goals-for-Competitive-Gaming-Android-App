@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -17,7 +18,6 @@ import ca.cmpt276.Calcium.model.GameConfigManager;
 import ca.cmpt276.Calcium.model.GameConfiguration;
 
 public class GameConfigurationListActivity extends AppCompatActivity {
-    GameConfigManager gameconfigmngr= GameConfigManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,31 +31,29 @@ public class GameConfigurationListActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(GameConfigurationListActivity.this, NewGameConfigurationActivity.class);
                 startActivity(intent);
-
+                finish();
             }
         });
 
-        Intent intent = getIntent();
-        gameconfigmngr= (GameConfigManager) intent.getSerializableExtra("Passing newGameConfigmngr");
+
 
         populateList();
+        Toast.makeText(this, "hello", Toast.LENGTH_SHORT).show();
         registerClick();
 
 
     }
 
     private void populateList() {
-
-
-
+        GameConfigManager gameConfigMngr= GameConfigManager.getInstance();
 
         ArrayList<String> gameConfigs = new ArrayList<String>();
 
 
 
-        for(int i=0;i<1;i++ ){
+        for(int i=0;i<gameConfigMngr.getNumOfConfigs();i++ ){
 
-            gameConfigs.add(gameconfigmngr.getConfig(i).getName());
+            gameConfigs.add(gameConfigMngr.getConfig(i).getName());
 
         }
 

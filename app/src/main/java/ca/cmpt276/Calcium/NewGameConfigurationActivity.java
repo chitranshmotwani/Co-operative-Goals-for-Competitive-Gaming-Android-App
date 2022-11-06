@@ -131,17 +131,13 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
                 newGameconfig = new GameConfiguration(name,scoreDescription,highScore,lowerScore);
                 GameConfigManager newGameConfigmngr = GameConfigManager.getInstance();
                 newGameConfigmngr.addConfig(newGameconfig);
-                Intent in = new Intent(NewGameConfigurationActivity.this, GameConfigurationListActivity.class);
-                in.putExtra("Passing newGameConfigmngr", newGameConfigmngr);
-                Toast.makeText(this, "High Score "+ highScore , Toast.LENGTH_SHORT).show();
-                //Toast.makeText(this, "Game Configuration Saved", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.backButton:
-                onBackPressed();
+                Intent back = new Intent(NewGameConfigurationActivity.this,GameConfigurationListActivity.class);
+                startActivity(back);
+                finish();
                 break;
-
-
             default:
                 return super.onOptionsItemSelected(item);
         }
