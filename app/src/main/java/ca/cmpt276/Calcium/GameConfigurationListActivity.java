@@ -16,6 +16,9 @@ public class GameConfigurationListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_game_configuration_list);
+
         setContentView(R.layout.activity_main);
 
         FloatingActionButton fab = findViewById(R.id.fab_1);
