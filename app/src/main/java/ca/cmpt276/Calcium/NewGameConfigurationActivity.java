@@ -131,12 +131,13 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
                 newGameconfig = new GameConfiguration(name,scoreDescription,highScore,lowerScore);
                 GameConfigManager newGameConfigmngr = GameConfigManager.getInstance();
                 newGameConfigmngr.addConfig(newGameconfig);
+                Intent bck = new Intent(NewGameConfigurationActivity.this,GameConfigurationListActivity.class);
+                startActivity(bck);
                 break;
 
             case R.id.backButton:
                 Intent back = new Intent(NewGameConfigurationActivity.this,GameConfigurationListActivity.class);
                 startActivity(back);
-                finish();
                 break;
             default:
                 return super.onOptionsItemSelected(item);

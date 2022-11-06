@@ -38,7 +38,6 @@ public class GameConfigurationListActivity extends AppCompatActivity {
 
 
         populateList();
-        Toast.makeText(this, "hello", Toast.LENGTH_SHORT).show();
         registerClick();
 
 
