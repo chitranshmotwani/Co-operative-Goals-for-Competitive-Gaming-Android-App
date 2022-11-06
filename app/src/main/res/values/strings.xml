@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Game Configuration List</string>
+    <string name="scrDescriptionText">Description of Score</string>
+    <string name="dscrptionOfScoreHint">Please Enter Description of the Scores system</string>
+    <string name="expctdScoreText">Per Player Expected Score</string>
+    <string name="poorScoreHint">Poor Score</string>
+    <string name="greatScoreHint">Poor Score</string>
+    <string name="gameConfigurationHint">Game Configuration Name</string>
+
 </resources>

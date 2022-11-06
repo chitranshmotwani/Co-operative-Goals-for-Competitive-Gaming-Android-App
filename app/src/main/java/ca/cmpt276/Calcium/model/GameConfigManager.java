@@ -3,7 +3,7 @@ package ca.cmpt276.Calcium.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class GameConfigManager implements Serializable {
+public class GameConfigManager{
     private static GameConfigManager manager;
     private GameConfigManager(){}
     private ArrayList<GameConfiguration> configs = new ArrayList<>();

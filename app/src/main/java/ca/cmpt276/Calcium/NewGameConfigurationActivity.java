@@ -7,7 +7,6 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,15 +16,14 @@ import ca.cmpt276.Calcium.model.GameConfiguration;
 
 public class NewGameConfigurationActivity extends AppCompatActivity {
 
-    private Menu optionsMenu;
-    String name ="";
+    String name = "";
     String scoreDescription = "";
-    String hiScore="0";
-    String poScore="0";
-    int highScore= 0;
+    String hiScore = "0";
+    String poorScore = "0";
+    int highScore = 0;
     int lowerScore = 0;
     GameConfiguration newGameconfig;
-
+    private Menu optionsMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +44,7 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                name= String.valueOf(gameConfigName.getText().toString());
+                name = gameConfigName.getText().toString();
             }
         });
 
@@ -64,7 +62,7 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                scoreDescription=String.valueOf(description.getText().toString());
+                scoreDescription = description.getText().toString();
             }
         });
 
@@ -82,13 +80,12 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                hiScore = String.valueOf(hScore.getText().toString());
-                if(!hiScore.equals("")) {
+                hiScore = hScore.getText().toString();
+                if (!hiScore.equals("")) {
                     highScore = Integer.parseInt(hiScore);
                 }
             }
         });
-
 
 
         EditText pScore = findViewById(R.id.PoorScore);
@@ -105,13 +102,12 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                poScore = String.valueOf(pScore.getText());
-                if(!poScore.equals("")) {
-                    lowerScore = Integer.parseInt(poScore);
+                poorScore = String.valueOf(pScore.getText());
+                if (!poorScore.equals("")) {
+                    lowerScore = Integer.parseInt(poorScore);
                 }
             }
         });
-
 
 
     }
@@ -128,15 +124,15 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.saveButton:
-                newGameconfig = new GameConfiguration(name,scoreDescription,highScore,lowerScore);
+                newGameconfig = new GameConfiguration(name, scoreDescription, highScore, lowerScore);
                 GameConfigManager newGameConfigmngr = GameConfigManager.getInstance();
                 newGameConfigmngr.addConfig(newGameconfig);
-                Intent bck = new Intent(NewGameConfigurationActivity.this,GameConfigurationListActivity.class);
+                Intent bck = new Intent(NewGameConfigurationActivity.this, GameConfigurationListActivity.class);
                 startActivity(bck);
                 break;
 
             case R.id.backButton:
-                Intent back = new Intent(NewGameConfigurationActivity.this,GameConfigurationListActivity.class);
+                Intent back = new Intent(NewGameConfigurationActivity.this, GameConfigurationListActivity.class);
                 startActivity(back);
                 break;
             default:
