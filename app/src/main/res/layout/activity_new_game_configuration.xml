@@ -11,11 +11,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="124dp"
-        android:layout_marginTop="30dp"
-        android:text="Description of Score"
+        android:layout_marginTop="32dp"
+        android:text="@string/scrDescriptionText"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/GameConfigurationName" />
 
     <EditText
         android:id="@+id/DescriptionofScore"
@@ -25,7 +25,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:hint="Please Enter Description of the Scores system"
+        android:hint="@string/dscrptionOfScoreHint"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="56dp"
         android:layout_marginTop="64dp"
-        android:text="Per Player Expected Score"
+        android:text="@string/expctdScoreText"
         android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/DescriptionofScore" />
@@ -50,7 +50,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:hint="Poor Score"
+        android:hint="@string/poorScoreHint"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.091"
@@ -65,12 +65,24 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:hint="Great Score"
+        android:hint="@string/greatScoreHint"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.091"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/PoorScore"
         app:layout_constraintTop_toBottomOf="@+id/ExpectedScore" />
+
+    <EditText
+        android:id="@+id/GameConfigurationName"
+        android:layout_width="235dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="68dp"
+        android:ems="10"
+        android:hint="@string/gameConfigurationHint"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
