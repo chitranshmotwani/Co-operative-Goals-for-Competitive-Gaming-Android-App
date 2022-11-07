@@ -65,7 +65,7 @@ public class GameConfigurationListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent in = new Intent(GameConfigurationListActivity.this,GameConfigurationActivity.class);
-                in.putExtra("passsing gameConfigs",gameConfigMngr.getConfig(position));
+                in.putExtra("passing gameConfigs",position);
                 startActivity(in);
 
             }

@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class GameConfiguration implements Serializable {
+public class GameConfiguration {
     private ArrayList<Game> gameList = new ArrayList<>();
     private String name;
     private String scoreSystemDescription;
