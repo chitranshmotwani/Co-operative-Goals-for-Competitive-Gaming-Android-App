@@ -46,7 +46,6 @@ public class GameConfigurationListActivity extends AppCompatActivity {
 
     }
 
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -92,6 +91,9 @@ public class GameConfigurationListActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent in = new Intent(GameConfigurationListActivity.this,GameConfigurationActivity.class);
+                in.putExtra("passsing gameConfigs", manager.getConfig(position));
+                startActivity(in);
 
             }
         });
