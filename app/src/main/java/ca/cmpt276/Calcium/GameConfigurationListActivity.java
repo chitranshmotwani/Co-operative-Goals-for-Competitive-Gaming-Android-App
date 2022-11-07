@@ -14,7 +14,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
 import ca.cmpt276.Calcium.model.GameConfigManager;
-import android.content.SharedPreferences;
 
 public class GameConfigurationListActivity extends AppCompatActivity {
 
