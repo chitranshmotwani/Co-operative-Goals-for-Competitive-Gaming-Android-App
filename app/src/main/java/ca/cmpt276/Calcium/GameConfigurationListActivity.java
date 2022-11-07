@@ -17,6 +17,9 @@ import ca.cmpt276.Calcium.model.GameConfigManager;
 
 public class GameConfigurationListActivity extends AppCompatActivity {
 
+    GameConfigManager gameConfigMngr = GameConfigManager.getInstance();
+    ArrayList<String> gameConfigs = new ArrayList<String>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +47,7 @@ public class GameConfigurationListActivity extends AppCompatActivity {
     }
 
     private void populateList() {
-        GameConfigManager gameConfigMngr = GameConfigManager.getInstance();
-        ArrayList<String> gameConfigs = new ArrayList<String>();
+
 
         for (int i = 0; i < gameConfigMngr.getNumOfConfigs(); i++) {
             gameConfigs.add(gameConfigMngr.getConfig(i).getName());
@@ -62,6 +64,8 @@ public class GameConfigurationListActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent in = new Intent(GameConfigurationListActivity.this,GameConfigurationActivity.class);
+                in.putExtra("passsing gameConfigs",gameConfigMngr.getConfig(position));
 
             }
         });

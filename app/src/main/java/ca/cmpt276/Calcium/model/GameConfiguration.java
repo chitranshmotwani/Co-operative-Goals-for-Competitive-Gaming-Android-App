@@ -1,10 +1,11 @@
 package ca.cmpt276.Calcium.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class GameConfiguration {
+public class GameConfiguration implements Serializable {
     private ArrayList<Game> gameList = new ArrayList<>();
     private String name;
     private String scoreSystemDescription;
