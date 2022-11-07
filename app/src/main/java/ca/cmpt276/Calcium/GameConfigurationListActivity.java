@@ -1,21 +1,19 @@
 package ca.cmpt276.Calcium;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
 import ca.cmpt276.Calcium.model.GameConfigManager;
-import ca.cmpt276.Calcium.model.GameConfiguration;
 
 public class GameConfigurationListActivity extends AppCompatActivity {
 
@@ -31,7 +29,6 @@ public class GameConfigurationListActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(GameConfigurationListActivity.this, NewGameConfigurationActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
 

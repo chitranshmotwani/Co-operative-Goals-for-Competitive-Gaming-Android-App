@@ -1,6 +1,5 @@
 package ca.cmpt276.Calcium;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -127,13 +126,11 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
                 newGameconfig = new GameConfiguration(name, scoreDescription, highScore, lowerScore);
                 GameConfigManager newGameConfigmngr = GameConfigManager.getInstance();
                 newGameConfigmngr.addConfig(newGameconfig);
-                Intent bck = new Intent(NewGameConfigurationActivity.this, GameConfigurationListActivity.class);
-                startActivity(bck);
+                finish();
                 break;
 
             case R.id.backButton:
-                Intent back = new Intent(NewGameConfigurationActivity.this, GameConfigurationListActivity.class);
-                startActivity(back);
+                finish();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
