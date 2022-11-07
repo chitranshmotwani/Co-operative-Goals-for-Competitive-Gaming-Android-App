@@ -8,8 +8,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+
+import ca.cmpt276.Calcium.model.GameConfigManager;
+import ca.cmpt276.Calcium.model.GameConfiguration;
 
 public class GameConfigurationListActivity extends AppCompatActivity {
 
@@ -19,35 +25,36 @@ public class GameConfigurationListActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_game_configuration_list);
 
-        setContentView(R.layout.activity_main);
-
-        FloatingActionButton fab = findViewById(R.id.fab_1);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GameConfigurationListActivity.this, GameConfigurationActivity.class);
+                Intent intent = new Intent(GameConfigurationListActivity.this, NewGameConfigurationActivity.class);
                 startActivity(intent);
-
+                finish();
             }
         });
 
         populateList();
         registerClick();
 
-
     }
 
     private void populateList() {
+        GameConfigManager gameConfigMngr= GameConfigManager.getInstance();
+        ArrayList<String> gameConfigs = new ArrayList<String>();
 
-        String[] gameConfigs = {"1","2","3"}; //Here's where the array of game configs go
+        for(int i=0;i<gameConfigMngr.getNumOfConfigs();i++ ){
+            gameConfigs.add(gameConfigMngr.getConfig(i).getName());
+        }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.game_configs_layout, gameConfigs);
 
-        ListView list= findViewById(R.id.list_main);
+        ListView list= findViewById(R.id.listViewGameConfiguration);
         list.setAdapter(adapter);
     }
     private void registerClick() {
-        ListView list= findViewById(R.id.list_main);
+        ListView list= findViewById(R.id.listViewGameConfiguration);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

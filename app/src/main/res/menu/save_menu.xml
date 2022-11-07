@@ -4,16 +4,16 @@
 
         <item
             android:id="@+id/backButton"
-            android:icon="@drawable/back"
+            android:icon="@drawable/back_icon"
             app:showAsAction="always"
             android:title="Back"
             />
 
         <item
             android:id="@+id/saveButton"
-            android:icon="@drawable/save"
+            android:icon="@drawable/save_icon"
             app:showAsAction="ifRoom"
             android:title="Save"
-            android:enabled="false"/>
+            />
 
 </menu>
