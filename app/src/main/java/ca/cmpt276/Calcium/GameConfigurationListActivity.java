@@ -3,6 +3,7 @@ package ca.cmpt276.Calcium;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,6 +12,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+
+import ca.cmpt276.Calcium.model.GameConfigManager;
 
 import java.util.ArrayList;
 
@@ -18,6 +25,10 @@ import ca.cmpt276.Calcium.model.GameConfigManager;
 import ca.cmpt276.Calcium.model.GameConfiguration;
 
 public class GameConfigurationListActivity extends AppCompatActivity {
+
+    public static final String SHAREDPREF = "Shared Preferences";
+    public static final String SHAREDPREF_MANAGER = "Manager";
+    private GameConfigManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +51,37 @@ public class GameConfigurationListActivity extends AppCompatActivity {
 
     }
 
+
+}
+    @Override
+    protected void onStart() {
+        super.onStart();
+        storeGameConfigManager();
+        populateList();
+    }
+
+    private void storeGameConfigManager() {
+        Gson gson = new Gson();
+        String currentManager = gson.toJson(manager);
+
+        SharedPreferences preferences = getSharedPreferences(SHAREDPREF, MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(SHAREDPREF_MANAGER, currentManager);
+        editor.commit();
+    }
+
+    private void getGameConfigManager() {
+        SharedPreferences preferences = getSharedPreferences(SHAREDPREF, MODE_PRIVATE);
+        String managerString = preferences.getString(SHAREDPREF_MANAGER, null);
+        Type type = new TypeToken<GameConfigManager>() {}.getType();
+        Gson gson = new Gson();
+
+        manager = gson.fromJson(managerString, type);
+        if (manager == null) {
+            manager = GameConfigManager.getInstance();
+        }
+    }
+
     private void populateList() {
         GameConfigManager gameConfigMngr= GameConfigManager.getInstance();
         ArrayList<String> gameConfigs = new ArrayList<String>();
@@ -53,6 +95,7 @@ public class GameConfigurationListActivity extends AppCompatActivity {
         ListView list= findViewById(R.id.listViewGameConfiguration);
         list.setAdapter(adapter);
     }
+    
     private void registerClick() {
         ListView list= findViewById(R.id.listViewGameConfiguration);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
