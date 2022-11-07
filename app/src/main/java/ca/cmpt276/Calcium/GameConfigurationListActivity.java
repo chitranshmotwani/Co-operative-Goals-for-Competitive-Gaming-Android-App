@@ -37,21 +37,28 @@ public class GameConfigurationListActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        populateList();
+    }
+
     private void populateList() {
-        GameConfigManager gameConfigMngr= GameConfigManager.getInstance();
+        GameConfigManager gameConfigMngr = GameConfigManager.getInstance();
         ArrayList<String> gameConfigs = new ArrayList<String>();
 
-        for(int i=0;i<gameConfigMngr.getNumOfConfigs();i++ ){
+        for (int i = 0; i < gameConfigMngr.getNumOfConfigs(); i++) {
             gameConfigs.add(gameConfigMngr.getConfig(i).getName());
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.game_configs_layout, gameConfigs);
 
-        ListView list= findViewById(R.id.listViewGameConfiguration);
+        ListView list = findViewById(R.id.listViewGameConfiguration);
         list.setAdapter(adapter);
     }
+
     private void registerClick() {
-        ListView list= findViewById(R.id.listViewGameConfiguration);
+        ListView list = findViewById(R.id.listViewGameConfiguration);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
