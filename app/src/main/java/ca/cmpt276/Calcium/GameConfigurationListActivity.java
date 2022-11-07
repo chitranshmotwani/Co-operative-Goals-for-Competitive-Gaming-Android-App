@@ -40,6 +40,7 @@ public class GameConfigurationListActivity extends AppCompatActivity {
             }
         });
 
+        getGameConfigManager();
         populateList();
         registerClick();
 
@@ -76,11 +77,10 @@ public class GameConfigurationListActivity extends AppCompatActivity {
     }
 
     private void populateList() {
-        GameConfigManager gameConfigMngr = GameConfigManager.getInstance();
         ArrayList<String> gameConfigs = new ArrayList<String>();
 
-        for (int i = 0; i < gameConfigMngr.getNumOfConfigs(); i++) {
-            gameConfigs.add(gameConfigMngr.getConfig(i).getName());
+        for (int i = 0; i < manager.getNumOfConfigs(); i++) {
+            gameConfigs.add(manager.getConfig(i).getName());
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.game_configs_layout, gameConfigs);
