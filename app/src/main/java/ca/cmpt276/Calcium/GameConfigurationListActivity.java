@@ -14,8 +14,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
 import ca.cmpt276.Calcium.model.GameConfigManager;
+import android.content.SharedPreferences;
 
 public class GameConfigurationListActivity extends AppCompatActivity {
+
+    public static final String SHAREDPREF = "Shared Preferences";
+    public static final String SHAREDPREF_MANAGER = "Manager";
+    private GameConfigManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +42,34 @@ public class GameConfigurationListActivity extends AppCompatActivity {
 
     }
 
+
     @Override
     protected void onStart() {
         super.onStart();
+        storeGameConfigManager();
         populateList();
+    }
+
+    private void storeGameConfigManager() {
+        Gson gson = new Gson();
+        String currentManager = gson.toJson(manager);
+
+        SharedPreferences preferences = getSharedPreferences(SHAREDPREF, MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(SHAREDPREF_MANAGER, currentManager);
+        editor.commit();
+    }
+
+    private void getGameConfigManager() {
+        SharedPreferences preferences = getSharedPreferences(SHAREDPREF, MODE_PRIVATE);
+        String managerString = preferences.getString(SHAREDPREF_MANAGER, null);
+        Type type = new TypeToken<GameConfigManager>() {}.getType();
+        Gson gson = new Gson();
+
+        manager = gson.fromJson(managerString, type);
+        if (manager == null) {
+            manager = GameConfigManager.getInstance();
+        }
     }
 
     private void populateList() {
