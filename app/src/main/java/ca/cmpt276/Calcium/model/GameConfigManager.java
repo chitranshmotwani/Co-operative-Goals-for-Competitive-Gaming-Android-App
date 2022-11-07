@@ -1,6 +1,5 @@
 package ca.cmpt276.Calcium.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class GameConfigManager{
@@ -8,9 +7,14 @@ public class GameConfigManager{
     private GameConfigManager(){}
     private ArrayList<GameConfiguration> configs = new ArrayList<>();
 
-    public static synchronized GameConfigManager getInstance(){
+
+    public static synchronized GameConfigManager getInstance(GameConfigManager storedManager){
         if (manager == null) {
-            manager = new GameConfigManager();
+            if(storedManager == null){
+                manager = new GameConfigManager();
+            }else {
+                manager = storedManager;
+            }
         }
         return manager;
     }

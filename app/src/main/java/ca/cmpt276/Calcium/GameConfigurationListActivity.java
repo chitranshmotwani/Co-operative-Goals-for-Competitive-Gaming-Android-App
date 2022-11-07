@@ -70,10 +70,8 @@ public class GameConfigurationListActivity extends AppCompatActivity {
         Type type = new TypeToken<GameConfigManager>() {}.getType();
         Gson gson = new Gson();
 
-        manager = gson.fromJson(managerString, type);
-        if (manager == null) {
-            manager = GameConfigManager.getInstance();
-        }
+        GameConfigManager stored = gson.fromJson(managerString, type);
+        manager = GameConfigManager.getInstance(stored);
     }
 
     private void populateList() {

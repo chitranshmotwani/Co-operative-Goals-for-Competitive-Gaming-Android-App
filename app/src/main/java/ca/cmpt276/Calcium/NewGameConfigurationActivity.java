@@ -15,19 +15,21 @@ import ca.cmpt276.Calcium.model.GameConfiguration;
 
 public class NewGameConfigurationActivity extends AppCompatActivity {
 
-    String name = "";
-    String scoreDescription = "";
-    String hiScore = "0";
-    String poorScore = "0";
-    int highScore = 0;
-    int lowerScore = 0;
-    GameConfiguration newGameconfig;
+    private String name = "";
+    private String scoreDescription = "";
+    private String hiScore = "0";
+    private String poorScore = "0";
+    private int highScore = 0;
+    private int lowerScore = 0;
+    private GameConfiguration newGameconfig;
+    private GameConfigManager manager;
     private Menu optionsMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_game_configuration);
+        manager = GameConfigManager.getInstance(null);
 
         EditText gameConfigName = findViewById(R.id.GameConfigurationName);
         gameConfigName.addTextChangedListener(new TextWatcher() {
@@ -124,8 +126,7 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.saveButton:
                 newGameconfig = new GameConfiguration(name, scoreDescription, highScore, lowerScore);
-                GameConfigManager newGameConfigmngr = GameConfigManager.getInstance();
-                newGameConfigmngr.addConfig(newGameconfig);
+                manager.addConfig(newGameconfig);
                 finish();
                 break;
 
