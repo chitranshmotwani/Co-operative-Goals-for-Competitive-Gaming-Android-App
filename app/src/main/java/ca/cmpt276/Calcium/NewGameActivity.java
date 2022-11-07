@@ -1,16 +1,13 @@
 package ca.cmpt276.Calcium;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import ca.cmpt276.Calcium.model.GameConfigManager;
-import ca.cmpt276.Calcium.model.GameConfiguration;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class NewGameActivity extends AppCompatActivity {
 
@@ -38,6 +35,7 @@ public class NewGameActivity extends AppCompatActivity {
                 //  ...
 
                 //  Popup
+                String rankName = "temp_string";
                 String rank = rankName;       //  assign it to the rank name of the game
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Congratulations!");

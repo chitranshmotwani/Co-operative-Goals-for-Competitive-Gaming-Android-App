@@ -1,11 +1,13 @@
 package ca.cmpt276.Calcium.model;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class GameConfiguration {
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MMM dd @ HH:mm a");
+
     private ArrayList<Game> gameList = new ArrayList<>();
     private String name;
     private String scoreSystemDescription;
@@ -134,20 +136,20 @@ public class GameConfiguration {
     }
 
     public class Game {
-        private LocalDateTime dateTimeCreated;
+        private String dateTimeCreated;
         private int numPlayers;
         private int score;
         private AchievementLevel achievementLevel;
 
         public Game(LocalDateTime dateTimeCreated, int numPlayers, int score, AchievementLevel achievementLevel) {
             //no setter for dateTimeCreated as it should only be set on the game creation
-            this.dateTimeCreated = dateTimeCreated;
+            this.dateTimeCreated = dateTimeCreated.format(FORMATTER);
             this.numPlayers = numPlayers;
             this.score = score;
             this.achievementLevel = achievementLevel;
         }
 
-        public LocalDateTime getDateTimeCreated() {
+        public String getDateTimeCreated() {
             return dateTimeCreated;
         }
 
