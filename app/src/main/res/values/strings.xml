@@ -3,8 +3,10 @@
     <string name="scrDescriptionText">Description of Score</string>
     <string name="dscrptionOfScoreHint">Please Enter Description of the Scores system</string>
     <string name="poorScoreHint">Poor Score</string>
-    <string name="greatScoreHint">Poor Score</string>
+    <string name="greatScoreHint">Great Score</string>
     <string name="gameConfigurationHint">Game Configuration Name</string>
     <string name="expctdScoreText">Per Player Expected Score</string>
+    <string name="btnAllGames">All Games</string>
+    <string name="btnNewGame">New Game</string>
 
 </resources>
