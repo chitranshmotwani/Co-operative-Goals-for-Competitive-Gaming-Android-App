@@ -18,10 +18,9 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
     private String name = "";
     private String scoreDescription = "";
     private String hiScore = "0";
-    private String poorScore = "0";
+    private String lowScore = "0";
     private int highScore = 0;
     private int lowerScore = 0;
-    private GameConfiguration newGameconfig;
     private GameConfigManager manager;
     private Menu optionsMenu;
 
@@ -31,8 +30,15 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_game_configuration);
         manager = GameConfigManager.getInstance(null);
 
-        EditText gameConfigName = findViewById(R.id.GameConfigurationName);
-        gameConfigName.addTextChangedListener(new TextWatcher() {
+        setupGameConfigNameTextWatcher();
+        setupGameConfigScoreDescriptionTextWatcher();
+        setupGameConfigScoreRangeTextWatchers();
+
+    }
+
+    private void setupGameConfigScoreRangeTextWatchers() {
+        EditText greatScore = findViewById(R.id.great_score);
+        greatScore.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -45,11 +51,38 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                name = gameConfigName.getText().toString();
+                hiScore = greatScore.getText().toString();
+                if (!hiScore.equals("")) {
+                    highScore = Integer.parseInt(hiScore);
+                }
             }
         });
 
-        EditText description = findViewById(R.id.DescriptionofScore);
+
+        EditText poorScore = findViewById(R.id.poor_score);
+        poorScore.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                lowScore = poorScore.getText().toString();
+                if (!lowScore.equals("")) {
+                    lowerScore = Integer.parseInt(NewGameConfigurationActivity.this.lowScore);
+                }
+            }
+        });
+    }
+
+    private void setupGameConfigScoreDescriptionTextWatcher() {
+        EditText description = findViewById(R.id.score_description);
         description.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -66,9 +99,11 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
                 scoreDescription = description.getText().toString();
             }
         });
+    }
 
-        EditText hScore = findViewById(R.id.GreatScore);
-        hScore.addTextChangedListener(new TextWatcher() {
+    private void setupGameConfigNameTextWatcher() {
+        EditText gameConfigName = findViewById(R.id.game_config_name);
+        gameConfigName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -81,36 +116,9 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                hiScore = hScore.getText().toString();
-                if (!hiScore.equals("")) {
-                    highScore = Integer.parseInt(hiScore);
-                }
+                name = gameConfigName.getText().toString();
             }
         });
-
-
-        EditText pScore = findViewById(R.id.PoorScore);
-        description.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                poorScore = String.valueOf(pScore.getText());
-                if (!poorScore.equals("")) {
-                    lowerScore = Integer.parseInt(poorScore);
-                }
-            }
-        });
-
-
     }
 
     @Override
@@ -125,7 +133,7 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.saveButton:
-                newGameconfig = new GameConfiguration(name, scoreDescription, highScore, lowerScore);
+                GameConfiguration newGameconfig = new GameConfiguration(name, scoreDescription, highScore, lowerScore);
                 manager.addConfig(newGameconfig);
                 finish();
                 break;
