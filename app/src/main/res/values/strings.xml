@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">Game Configuration List</string>
-    <string name="scrDescriptionText">Description of Score</string>
-    <string name="dscrptionOfScoreHint">Please Enter Description of the Scores system</string>
-    <string name="poorScoreHint">Poor Score</string>
-    <string name="greatScoreHint">Great Score</string>
-    <string name="gameConfigurationHint">Game Configuration Name</string>
-    <string name="expctdScoreText">Per Player Expected Score</string>
-    <string name="btnAllGames">All Games</string>
-    <string name="btnNewGame">New Game</string>
+    <string name="score_description_title">Description of Score</string>
+    <string name="score_description_hint">Please enter your description of how the score will be calculated per player</string>
+    <string name="poor_score_hint">Poor Score</string>
+    <string name="great_score_hint">Great Score</string>
+    <string name="game_config_name_hint">Game Configuration Name</string>
+    <string name="expected_scores_title">Per Player Expected Score</string>
+    <string name="all_games">All Games</string>
+    <string name="new_game">New Game</string>
 
 </resources>

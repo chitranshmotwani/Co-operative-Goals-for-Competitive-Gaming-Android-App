@@ -12,8 +12,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="124dp"
         android:layout_marginTop="32dp"
-        android:text="@string/scrDescriptionText"
+        android:text="@string/score_description_title"
+        android:textAlignment="center"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/game_config_name" />
 
@@ -25,8 +27,9 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:hint="@string/dscrptionOfScoreHint"
+        android:hint="@string/score_description_hint"
         android:inputType="textPersonName"
+        android:textAlignment="viewStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ScoreDescription" />
@@ -37,8 +40,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="56dp"
         android:layout_marginTop="64dp"
-        android:text="@string/expctdScoreText"
+        android:text="@string/expected_scores_title"
+        android:textAlignment="center"
         android:textSize="25sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/score_description" />
 
@@ -50,8 +55,9 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:hint="@string/poorScoreHint"
+        android:hint="@string/poor_score_hint"
         android:inputType="number"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.091"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,12 +71,13 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:hint="@string/greatScoreHint"
+        android:hint="@string/great_score_hint"
         android:inputType="number"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.091"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/poor_score"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ExpectedScore" />
 
     <EditText
@@ -79,8 +86,10 @@
         android:layout_height="47dp"
         android:layout_marginTop="68dp"
         android:ems="10"
-        android:hint="@string/gameConfigurationHint"
+        android:hint="@string/game_config_name_hint"
         android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
