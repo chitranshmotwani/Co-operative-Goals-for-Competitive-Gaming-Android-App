@@ -1,12 +1,16 @@
 package ca.cmpt276.Calcium;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,6 +22,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import ca.cmpt276.Calcium.model.GameConfigManager;
+import ca.cmpt276.Calcium.model.GameConfiguration;
 
 public class GameConfigurationListActivity extends AppCompatActivity {
 
@@ -43,6 +48,7 @@ public class GameConfigurationListActivity extends AppCompatActivity {
         getGameConfigManager();
         populateList();
         registerClick();
+        updateListView();
 
     }
 
@@ -97,6 +103,37 @@ public class GameConfigurationListActivity extends AppCompatActivity {
 
             }
         });
+    }
+    private void updateListView() {
+        ArrayAdapter<String> adapter = new MyListAdapter();
+        ListView list = findViewById(R.id.listViewGameConfiguration);
+        list.setAdapter(adapter);
+    }
+
+    private class MyListAdapter extends ArrayAdapter<String> {
+        public MyListAdapter() {
+            super(GameConfigurationListActivity.this, R.layout.game_configs_layout, manager.getNumOfConfigs());
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View GameConfigView = convertView;
+            if (GameConfigView == null) {
+                GameConfigView = getLayoutInflater().inflate(R.layout.game_configs_layout, parent, false);
+            }
+
+            GameConfiguration currentConfig = GameConfigManager.getInstance(position);
+
+            TextView textName = GameConfigView.findViewById(R.id.nameGameConfig);
+            textName.setText(currentConfig.getName());
+
+            TextView textPoorScore = GameConfigView.findViewById(R.id.poorScoreField);
+            textPoorScore.setText(currentConfig.getLowPerPlayerScore());
+
+            TextView textGreatScore = GameConfigView.findViewById(R.id.greatScoreField);
+            textGreatScore.setText(currentConfig.getHighPerPlayerScore());
+
+            return GameConfigView;
+        }
 
     }
 }
