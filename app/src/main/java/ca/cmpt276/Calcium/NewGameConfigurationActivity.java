@@ -30,6 +30,7 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_game_configuration);
         manager = GameConfigManager.getInstance(null);
 
+        setTitle(R.string.new_game_config_title);
         setupGameConfigNameTextWatcher();
         setupGameConfigScoreDescriptionTextWatcher();
         setupGameConfigScoreRangeTextWatchers();
