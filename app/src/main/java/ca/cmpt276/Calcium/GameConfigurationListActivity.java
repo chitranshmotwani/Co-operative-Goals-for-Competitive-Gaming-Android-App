@@ -31,18 +31,10 @@ public class GameConfigurationListActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_game_configuration_list);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(GameConfigurationListActivity.this, NewGameConfigurationActivity.class);
-                startActivity(intent);
-            }
-        });
-
+        setupNewGameConfigFAB();
         getGameConfigManager();
-        populateList();
-        registerClick();
+        populateGameConfigList();
+        registerListItemClick();
 
     }
 
@@ -50,7 +42,15 @@ public class GameConfigurationListActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         storeGameConfigManager();
-        populateList();
+        populateGameConfigList();
+    }
+
+    private void setupNewGameConfigFAB() {
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(v -> {
+            Intent intent = new Intent(GameConfigurationListActivity.this, NewGameConfigurationActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void storeGameConfigManager() {
@@ -66,14 +66,15 @@ public class GameConfigurationListActivity extends AppCompatActivity {
     private void getGameConfigManager() {
         SharedPreferences preferences = getSharedPreferences(SHAREDPREF, MODE_PRIVATE);
         String managerString = preferences.getString(SHAREDPREF_MANAGER, null);
-        Type type = new TypeToken<GameConfigManager>() {}.getType();
+        Type type = new TypeToken<GameConfigManager>() {
+        }.getType();
         Gson gson = new Gson();
 
         GameConfigManager stored = gson.fromJson(managerString, type);
         manager = GameConfigManager.getInstance(stored);
     }
 
-    private void populateList() {
+    private void populateGameConfigList() {
         ArrayList<String> gameConfigs = new ArrayList<String>();
 
         for (int i = 0; i < manager.getNumOfConfigs(); i++) {
@@ -82,17 +83,17 @@ public class GameConfigurationListActivity extends AppCompatActivity {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.game_configs_layout, gameConfigs);
 
-        ListView list = findViewById(R.id.listViewGameConfiguration);
+        ListView list = findViewById(R.id.game_config_list);
         list.setAdapter(adapter);
     }
 
-    private void registerClick() {
-        ListView list = findViewById(R.id.listViewGameConfiguration);
+    private void registerListItemClick() {
+        ListView list = findViewById(R.id.game_config_list);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent in = new Intent(GameConfigurationListActivity.this,GameConfigurationActivity.class);
-                in.putExtra("passing gameConfigs", position);
+                Intent in = new Intent(GameConfigurationListActivity.this, GameConfigurationActivity.class);
+                in.putExtra("passing selected gameConfig", position);
                 startActivity(in);
 
             }
