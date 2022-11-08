@@ -2,6 +2,11 @@ package ca.cmpt276.Calcium.model;
 
 import java.util.ArrayList;
 
+/* GameConfigManager handles the adding, deleting and modifying of GameConfigurations. It also
+*  stores a list of the current GameConfigurations that have already been created. It is a singleton
+*  and supports returning a GameConfiguration object.
+*
+ */
 public class GameConfigManager{
     private static GameConfigManager manager;
     private GameConfigManager(){}
