@@ -9,5 +9,6 @@
     <string name="expected_scores_title">Per Player Expected Score</string>
     <string name="all_games">All Games</string>
     <string name="new_game">New Game</string>
+    <string name="empty_game_configs">To create a new game configuration,\nclick the plus sign here! --></string>
 
 </resources>
