@@ -25,7 +25,7 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="@string/dscrptionOfScoreHint"
+        android:hint="@string/score_description_hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameGameConfig" />
@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="@string/expctdScoreText"
+        android:text="@string/expected_scores_title"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +49,7 @@
         android:layout_marginTop="20dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="@string/poorScoreHint"
+        android:hint="@string/poor_score_hint"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/expctdScore" />
 
@@ -61,7 +61,7 @@
         android:layout_marginEnd="44dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="@string/greatScoreHint"
+        android:hint="@string/great_score_hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/expctdScore" />
 
@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
         android:layout_marginTop="20dp"
-        android:text="@string/btnAllGames"
+        android:text="@string/all_games"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gamesList" />
 
@@ -90,7 +90,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="44dp"
-        android:text="@string/btnNewGame"
+        android:text="@string/new_game"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gamesList" />
 </androidx.constraintlayout.widget.ConstraintLayout>
