@@ -133,8 +133,8 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.saveButton:
-                GameConfiguration newGameconfig = new GameConfiguration(name, scoreDescription, highScore, lowerScore);
-                manager.addConfig(newGameconfig);
+                GameConfiguration newGameConfig = new GameConfiguration(name, scoreDescription, highScore, lowerScore);
+                manager.addConfig(newGameConfig);
                 finish();
                 break;
 
