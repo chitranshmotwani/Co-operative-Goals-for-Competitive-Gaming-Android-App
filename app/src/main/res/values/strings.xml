@@ -3,9 +3,9 @@
     <string name="new_game_config_title">New Game Configuration</string>
     <string name="score_description_title">Description of Score</string>
     <string name="score_description_hint">Please enter your description of \nhow the score will be calculated per player</string>
-    <string name="poor_score_hint">Poor Score</string>
-    <string name="great_score_hint">Great Score</string>
-    <string name="game_config_name_hint">Name</string>
+    <string name="poor_score_hint">Enter Poor Score</string>
+    <string name="great_score_hint">Enter Great Score</string>
+    <string name="game_config_name_hint">Enter Name</string>
     <string name="expected_scores_title">Per Player Expected Score</string>
     <string name="all_games">All Games</string>
     <string name="new_game">New Game</string>
