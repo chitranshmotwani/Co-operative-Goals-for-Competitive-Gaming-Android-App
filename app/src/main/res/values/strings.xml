@@ -8,5 +8,6 @@
     <string name="expctdScoreText">Per Player Expected Score</string>
     <string name="btnAllGames">All Games</string>
     <string name="btnNewGame">New Game</string>
+    <string name="empty_game_configs">To create a new game configuration,\nclick the plus sign here! --></string>
 
 </resources>

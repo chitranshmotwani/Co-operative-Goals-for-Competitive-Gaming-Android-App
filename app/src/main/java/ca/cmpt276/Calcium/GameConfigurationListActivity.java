@@ -85,6 +85,7 @@ public class GameConfigurationListActivity extends AppCompatActivity {
 
         ListView list = findViewById(R.id.game_config_list);
         list.setAdapter(adapter);
+        list.setEmptyView(findViewById(R.id.empty_game_configs));
     }
 
     private void registerListItemClick() {
