@@ -5,6 +5,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/* GameConfiguration holds all the information needed about a specific Game Configuration
+*  This includes the name, description, high expected per player score and low expected per
+*  player score. Additionally it stores the list of associated Games. Game is a nested class as we
+*  do not expect a Game to exist without an associated GameConfiguration.
+*  It supports adding, deleting, and changing a Game as well as returning the appropriate achievement
+*  level given the scores.
+*
+ */
 public class GameConfiguration {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MMM dd @ HH:mm a");
 
