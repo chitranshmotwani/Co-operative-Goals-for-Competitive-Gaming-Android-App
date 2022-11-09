@@ -146,7 +146,6 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
-
     }
 
 }

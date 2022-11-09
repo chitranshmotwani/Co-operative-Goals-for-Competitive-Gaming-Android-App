@@ -35,7 +35,6 @@ public class GameConfigurationListActivity extends AppCompatActivity {
         getGameConfigManager();
         populateGameConfigList();
         registerListItemClick();
-
     }
 
     @Override
@@ -99,6 +98,5 @@ public class GameConfigurationListActivity extends AppCompatActivity {
 
             }
         });
-
     }
 }

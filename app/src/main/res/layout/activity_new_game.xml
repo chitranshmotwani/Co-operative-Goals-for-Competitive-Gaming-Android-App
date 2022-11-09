@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/space_background"
     tools:context=".NewGameActivity">
 
 
@@ -15,6 +16,10 @@
         android:layout_marginTop="30dp"
         android:text="Description of Game"
         android:textSize="18sp"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textColorHint="#6FFFEB3B"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,7 +32,11 @@
         android:layout_marginEnd="16dp"
         android:ems="10"
         android:hint="Please Enter Description of the Scores system"
-        android:inputType="textPersonName"
+        android:inputType="textMultiLine"
+        android:scrollHorizontally="false"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textColorHint="#6FFFEB3B"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/GameDescription" />
@@ -40,6 +49,10 @@
         android:layout_marginTop="56dp"
         android:text="No. of Players"
         android:textSize="18sp"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textColorHint="#6FFFEB3B"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/DescriptionofGame" />
 
@@ -53,6 +66,10 @@
         android:ems="10"
         android:hint="Please enter the combined score"
         android:inputType="number"
+        android:scrollHorizontally="false"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textColorHint="#6FFFEB3B"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,6 +85,10 @@
         android:ems="10"
         android:hint="PLease enter the number of players"
         android:inputType="number"
+        android:scrollHorizontally="false"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textColorHint="#6FFFEB3B"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,6 +102,10 @@
         android:layout_marginTop="28dp"
         android:text="Combined Score"
         android:textSize="18sp"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textColorHint="#6FFFEB3B"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/NoofPlayer_Input" />
 
