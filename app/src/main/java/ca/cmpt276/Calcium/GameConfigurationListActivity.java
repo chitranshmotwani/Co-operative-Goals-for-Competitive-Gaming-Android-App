@@ -95,7 +95,6 @@ public class GameConfigurationListActivity extends AppCompatActivity {
                 Intent in = new Intent(GameConfigurationListActivity.this, GameConfigurationActivity.class);
                 in.putExtra("passing selected gameConfig", position);
                 startActivity(in);
-
             }
         });
     }
