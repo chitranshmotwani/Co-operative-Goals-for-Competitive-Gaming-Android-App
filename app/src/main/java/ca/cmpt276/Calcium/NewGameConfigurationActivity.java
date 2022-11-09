@@ -59,7 +59,6 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
             }
         });
 
-
         EditText poorScore = findViewById(R.id.poor_score);
         poorScore.addTextChangedListener(new TextWatcher() {
             @Override
