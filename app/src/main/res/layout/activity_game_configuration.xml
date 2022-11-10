@@ -7,34 +7,64 @@
     android:background="@drawable/space_background"
     tools:context=".GameConfigurationActivity">
 
-    <TextView
+    <EditText
         android:id="@+id/game_config_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:text="Name"
-        android:textSize="25sp"
+        android:layout_width="235dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="@string/game_config_name_hint"
+        android:inputType="textPersonName"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textColorHint="#6FFFEB3B"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/achievement_title_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="108dp"
+        android:text="Players"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/num_players"
+        app:layout_constraintTop_toBottomOf="@+id/expected_score_title" />
+
+    <TextView
+        android:id="@+id/achievement_title_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="108dp"
+        android:layout_marginEnd="2dp"
+        android:text="Achievements For"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/num_players"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/expected_score_title" />
 
     <EditText
         android:id="@+id/score_description"
         android:layout_width="387dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="15dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
         android:ems="10"
+        android:hint="@string/score_description_hint"
         android:inputType="textMultiLine"
         android:scrollHorizontally="false"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textColorHint="#6FFFEB3B"
-        android:hint="@string/score_description_hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/game_config_name" />
@@ -45,10 +75,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@string/expected_scores_title"
-        android:textSize="25sp"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textColorHint="#6FFFEB3B"
+        android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,12 +91,12 @@
         android:layout_marginStart="44dp"
         android:layout_marginTop="20dp"
         android:ems="10"
-        android:inputType="textMultiLine"
+        android:hint="@string/poor_score_hint"
+        android:inputType="number"
         android:scrollHorizontally="false"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textColorHint="#6FFFEB3B"
-        android:hint="@string/poor_score_hint"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/expected_score_title" />
 
@@ -77,12 +107,12 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="44dp"
         android:ems="10"
-        android:inputType="textMultiLine"
+        android:hint="@string/great_score_hint"
+        android:inputType="number"
         android:scrollHorizontally="false"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textColorHint="#6FFFEB3B"
-        android:hint="@string/great_score_hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/expected_score_title" />
 
@@ -90,8 +120,9 @@
         android:id="@+id/games_list"
         android:layout_width="372dp"
         android:layout_height="150dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="148dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/expected_score_title" />
 
@@ -101,8 +132,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
         android:layout_marginTop="20dp"
-        android:text="@string/all_games"
+        android:backgroundTint="@color/yellow"
         android:onClick="goToGamesList"
+        android:text="@string/all_games"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/games_list" />
 
@@ -112,8 +145,28 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="44dp"
-        android:text="@string/new_game"
+        android:backgroundTint="@color/yellow"
         android:onClick="goToNewGame"
+        android:text="@string/new_game"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/games_list" />
+
+    <EditText
+        android:id="@+id/num_players"
+        android:layout_width="24dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="98dp"
+        android:ems="10"
+        android:hint="0"
+        android:inputType="textPersonName"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#6FFFEB3B"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.651"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/expected_score_title" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
