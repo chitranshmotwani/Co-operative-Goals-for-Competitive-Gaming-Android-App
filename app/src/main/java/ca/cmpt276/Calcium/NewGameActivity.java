@@ -92,6 +92,7 @@ public class NewGameActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.save_menu, menu);
         optionsMenu = menu;
+        optionsMenu.findItem(R.id.delete_button).setVisible(false);
         return true;
     }
 

@@ -36,6 +36,7 @@ public class GameListActivity extends AppCompatActivity {
 
         manager = GameConfigManager.getInstance(null);
         gameConfig = manager.getConfig(getIntent().getIntExtra("passing selected gameConfig", 0));
+        setTitle(gameConfig.getName());
 
         populateListView();
     }
@@ -44,6 +45,7 @@ public class GameListActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         storeGameConfigManager();
+        populateListView();
     }
 
     @Override
@@ -70,7 +72,7 @@ public class GameListActivity extends AppCompatActivity {
     }
     private void populateListView() {
         ArrayAdapter<GameConfiguration.Game> adapter = new GameListAdapter();
-        ListView list = (ListView) findViewById(R.id.game_list);
+        ListView list = findViewById(R.id.game_list);
         list.setAdapter(adapter);
         list.setEmptyView(findViewById(R.id.empty_game_list));
 
@@ -79,7 +81,7 @@ public class GameListActivity extends AppCompatActivity {
     private class GameListAdapter extends ArrayAdapter<GameConfiguration.Game>{
 
         public GameListAdapter() {
-            super(GameListActivity.this, R.layout.game_layout, gameConfig.getNumOfGames());
+            super(GameListActivity.this, R.layout.game_layout, gameConfig.getGames());
         }
 
         @NonNull
@@ -93,17 +95,17 @@ public class GameListActivity extends AppCompatActivity {
             GameConfiguration.Game currentGame = gameConfig.getGame(position);
 
             TextView gamePlayers = gameView.findViewById(R.id.game_players);
-            gamePlayers.setText(currentGame.getNumPlayers());
+            gamePlayers.setText(getString(R.string.players) + ": " + currentGame.getNumPlayers());
 
             TextView gameScores = gameView.findViewById(R.id.game_score);
-            gameScores.setText(currentGame.getScore());
+            gameScores.setText(getString(R.string.score) + String.valueOf(currentGame.getScore()));
 
             TextView gameAchievement = gameView.findViewById(R.id.game_achievement);
             int levelID = manager.getLevelID(currentGame.getAchievementLevel().ordinal());
-            gameScores.setText(getString(levelID));
+            gameAchievement.setText(getString(levelID));
 
             TextView gameDateTime = gameView.findViewById(R.id.game_date);
-            gameScores.setText(currentGame.getDateTimeCreated());
+            gameDateTime.setText(currentGame.getDateTimeCreated());
 
             return gameView;
         }

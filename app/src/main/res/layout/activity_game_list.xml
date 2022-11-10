@@ -36,11 +36,14 @@
 
     <ListView
         android:id="@+id/game_list"
-        android:layout_width="410dp"
-        android:layout_height="609dp"
-        android:layout_marginTop="24dp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp">
-    </ListView>
+        android:layout_width="377dp"
+        android:layout_height="578dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:divider="@android:drawable/bottom_bar"
+        android:dividerHeight="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"></ListView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
