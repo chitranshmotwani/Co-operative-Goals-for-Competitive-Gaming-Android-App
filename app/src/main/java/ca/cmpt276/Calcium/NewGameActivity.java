@@ -8,26 +8,39 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-
 import ca.cmpt276.Calcium.model.GameConfigManager;
 import ca.cmpt276.Calcium.model.GameConfiguration;
 
 public class NewGameActivity extends AppCompatActivity {
 
-    private String descriptionOfGame;
     private int numOfPlayers;
     private int combinedScores;
     private GameConfigManager manager;
     private GameConfiguration gameConfig;
     private Menu optionsMenu;
     private int index = 0;
+    private boolean playersChanged = false;
+    private boolean scoreChanged = false;
+
+    private final int[] levelNames = {
+            R.string.level_1,
+            R.string.level_2,
+            R.string.level_3,
+            R.string.level_4,
+            R.string.level_5,
+            R.string.level_6,
+            R.string.level_7,
+            R.string.level_8,
+            R.string.level_9,
+            R.string.level_10
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,33 +51,21 @@ public class NewGameActivity extends AppCompatActivity {
 
         manager = GameConfigManager.getInstance(null);
         gameConfig = manager.getConfig(index);
+        setTitle(gameConfig.getName());
 
-        setupGameScoreDescriptionTextWatcher();
+        setupGameScoreDescription();
         setupGameNumPlayersTextWatcher();
         setupGameCombinedScoreTextWatcher();
     }
 
-    private void setupGameScoreDescriptionTextWatcher() {
-        EditText description = findViewById(R.id.score_system_description);
-        description.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                descriptionOfGame = description.getText().toString();
-            }
-        });
+    private void setupGameScoreDescription() {
+        TextView description = findViewById(R.id.score_system_description);
+        description.setText(gameConfig.getScoreSystemDescription());
     }
 
     private void setupGameNumPlayersTextWatcher() {
-        EditText NoPlayers = findViewById(R.id.num_players);
-        NoPlayers.addTextChangedListener(new TextWatcher() {
+        EditText numPlayers = findViewById(R.id.num_players);
+        numPlayers.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
@@ -75,14 +76,15 @@ public class NewGameActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                numOfPlayers = Integer.parseInt(String.valueOf(NoPlayers.getText()));
+                playersChanged = true;
+                numOfPlayers = Integer.parseInt(String.valueOf(numPlayers.getText()));
             }
         });
     }
 
     private void setupGameCombinedScoreTextWatcher() {
-        EditText combinedscore = findViewById(R.id.combined_score);
-        combinedscore.addTextChangedListener(new TextWatcher() {
+        EditText combinedScore = findViewById(R.id.combined_score);
+        combinedScore.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
@@ -93,7 +95,8 @@ public class NewGameActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                combinedScores = Integer.parseInt(String.valueOf(combinedscore.getText()));
+                scoreChanged = true;
+                combinedScores = Integer.parseInt(String.valueOf(combinedScore.getText()));
             }
         });
     }
@@ -110,32 +113,13 @@ public class NewGameActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.save_button:
-                ArrayList<Integer> ranks = gameConfig.getMinimumScoresForAchievementLevels(numOfPlayers);
-                int level = 0;
-
-                for (int i = 0; i < GameConfiguration.AchievementLevel.values().length; i++){
-                    Toast.makeText(this, ""+ranks.get(i), Toast.LENGTH_SHORT).show();
-                    if (combinedScores > ranks.get(i)){
-                        level = i;
-                        break;
-                    }
+                if(playersChanged && scoreChanged) {
+                    gameConfig.addGame(numOfPlayers, combinedScores);
+                    showAchievementLevelEarned();
+                }else{
+                    Toast.makeText(this, getString(R.string.incomplete_game_prompt), Toast.LENGTH_LONG).show();
                 }
-                gameConfig.addGame(numOfPlayers, combinedScores);
-                gameConfig.getGame(gameConfig.getNumOfGames() - 1).getAchievementLevel();
-                String rank = "LEVEL_" + level;
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Congratulations!");
-                builder.setMessage("You reached the rank: " + rank + " in this game!");
-                builder.setCancelable(false);
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i){
-                    finish();
-                    }
-                });
-                builder.show();
-
-                return true;
+                break;
 
             case R.id.back_button:
                 finish();
@@ -145,5 +129,22 @@ public class NewGameActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
 
+    }
+
+    private void showAchievementLevelEarned() {
+        GameConfiguration.AchievementLevel lvl = gameConfig.getGame(gameConfig.getNumOfGames() - 1).getAchievementLevel();
+        int index = lvl.ordinal();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.congratulations));
+        builder.setMessage(getString(R.string.achievement1) + getString(levelNames[index]) + getString(R.string.achievement2));
+        builder.setCancelable(false);
+        builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i){
+                finish();
+            }
+        });
+        builder.show();
     }
 }
