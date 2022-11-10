@@ -19,8 +19,8 @@ public class GameConfiguration {
     private ArrayList<Game> gameList = new ArrayList<>();
     private String name;
     private String scoreSystemDescription;
-    private int highPerPlayerScore;
-    private int lowPerPlayerScore;
+    private int greatPerPlayerScore;
+    private int poorPerPlayerScore;
 
     public enum AchievementLevel {
         LEVEL_1, //highest score
@@ -37,8 +37,8 @@ public class GameConfiguration {
     public GameConfiguration(String name, String scoreSystemDescription, int highPerPlayerScore, int lowPerPlayerScore) {
         this.name = name;
         this.scoreSystemDescription = scoreSystemDescription;
-        this.highPerPlayerScore = highPerPlayerScore;
-        this.lowPerPlayerScore = lowPerPlayerScore;
+        this.greatPerPlayerScore = highPerPlayerScore;
+        this.poorPerPlayerScore = lowPerPlayerScore;
     }
 
     public String getName() {
@@ -57,20 +57,20 @@ public class GameConfiguration {
         this.scoreSystemDescription = description;
     }
 
-    public int getHighPerPlayerScore() {
-        return highPerPlayerScore;
+    public int getGreatPerPlayerScore() {
+        return greatPerPlayerScore;
     }
 
-    public void setHighPerPlayerScore(int highPerPlayerScore) {
-        this.highPerPlayerScore = highPerPlayerScore;
+    public void setGreatPerPlayerScore(int greatPerPlayerScore) {
+        this.greatPerPlayerScore = greatPerPlayerScore;
     }
 
-    public int getLowPerPlayerScore() {
-        return lowPerPlayerScore;
+    public int getPoorPerPlayerScore() {
+        return poorPerPlayerScore;
     }
 
-    public void setLowPerPlayerScore(int lowPerPlayerScore) {
-        this.lowPerPlayerScore = lowPerPlayerScore;
+    public void setPoorPerPlayerScore(int poorPerPlayerScore) {
+        this.poorPerPlayerScore = poorPerPlayerScore;
     }
 
     public Game getGame(int index) {
@@ -104,14 +104,14 @@ public class GameConfiguration {
     }
 
     public ArrayList<Integer> getMinimumScoresForAchievementLevels(int numPlayers) {
-        float scaledHighScore = highPerPlayerScore * numPlayers;
-        float scaledLowScore = lowPerPlayerScore * numPlayers;
-        float interval = (scaledHighScore - scaledLowScore) / ((AchievementLevel.values().length) - 2);
+        float scaledGreatScore = greatPerPlayerScore * numPlayers;
+        float scaledPoorScore = poorPerPlayerScore * numPlayers;
+        float interval = (scaledGreatScore - scaledPoorScore) / ((AchievementLevel.values().length) - 2);
 
         ArrayList<Integer> minScores = new ArrayList<>();
         minScores.add(0);
         for (int i = 0; i < AchievementLevel.values().length - 1; i++) {
-            minScores.add((int) (scaledLowScore + (interval * i))); //type casting into an integer floors the value
+            minScores.add((int) (scaledPoorScore + (interval * i))); //type casting into an integer floors the value
         }
 
         Collections.reverse(minScores);
@@ -119,21 +119,21 @@ public class GameConfiguration {
     }
 
     private AchievementLevel calculateAchievementLevel(int numPlayers, int score) {
-        float scaledHighScore = highPerPlayerScore * numPlayers;
-        float scaledLowScore = lowPerPlayerScore * numPlayers;
-        if(score < scaledLowScore) {
-            //return the ranking that is below the expected low score
+        float scaledGreatScore = greatPerPlayerScore * numPlayers;
+        float scaledPoorScore = poorPerPlayerScore * numPlayers;
+        if(score < scaledPoorScore) {
+            //return the ranking that is below the expected poor score
             return AchievementLevel.values()[AchievementLevel.values().length - 1];
-        }else if(score > scaledHighScore) {
+        }else if(score > scaledGreatScore) {
             //return highest rank possible
             return AchievementLevel.values()[0];
         }
 
         //top and bottom tiers already accounted for
-        float interval = (scaledHighScore - scaledLowScore) / ((AchievementLevel.values().length) - 2);
+        float interval = (scaledGreatScore - scaledPoorScore) / ((AchievementLevel.values().length) - 2);
         int index = 0;
         for (int i = 0; i < AchievementLevel.values().length; i++) {
-            if (score < (int)((scaledLowScore + (interval * i)))) {
+            if (score < (int)((scaledPoorScore + (interval * i)))) {
                 index = i + 1;
                 break;
             }
@@ -144,7 +144,7 @@ public class GameConfiguration {
     }
 
     public class Game {
-        private String dateTimeCreated;
+        private final String dateTimeCreated;
         private int numPlayers;
         private int score;
         private AchievementLevel achievementLevel;

@@ -150,8 +150,8 @@ public class GameConfigurationActivity extends AppCompatActivity {
 
         name.setText(selected.getName());
         description.setText(selected.getScoreSystemDescription());
-        poorScore.setText(selected.getLowPerPlayerScore());
-        greatScore.setText(selected.getHighPerPlayerScore());
+        poorScore.setText(String.format("%d",selected.getPoorPerPlayerScore()));
+        greatScore.setText(String.format("%d",selected.getGreatPerPlayerScore()));
 
     }
 
@@ -178,8 +178,8 @@ public class GameConfigurationActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.saveButton:
                 GameConfiguration newGameConfig = manager.getConfig(index);
-                newGameConfig.setHighPerPlayerScore(newGreatScore);
-                newGameConfig.setLowPerPlayerScore(newPoorScore);
+                newGameConfig.setGreatPerPlayerScore(newGreatScore);
+                newGameConfig.setPoorPerPlayerScore(newPoorScore);
                 newGameConfig.setScoreSystemDescription(newDescriptionString);
                 finish();
                 break;
