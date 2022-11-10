@@ -31,7 +31,8 @@ public class GameConfiguration {
         LEVEL_6,
         LEVEL_7,
         LEVEL_8,
-        LEVEL_9 //lowest score*/
+        LEVEL_9,
+        LEVEL_10 //lowest score*/
     }
 
     public GameConfiguration(String name, String scoreSystemDescription, int highPerPlayerScore, int lowPerPlayerScore) {
