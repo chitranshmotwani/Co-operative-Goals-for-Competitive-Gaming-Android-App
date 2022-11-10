@@ -1,6 +1,7 @@
 package ca.cmpt276.Calcium;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -8,6 +9,8 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.gson.Gson;
 
 import ca.cmpt276.Calcium.model.GameConfigManager;
 
@@ -34,7 +37,7 @@ public class GameListActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.save_menu, menu);
         optionsMenu = menu;
-        optionsMenu.findItem(R.id.saveButton).setVisible(false);
+        optionsMenu.findItem(R.id.save_button).setVisible(false);
         return true;
     }
 
@@ -57,7 +60,7 @@ public class GameListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.backButton:
+            case R.id.back_button:
                 finish();
                 break;
             default:
