@@ -34,7 +34,7 @@ public class NewGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_game);
         Intent in = getIntent();
-        index = in.getIntExtra("pass config index", 0);
+        index = in.getIntExtra("passing selected gameConfig", 0);
 
         manager = GameConfigManager.getInstance(null);
         gameConfig = manager.getConfig(index);

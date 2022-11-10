@@ -26,6 +26,7 @@ public class GameListActivity extends AppCompatActivity {
     public static final String SHAREDPREF_MANAGER = "Manager";
     private GameConfigManager manager;
     private GameConfiguration gameConfig;
+    private int index;
 
     private Menu optionsMenu;
 
@@ -35,7 +36,8 @@ public class GameListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game_list);
 
         manager = GameConfigManager.getInstance(null);
-        gameConfig = manager.getConfig(getIntent().getIntExtra("passing selected gameConfig", 0));
+        index = getIntent().getIntExtra("passing selected gameConfig", 0);
+        gameConfig = manager.getConfig(index);
         setTitle(gameConfig.getName());
 
         populateListView();
@@ -60,6 +62,7 @@ public class GameListActivity extends AppCompatActivity {
 
     public void goToNewGame (View view){
         Intent intent = new Intent (this, NewGameActivity.class);
+        intent.putExtra("passing selected gameConfig", index);
         startActivity(intent);
     }
 

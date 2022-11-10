@@ -200,14 +200,12 @@ public class GameConfigurationActivity extends AppCompatActivity {
         Intent intent = new Intent(this, GameListActivity.class);
         intent.putExtra("passing selected gameConfig", index);
         startActivity(intent);
-        finish();
     }
 
     public void goToNewGame(View view) {
         Intent intent = new Intent(this, NewGameActivity.class);
         intent.putExtra("passing selected gameConfig", index);
         startActivity(intent);
-        finish();
     }
 
     @Override
