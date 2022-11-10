@@ -88,6 +88,8 @@ public class GameConfiguration {
         gameList.remove(index);
     }
 
+    public int getNumOfGames() { return gameList.size(); }
+
     public void changeGameNumberOfPlayers(int index, int newNumberOfPlayers) {
         Game gameToBeChanged = gameList.get(index);
         gameToBeChanged.setNumPlayers(newNumberOfPlayers);
@@ -185,5 +187,6 @@ public class GameConfiguration {
         public void setAchievementLevel(AchievementLevel achievementLvl) {
             achievementLevel = achievementLvl;
         }
+
     }
 }
