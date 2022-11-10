@@ -28,6 +28,9 @@
     <string name="level_8">Unlucky Uranians</string>
     <string name="level_9">Notorius Neptunians</string>
     <string name="level_10">Puzzled Plutonians</string>
+    <string name="_0">0</string>
+    <string name="players">Players</string>
+    <string name="minimum_score_for">Minimum Score For</string>
 
 
 </resources>
