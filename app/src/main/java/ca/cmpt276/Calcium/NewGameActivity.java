@@ -137,7 +137,7 @@ public class NewGameActivity extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.congratulations));
-        builder.setMessage(getString(R.string.achievement1) + getString(levelNames[index]) + getString(R.string.achievement2));
+        builder.setMessage(getString(R.string.achievement) + getString(levelNames[index]));
         builder.setCancelable(false);
         builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
