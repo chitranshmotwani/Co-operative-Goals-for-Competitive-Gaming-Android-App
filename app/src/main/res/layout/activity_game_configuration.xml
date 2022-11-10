@@ -8,7 +8,7 @@
     tools:context=".GameConfigurationActivity">
 
     <TextView
-        android:id="@+id/nameGameConfig"
+        android:id="@+id/game_config_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/dcsrptionScore"
+        android:id="@+id/score_description"
         android:layout_width="387dp"
         android:layout_height="150dp"
         android:layout_marginTop="15dp"
@@ -37,10 +37,10 @@
         android:hint="@string/score_description_hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameGameConfig" />
+        app:layout_constraintTop_toBottomOf="@+id/game_config_name" />
 
     <TextView
-        android:id="@+id/expctdScore"
+        android:id="@+id/expected_score_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -52,10 +52,10 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dcsrptionScore" />
+        app:layout_constraintTop_toBottomOf="@+id/score_description" />
 
     <EditText
-        android:id="@+id/poorScoreField"
+        android:id="@+id/poor_score"
         android:layout_width="124dp"
         android:layout_height="50dp"
         android:layout_marginStart="44dp"
@@ -68,10 +68,10 @@
         android:textColorHint="#6FFFEB3B"
         android:hint="@string/poor_score_hint"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/expctdScore" />
+        app:layout_constraintTop_toBottomOf="@+id/expected_score_title" />
 
     <EditText
-        android:id="@+id/greatScoreField"
+        android:id="@+id/great_score"
         android:layout_width="124dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
@@ -84,19 +84,19 @@
         android:textColorHint="#6FFFEB3B"
         android:hint="@string/great_score_hint"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/expctdScore" />
+        app:layout_constraintTop_toBottomOf="@+id/expected_score_title" />
 
     <ListView
-        android:id="@+id/gamesList"
+        android:id="@+id/games_list"
         android:layout_width="372dp"
         android:layout_height="150dp"
         android:layout_marginTop="88dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/expctdScore" />
+        app:layout_constraintTop_toBottomOf="@+id/expected_score_title" />
 
     <Button
-        android:id="@+id/btnAllGames"
+        android:id="@+id/all_games_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
@@ -104,10 +104,10 @@
         android:text="@string/all_games"
         android:onClick="goToGamesList"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gamesList" />
+        app:layout_constraintTop_toBottomOf="@+id/games_list" />
 
     <Button
-        android:id="@+id/btnNewGame"
+        android:id="@+id/new_game_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -115,5 +115,5 @@
         android:text="@string/new_game"
         android:onClick="goToNewGame"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gamesList" />
+        app:layout_constraintTop_toBottomOf="@+id/games_list" />
 </androidx.constraintlayout.widget.ConstraintLayout>

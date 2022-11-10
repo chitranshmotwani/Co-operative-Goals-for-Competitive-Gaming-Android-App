@@ -38,7 +38,7 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
     }
 
     private void setupGameConfigScoreRangeTextWatchers() {
-        EditText greatScore = findViewById(R.id.great_score);
+        EditText greatScore = findViewById(R.id.new_great_score);
         greatScore.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -59,7 +59,7 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
             }
         });
 
-        EditText poorScore = findViewById(R.id.poor_score);
+        EditText poorScore = findViewById(R.id.new_poor_score);
         poorScore.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -82,7 +82,7 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
     }
 
     private void setupGameConfigScoreDescriptionTextWatcher() {
-        EditText description = findViewById(R.id.score_description);
+        EditText description = findViewById(R.id.new_score_description);
         description.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -102,7 +102,7 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
     }
 
     private void setupGameConfigNameTextWatcher() {
-        EditText gameConfigName = findViewById(R.id.game_config_name);
+        EditText gameConfigName = findViewById(R.id.new_game_config_name);
         gameConfigName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

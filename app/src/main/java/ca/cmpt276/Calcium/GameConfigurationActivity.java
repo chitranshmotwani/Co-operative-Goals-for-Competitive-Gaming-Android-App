@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.EventLogTags;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,10 +33,10 @@ public class GameConfigurationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_configuration);
-        TextView Name = findViewById(R.id.nameGameConfig);
-        EditText Description = findViewById(R.id.dcsrptionScore);
-        EditText PoorScore = findViewById(R.id.poorScoreField);
-        EditText GreatScore = findViewById(R.id.greatScoreField);
+        TextView Name = findViewById(R.id.game_config_name);
+        EditText Description = findViewById(R.id.score_description);
+        EditText PoorScore = findViewById(R.id.poor_score);
+        EditText GreatScore = findViewById(R.id.great_score);
         Intent in = getIntent();
         index = getIntent().getIntExtra("passing selected gameConfig",0);
         highScore= manager.getConfig(getIntent().getIntExtra("passing selected gameconfig",0)).getHighPerPlayerScore();

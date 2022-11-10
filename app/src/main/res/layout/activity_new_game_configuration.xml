@@ -8,7 +8,7 @@
     tools:context=".NewGameConfigurationActivity">
 
     <EditText
-        android:id="@+id/game_config_name"
+        android:id="@+id/new_game_config_name"
         android:layout_width="235dp"
         android:layout_height="47dp"
         android:layout_marginTop="40dp"
@@ -25,7 +25,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/score_description_title"
+        android:id="@+id/new_score_description_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="124dp"
@@ -36,10 +36,10 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/game_config_name" />
+        app:layout_constraintTop_toBottomOf="@+id/new_game_config_name" />
 
     <EditText
-        android:id="@+id/score_description"
+        android:id="@+id/new_score_description"
         android:layout_width="358dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -53,10 +53,10 @@
         android:textColorHint="#6FFFEB3B"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/score_description_title" />
+        app:layout_constraintTop_toBottomOf="@+id/new_score_description_title" />
 
     <TextView
-        android:id="@+id/expected_score_title"
+        android:id="@+id/new_expected_score_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
@@ -67,10 +67,10 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/score_description" />
+        app:layout_constraintTop_toBottomOf="@+id/new_score_description" />
 
     <EditText
-        android:id="@+id/poor_score"
+        android:id="@+id/new_poor_score"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -85,10 +85,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.091"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/expected_score_title" />
+        app:layout_constraintTop_toBottomOf="@+id/new_expected_score_title" />
 
     <EditText
-        android:id="@+id/great_score"
+        android:id="@+id/new_great_score"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="225dp"
@@ -102,8 +102,8 @@
         android:textColorHint="#6FFFEB3B"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.091"
-        app:layout_constraintLeft_toRightOf="@+id/poor_score"
+        app:layout_constraintLeft_toRightOf="@+id/new_poor_score"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/expected_score_title" />
+        app:layout_constraintTop_toBottomOf="@+id/new_expected_score_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
