@@ -1,16 +1,20 @@
 package ca.cmpt276.Calcium;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
 
 import ca.cmpt276.Calcium.model.GameConfigManager;
 import ca.cmpt276.Calcium.model.GameConfiguration;
@@ -18,17 +22,22 @@ import ca.cmpt276.Calcium.model.GameConfiguration;
 public class NewGameActivity extends AppCompatActivity {
 
     private String DescriptionOfGame;
-    private int NoofPlayers;
-    private int CombinedScores;
+    private int numOfPlayers;
+    private int combinedScores;
     private GameConfigManager manager;
-    private GameConfiguration gameconfig;
+    private GameConfiguration gameConfig;
     private Menu optionsMenu;
+    private int index = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_game);
+        Intent in = getIntent();
+
+        index = in.getIntExtra("pass config index",0);
         manager = GameConfigManager.getInstance(null);
+        gameConfig = manager.getConfig(index);
 
         setupGameScoreDescriptionTextWatcher();
         setupGameNoofPlayersTextWatcher();
@@ -66,7 +75,7 @@ public class NewGameActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                NoofPlayers = Integer.parseInt(String.valueOf(NoPlayers.getText()));
+                numOfPlayers = Integer.parseInt(String.valueOf(NoPlayers.getText()));
             }
         });
     }
@@ -84,7 +93,7 @@ public class NewGameActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                CombinedScores = Integer.parseInt(String.valueOf(combinedscore.getText()));
+                combinedScores = Integer.parseInt(String.valueOf(combinedscore.getText()));
             }
         });
     }
@@ -101,21 +110,32 @@ public class NewGameActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.saveButton:
-                String rankName = "temp_string";
-                String rank = rankName;       //  assign it to the rank name of the game
+                ArrayList<Integer> ranks = gameConfig.getMinimumScoresForAchievementLevels(numOfPlayers);
+                int level = 0;
+
+                for (int i = 0; i < GameConfiguration.AchievementLevel.values().length; i++){
+                    Toast.makeText(this, ""+ranks.get(i), Toast.LENGTH_SHORT).show();
+                    if (combinedScores > ranks.get(i)){
+                        level = i;
+                        break;
+                    }
+                }
+                gameConfig.addGame(numOfPlayers, combinedScores);
+                gameConfig.getGame(gameConfig.getNumOfGames() - 1).getAchievementLevel();
+                String rank = "LEVEL_" + level;
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Congratulations!");
                 builder.setMessage("You reached the rank: " + rank + " in this game!");
                 builder.setCancelable(false);
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        onBackPressed();
+                    public void onClick(DialogInterface dialogInterface, int i){
+                    finish();
                     }
                 });
+                builder.show();
 
-                finish();
-                break;
+                return true;
 
             case R.id.backButton:
                 finish();
