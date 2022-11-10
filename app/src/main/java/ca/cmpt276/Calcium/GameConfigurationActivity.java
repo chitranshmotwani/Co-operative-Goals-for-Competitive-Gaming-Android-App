@@ -305,7 +305,6 @@ public class GameConfigurationActivity extends AppCompatActivity {
 
             Integer minScore = displayedMinScores.get(position);
             String achievementLevel = getString(levelNames[position]);
-            System.out.println(achievementLevel + position + "\n\n\n");
 
             TextView score = gameView.findViewById(R.id.min_score);
             score.setText(String.valueOf(minScore));
