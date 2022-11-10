@@ -44,7 +44,7 @@ public class GameConfigurationActivity extends AppCompatActivity {
     private EditText greatScore;
     private EditText numPlayers;
 
-    private int[] levelNames = {
+    private final int[] levelNames = {
             R.string.level_1,
             R.string.level_2,
             R.string.level_3,
@@ -97,34 +97,8 @@ public class GameConfigurationActivity extends AppCompatActivity {
         displayedMinScores = manager.getConfig(index).getMinimumScoresForAchievementLevels(numPlayers);
 
         ArrayAdapter<Integer> adapter = new AchievementListAdapter(numPlayers);
-        ListView list = (ListView) findViewById(R.id.achievement_list);
+        ListView list = findViewById(R.id.achievement_list);
         list.setAdapter(adapter);
-    }
-
-    private class AchievementListAdapter extends ArrayAdapter<Integer> {
-
-        public AchievementListAdapter(int numPlayers) {
-            super(GameConfigurationActivity.this, R.layout.achievement_layout, manager.getConfig(index).getMinimumScoresForAchievementLevels(numPlayers));
-        }
-
-        @NonNull
-        @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            View gameView = convertView;
-            if(gameView == null) {
-                gameView = getLayoutInflater().inflate(R.layout.achievement_layout, parent, false);
-            }
-
-            Integer minScore = displayedMinScores.get(position);
-            String achievementLevel = getString(levelNames[position]);
-            System.out.println(achievementLevel + position + "\n\n\n");
-
-            TextView score = gameView.findViewById(R.id.min_score);
-            score.setText(String.valueOf(minScore));
-            TextView name = gameView.findViewById(R.id.achievement_level);
-            name.setText(achievementLevel);
-            return gameView;
-        }
     }
 
     private void setupGameConfigPropertyTextWatchers() {
@@ -246,7 +220,6 @@ public class GameConfigurationActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.save_menu, menu);
@@ -314,6 +287,32 @@ public class GameConfigurationActivity extends AppCompatActivity {
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    private class AchievementListAdapter extends ArrayAdapter<Integer> {
+
+        public AchievementListAdapter(int numPlayers) {
+            super(GameConfigurationActivity.this, R.layout.achievement_layout, manager.getConfig(index).getMinimumScoresForAchievementLevels(numPlayers));
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            View gameView = convertView;
+            if (gameView == null) {
+                gameView = getLayoutInflater().inflate(R.layout.achievement_layout, parent, false);
+            }
+
+            Integer minScore = displayedMinScores.get(position);
+            String achievementLevel = getString(levelNames[position]);
+            System.out.println(achievementLevel + position + "\n\n\n");
+
+            TextView score = gameView.findViewById(R.id.min_score);
+            score.setText(String.valueOf(minScore));
+            TextView name = gameView.findViewById(R.id.achievement_level);
+            name.setText(achievementLevel);
+            return gameView;
+        }
     }
 
 }
