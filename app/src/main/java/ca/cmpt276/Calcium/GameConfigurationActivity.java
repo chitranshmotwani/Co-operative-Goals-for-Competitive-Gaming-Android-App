@@ -35,6 +35,17 @@ public class GameConfigurationActivity extends AppCompatActivity {
     private EditText greatScore;
     private EditText numPlayers;
 
+    private int[] levelNames = {
+            R.string.level_1,
+            R.string.level_2,
+            R.string.level_3,
+            R.string.level_4,
+            R.string.level_5,
+            R.string.level_6,
+            R.string.level_7,
+            R.string.level_8,
+            R.string.level_9 };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +55,35 @@ public class GameConfigurationActivity extends AppCompatActivity {
 
         Intent in = getIntent();
         index = getIntent().getIntExtra("passing selected gameConfig", 0);
+        setTitle(manager.getConfig(index).getName());
 
         findGameConfigViews();
-        setupSelectedGameConfigProperties(index);
+        setupSelectedGameConfigProperties();
         setupGameConfigPropertyTextWatchers();
+        setupAchievementLevelsTextWatcher();
+    }
+
+    private void setupAchievementLevelsTextWatcher() {
+        numPlayers.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                updateAchievementList(Integer.parseInt(editable.toString()));
+            }
+        });
+    }
+
+    private void updateAchievementList(int numPlayers) {
+
     }
 
     private void setupGameConfigPropertyTextWatchers() {
@@ -144,7 +180,7 @@ public class GameConfigurationActivity extends AppCompatActivity {
         numPlayers = findViewById(R.id.num_players);
     }
 
-    private void setupSelectedGameConfigProperties(int index) {
+    private void setupSelectedGameConfigProperties() {
         GameConfiguration selected = manager.getConfig(index);
 
         name.setText(selected.getName());
@@ -181,21 +217,40 @@ public class GameConfigurationActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.saveButton:
+            case R.id.save_button:
                 if (valuesChanged) {
                     confirmGameConfigurationSave();
                 } else {
                     Toast.makeText(this, getString(R.string.no_changes), Toast.LENGTH_SHORT).show();
                 }
                 break;
-
-            case R.id.backButton:
+            case R.id.delete_button:
+                confirmGameConfigurationDelete();
+                break;
+            case R.id.back_button:
                 finish();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void confirmGameConfigurationDelete() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.delete_game_config));
+
+        builder.setPositiveButton(R.string.yes, (dialog, id) -> {
+            manager.deleteConfig(index);
+            finish();
+        });
+
+        builder.setNegativeButton(R.string.no, (dialog, id) -> {
+            //Do nothing
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     private void confirmGameConfigurationSave() {
