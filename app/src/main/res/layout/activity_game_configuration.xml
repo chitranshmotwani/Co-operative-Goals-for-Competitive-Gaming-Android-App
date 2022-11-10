@@ -24,35 +24,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/achievement_title_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="108dp"
-        android:text="Players"
-        android:textColor="#FFFFFF"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/num_players"
-        app:layout_constraintTop_toBottomOf="@+id/expected_score_title" />
-
-    <TextView
-        android:id="@+id/achievement_title_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="108dp"
-        android:layout_marginEnd="2dp"
-        android:text="Achievements For"
-        android:textColor="#FFFFFF"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/num_players"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/expected_score_title" />
-
     <EditText
         android:id="@+id/score_description"
         android:layout_width="387dp"
@@ -117,55 +88,88 @@
         app:layout_constraintTop_toBottomOf="@+id/expected_score_title" />
 
     <ListView
-        android:id="@+id/games_list"
+        android:id="@+id/achievement_list"
         android:layout_width="372dp"
         android:layout_height="150dp"
-        android:layout_marginTop="148dp"
+        android:layout_marginTop="140dp"
+        android:background="#000000"
+        android:divider="@android:drawable/bottom_bar"
+        android:dividerHeight="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/expected_score_title" />
 
     <Button
-        android:id="@+id/all_games_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="@color/yellow"
-        android:onClick="goToGamesList"
-        android:text="@string/all_games"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/games_list" />
-
-    <Button
         android:id="@+id/new_game_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="44dp"
         android:backgroundTint="@color/yellow"
         android:onClick="goToNewGame"
         android:text="@string/new_game"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/games_list" />
+        app:layout_constraintTop_toBottomOf="@+id/achievement_list" />
+
+    <Button
+        android:id="@+id/all_games_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/yellow"
+        android:onClick="goToGamesList"
+        android:text="@string/all_games"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/achievement_list" />
 
     <EditText
         android:id="@+id/num_players"
-        android:layout_width="24dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="98dp"
+        android:layout_width="48dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="92dp"
         android:ems="10"
         android:hint="0"
         android:inputType="textPersonName"
+        android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textColorHint="#6FFFEB3B"
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.651"
+        app:layout_constraintHorizontal_bias="0.694"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/expected_score_title" />
+
+    <TextView
+        android:id="@+id/achievement_title_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="Players"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/num_players"
+        app:layout_constraintTop_toBottomOf="@+id/expected_score_title" />
+
+    <TextView
+        android:id="@+id/achievement_title_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="2dp"
+        android:text="Minimum Score For"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/num_players"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/expected_score_title" />
 

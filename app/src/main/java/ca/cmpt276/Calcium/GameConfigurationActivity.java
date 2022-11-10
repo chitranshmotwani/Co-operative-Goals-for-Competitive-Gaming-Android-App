@@ -8,11 +8,18 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
 
 import ca.cmpt276.Calcium.model.GameConfigManager;
 import ca.cmpt276.Calcium.model.GameConfiguration;
@@ -25,6 +32,8 @@ public class GameConfigurationActivity extends AppCompatActivity {
     private String displayedDescriptionString;
     private int displayedPoorScore;
     private int displayedGreatScore;
+    private ArrayList<Integer> displayedMinScores;
+
     private int index;
 
     private boolean valuesChanged = false;
@@ -44,7 +53,9 @@ public class GameConfigurationActivity extends AppCompatActivity {
             R.string.level_6,
             R.string.level_7,
             R.string.level_8,
-            R.string.level_9 };
+            R.string.level_9,
+            R.string.level_10
+    };
 
 
     @Override
@@ -83,7 +94,37 @@ public class GameConfigurationActivity extends AppCompatActivity {
     }
 
     private void updateAchievementList(int numPlayers) {
+        displayedMinScores = manager.getConfig(index).getMinimumScoresForAchievementLevels(numPlayers);
 
+        ArrayAdapter<Integer> adapter = new AchievementListAdapter(numPlayers);
+        ListView list = (ListView) findViewById(R.id.achievement_list);
+        list.setAdapter(adapter);
+    }
+
+    private class AchievementListAdapter extends ArrayAdapter<Integer> {
+
+        public AchievementListAdapter(int numPlayers) {
+            super(GameConfigurationActivity.this, R.layout.achievement_layout, manager.getConfig(index).getMinimumScoresForAchievementLevels(numPlayers));
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            View gameView = convertView;
+            if(gameView == null) {
+                gameView = getLayoutInflater().inflate(R.layout.achievement_layout, parent, false);
+            }
+
+            Integer minScore = displayedMinScores.get(position);
+            String achievementLevel = getString(levelNames[position]);
+            System.out.println(achievementLevel + position + "\n\n\n");
+
+            TextView score = gameView.findViewById(R.id.min_score);
+            score.setText(String.valueOf(minScore));
+            TextView name = gameView.findViewById(R.id.achievement_level);
+            name.setText(achievementLevel);
+            return gameView;
+        }
     }
 
     private void setupGameConfigPropertyTextWatchers() {
