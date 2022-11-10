@@ -37,11 +37,11 @@ public class GameListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.saveButton:
+            case R.id.save_button:
                 finish();
                 break;
 
-            case R.id.backButton:
+            case R.id.back_button:
                 finish();
                 break;
             default:

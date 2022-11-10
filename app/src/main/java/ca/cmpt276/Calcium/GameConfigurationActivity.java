@@ -1,8 +1,6 @@
 package ca.cmpt276.Calcium;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -10,11 +8,18 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
 
 import ca.cmpt276.Calcium.model.GameConfigManager;
 import ca.cmpt276.Calcium.model.GameConfiguration;
@@ -22,37 +27,55 @@ import ca.cmpt276.Calcium.model.GameConfiguration;
 public class GameConfigurationActivity extends AppCompatActivity {
 
     private Menu optionsMenu;
-    GameConfigManager manager = GameConfigManager.getInstance(null);
-    private String hiScore = "0";
-    private String lowScore = "0";
-    private int highScore = 0;
-    private int lowerScore = 0;
-    private String GameName ="";
-    private String GameDescription ="";
-    private int index =0;
+    private GameConfigManager manager;
+    private String displayedNameString;
+    private String displayedDescriptionString;
+    private int displayedPoorScore;
+    private int displayedGreatScore;
+    private ArrayList<Integer> displayedMinScores;
+
+    private int index;
+
+    private boolean valuesChanged = false;
+
+    private EditText name;
+    private EditText description;
+    private EditText poorScore;
+    private EditText greatScore;
+    private EditText numPlayers;
+
+    private final int[] levelNames = {
+            R.string.level_1,
+            R.string.level_2,
+            R.string.level_3,
+            R.string.level_4,
+            R.string.level_5,
+            R.string.level_6,
+            R.string.level_7,
+            R.string.level_8,
+            R.string.level_9,
+            R.string.level_10
+    };
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_configuration);
-        TextView Name = findViewById(R.id.nameGameConfig);
-        EditText Description = findViewById(R.id.dcsrptionScore);
-        EditText PoorScore = findViewById(R.id.poorScoreField);
-        EditText GreatScore = findViewById(R.id.greatScoreField);
+        manager = GameConfigManager.getInstance(null);
+
         Intent in = getIntent();
+        index = getIntent().getIntExtra("passing selected gameConfig", 0);
+        setTitle(manager.getConfig(index).getName());
 
-        index = in.getIntExtra("passing selected gameConfig",0);
-        highScore= manager.getConfig(in.getIntExtra("passing selected gameconfig",0)).getHighPerPlayerScore();
-        lowerScore= manager.getConfig(in.getIntExtra("passing selected gameconfig",0)).getLowPerPlayerScore();
-        GameName = manager.getConfig(in.getIntExtra("passing selected gameconfig",0)).getName();
-        GameDescription= manager.getConfig(in.getIntExtra("passing selected gameconfig",0)).getScoreSystemDescription();
-        Description.setText((CharSequence) manager.getConfig(getIntent().getIntExtra("passing selected gameconfig",0)).getScoreSystemDescription());
-        PoorScore.setText(Integer.toString(lowerScore));
-        GreatScore.setText(Integer.toString(highScore));
-        Name.setText(GameName);
+        findGameConfigViews();
+        setupSelectedGameConfigProperties();
+        setupGameConfigPropertyTextWatchers();
+        setupAchievementLevelsTextWatcher();
+    }
 
-        GreatScore.addTextChangedListener(new TextWatcher() {
+    private void setupAchievementLevelsTextWatcher() {
+        numPlayers.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -65,13 +88,42 @@ public class GameConfigurationActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                hiScore = GreatScore.getText().toString();
-                if (!hiScore.equals("")) {
-                    highScore = Integer.parseInt(hiScore);
+                updateAchievementList(Integer.parseInt(editable.toString()));
+            }
+        });
+    }
+
+    private void updateAchievementList(int numPlayers) {
+        displayedMinScores = manager.getConfig(index).getMinimumScoresForAchievementLevels(numPlayers);
+
+        ArrayAdapter<Integer> adapter = new AchievementListAdapter(numPlayers);
+        ListView list = findViewById(R.id.achievement_list);
+        list.setAdapter(adapter);
+    }
+
+    private void setupGameConfigPropertyTextWatchers() {
+        name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String inputName = name.getText().toString();
+                if (!inputName.equals("")) {
+                    valuesChanged = true;
+                    displayedNameString = inputName;
                 }
             }
         });
-        PoorScore.addTextChangedListener(new TextWatcher() {
+
+        description.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -84,13 +136,15 @@ public class GameConfigurationActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                lowScore = PoorScore.getText().toString();
-                if (!lowScore.equals("")) {
-                    lowerScore = Integer.parseInt(lowScore);
+                String inputDescription = description.getText().toString();
+                if (!inputDescription.equals("")) {
+                    valuesChanged = true;
+                    displayedDescriptionString = inputDescription;
                 }
             }
         });
-        Description.addTextChangedListener(new TextWatcher() {
+
+        poorScore.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -103,24 +157,68 @@ public class GameConfigurationActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (!Description.getText().equals("")) {
-                    GameDescription= String.valueOf(Description.getText());
+                String inputPoorScore = poorScore.getText().toString();
+                if (!inputPoorScore.equals("")) {
+                    valuesChanged = true;
+                    displayedPoorScore = Integer.parseInt(inputPoorScore);
+                }
+            }
+        });
+
+        greatScore.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String inputGreatScore = greatScore.getText().toString();
+                if (!inputGreatScore.equals("")) {
+                    valuesChanged = true;
+                    displayedGreatScore = Integer.parseInt(inputGreatScore);
                 }
             }
         });
     }
 
-    public void goToGamesList (View view){
-        Intent intent = new Intent (this, GameListActivity.class);
-        intent.putExtra("pass config index",index);
+    private void findGameConfigViews() {
+        name = findViewById(R.id.game_config_name);
+        description = findViewById(R.id.score_description);
+        poorScore = findViewById(R.id.poor_score);
+        greatScore = findViewById(R.id.great_score);
+        numPlayers = findViewById(R.id.num_players);
+    }
+
+    private void setupSelectedGameConfigProperties() {
+        GameConfiguration selected = manager.getConfig(index);
+
+        name.setText(selected.getName());
+        description.setText(selected.getScoreSystemDescription());
+        poorScore.setText(String.format("%d", selected.getPoorPerPlayerScore()));
+        greatScore.setText(String.format("%d", selected.getGreatPerPlayerScore()));
+
+        displayedNameString = name.getText().toString();
+        displayedDescriptionString = description.getText().toString();
+        displayedPoorScore = Integer.parseInt(poorScore.getText().toString());
+        displayedGreatScore = Integer.parseInt(greatScore.getText().toString());
+
+    }
+
+    public void goToGamesList(View view) {
+        Intent intent = new Intent(this, GameListActivity.class);
         startActivity(intent);
     }
-    public void goToNewGame (View view){
-        Intent intent = new Intent (this, NewGameActivity.class);
-        intent.putExtra("pass config index",index);
+
+    public void goToNewGame(View view) {
+        Intent intent = new Intent(this, NewGameActivity.class);
         startActivity(intent);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -133,21 +231,87 @@ public class GameConfigurationActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.saveButton:
-                GameConfiguration newGameConfig = manager.getConfig(index);
-                newGameConfig.setHighPerPlayerScore(highScore);
-                newGameConfig.setLowPerPlayerScore(lowerScore);
-                newGameConfig.setScoreSystemDescription(GameDescription);
-                finish();
+            case R.id.save_button:
+                if (valuesChanged) {
+                    confirmGameConfigurationSave();
+                } else {
+                    Toast.makeText(this, getString(R.string.no_changes), Toast.LENGTH_SHORT).show();
+                }
                 break;
-
-            case R.id.backButton:
+            case R.id.delete_button:
+                confirmGameConfigurationDelete();
+                break;
+            case R.id.back_button:
                 finish();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void confirmGameConfigurationDelete() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.delete_game_config));
+
+        builder.setPositiveButton(R.string.yes, (dialog, id) -> {
+            manager.deleteConfig(index);
+            finish();
+        });
+
+        builder.setNegativeButton(R.string.no, (dialog, id) -> {
+            //Do nothing
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void confirmGameConfigurationSave() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.save_game_config));
+
+        builder.setPositiveButton(R.string.yes, (dialog, id) -> {
+            GameConfiguration modifiedGameConfig = manager.getConfig(index);
+
+            modifiedGameConfig.setName(displayedNameString);
+            modifiedGameConfig.setGreatPerPlayerScore(displayedGreatScore);
+            modifiedGameConfig.setPoorPerPlayerScore(displayedPoorScore);
+            modifiedGameConfig.setScoreSystemDescription(displayedDescriptionString);
+            finish();
+        });
+
+        builder.setNegativeButton(R.string.no, (dialog, id) -> {
+            finish();
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private class AchievementListAdapter extends ArrayAdapter<Integer> {
+
+        public AchievementListAdapter(int numPlayers) {
+            super(GameConfigurationActivity.this, R.layout.achievement_layout, manager.getConfig(index).getMinimumScoresForAchievementLevels(numPlayers));
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            View gameView = convertView;
+            if (gameView == null) {
+                gameView = getLayoutInflater().inflate(R.layout.achievement_layout, parent, false);
+            }
+
+            Integer minScore = displayedMinScores.get(position);
+            String achievementLevel = getString(levelNames[position]);
+
+            TextView score = gameView.findViewById(R.id.min_score);
+            score.setText(String.valueOf(minScore));
+            TextView name = gameView.findViewById(R.id.achievement_level);
+            name.setText(achievementLevel);
+            return gameView;
+        }
     }
 
 }

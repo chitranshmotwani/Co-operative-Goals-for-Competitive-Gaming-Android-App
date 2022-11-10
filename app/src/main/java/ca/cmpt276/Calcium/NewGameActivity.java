@@ -109,7 +109,7 @@ public class NewGameActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.saveButton:
+            case R.id.save_button:
                 ArrayList<Integer> ranks = gameConfig.getMinimumScoresForAchievementLevels(numOfPlayers);
                 int level = 0;
 
@@ -137,7 +137,7 @@ public class NewGameActivity extends AppCompatActivity {
 
                 return true;
 
-            case R.id.backButton:
+            case R.id.back_button:
                 finish();
                 break;
             default:
