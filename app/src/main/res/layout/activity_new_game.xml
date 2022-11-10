@@ -9,7 +9,7 @@
 
 
     <TextView
-        android:id="@+id/GameDescription"
+        android:id="@+id/score_system_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="124dp"
@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/DescriptionofGame"
+        android:id="@+id/score_system_description"
         android:layout_width="0dp"
         android:layout_height="150dp"
         android:layout_marginStart="16dp"
@@ -39,10 +39,10 @@
         android:textColorHint="#6FFFEB3B"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/GameDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/score_system_title" />
 
     <TextView
-        android:id="@+id/NoofPlayers"
+        android:id="@+id/num_players_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="148dp"
@@ -54,10 +54,10 @@
         android:textColorHint="#6FFFEB3B"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/DescriptionofGame" />
+        app:layout_constraintTop_toBottomOf="@+id/score_system_description" />
 
     <EditText
-        android:id="@+id/CombinedScore_Input"
+        android:id="@+id/combined_score"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -73,10 +73,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Combined_Score" />
+        app:layout_constraintTop_toBottomOf="@+id/combined_score_title" />
 
     <EditText
-        android:id="@+id/NoofPlayer_Input"
+        android:id="@+id/num_players"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -92,10 +92,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/NoofPlayers" />
+        app:layout_constraintTop_toBottomOf="@+id/num_players_title" />
 
     <TextView
-        android:id="@+id/Combined_Score"
+        android:id="@+id/combined_score_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="136dp"
@@ -107,6 +107,6 @@
         android:textColorHint="#6FFFEB3B"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/NoofPlayer_Input" />
+        app:layout_constraintTop_toBottomOf="@+id/num_players" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

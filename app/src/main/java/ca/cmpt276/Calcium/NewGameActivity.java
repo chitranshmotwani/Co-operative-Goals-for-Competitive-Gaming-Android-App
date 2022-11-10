@@ -21,7 +21,7 @@ import ca.cmpt276.Calcium.model.GameConfiguration;
 
 public class NewGameActivity extends AppCompatActivity {
 
-    private String DescriptionOfGame;
+    private String descriptionOfGame;
     private int numOfPlayers;
     private int combinedScores;
     private GameConfigManager manager;
@@ -34,18 +34,18 @@ public class NewGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_game);
         Intent in = getIntent();
-
         index = in.getIntExtra("pass config index",0);
+
         manager = GameConfigManager.getInstance(null);
         gameConfig = manager.getConfig(index);
 
         setupGameScoreDescriptionTextWatcher();
-        setupGameNoofPlayersTextWatcher();
+        setupGameNumPlayersTextWatcher();
         setupGameCombinedScoreTextWatcher();
     }
 
     private void setupGameScoreDescriptionTextWatcher() {
-        EditText description = findViewById(R.id.DescriptionofGame);
+        EditText description = findViewById(R.id.score_system_description);
         description.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -57,13 +57,13 @@ public class NewGameActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                DescriptionOfGame = description.getText().toString();
+                descriptionOfGame = description.getText().toString();
             }
         });
     }
 
-    private void setupGameNoofPlayersTextWatcher() {
-        EditText NoPlayers = findViewById(R.id.NoofPlayer_Input);
+    private void setupGameNumPlayersTextWatcher() {
+        EditText NoPlayers = findViewById(R.id.num_players);
         NoPlayers.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -81,7 +81,7 @@ public class NewGameActivity extends AppCompatActivity {
     }
 
     private void setupGameCombinedScoreTextWatcher() {
-        EditText combinedscore = findViewById(R.id.CombinedScore_Input);
+        EditText combinedscore = findViewById(R.id.combined_score);
         combinedscore.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
