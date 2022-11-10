@@ -20,18 +20,6 @@ import ca.cmpt276.Calcium.model.GameConfiguration;
 
 public class NewGameActivity extends AppCompatActivity {
 
-    private final int[] levelNames = {
-            R.string.level_1,
-            R.string.level_2,
-            R.string.level_3,
-            R.string.level_4,
-            R.string.level_5,
-            R.string.level_6,
-            R.string.level_7,
-            R.string.level_8,
-            R.string.level_9,
-            R.string.level_10
-    };
     private int numOfPlayers;
     private int combinedScores;
     private GameConfigManager manager;
@@ -136,7 +124,7 @@ public class NewGameActivity extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.congratulations));
-        builder.setMessage(getString(R.string.achievement) + getString(levelNames[index]));
+        builder.setMessage(getString(R.string.achievement) + getString(manager.getLevelID(index)));
         builder.setCancelable(false);
         builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override

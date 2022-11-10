@@ -10,6 +10,7 @@
     <string name="all_games">All Games</string>
     <string name="new_game">New Game</string>
     <string name="empty_game_configs">To create a new game configuration,\nclick the plus sign here! --></string>
+    <string name="empty_game_list">To create a new game,\nclick the plus sign here! --></string>
     <string name="save_game_config">This game configuration has been changed. Would you like to save the changes?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
