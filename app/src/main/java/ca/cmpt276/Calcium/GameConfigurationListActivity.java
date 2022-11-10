@@ -45,7 +45,7 @@ public class GameConfigurationListActivity extends AppCompatActivity {
     }
 
     private void setupNewGameConfigFAB() {
-        FloatingActionButton fab = findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.add_new_game);
         fab.setOnClickListener(v -> {
             Intent intent = new Intent(GameConfigurationListActivity.this, NewGameConfigurationActivity.class);
             startActivity(intent);
