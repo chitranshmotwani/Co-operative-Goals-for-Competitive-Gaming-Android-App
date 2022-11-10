@@ -20,15 +20,6 @@ import ca.cmpt276.Calcium.model.GameConfiguration;
 
 public class NewGameActivity extends AppCompatActivity {
 
-    private int numOfPlayers;
-    private int combinedScores;
-    private GameConfigManager manager;
-    private GameConfiguration gameConfig;
-    private Menu optionsMenu;
-    private int index = 0;
-    private boolean playersChanged = false;
-    private boolean scoreChanged = false;
-
     private final int[] levelNames = {
             R.string.level_1,
             R.string.level_2,
@@ -41,13 +32,21 @@ public class NewGameActivity extends AppCompatActivity {
             R.string.level_9,
             R.string.level_10
     };
+    private int numOfPlayers;
+    private int combinedScores;
+    private GameConfigManager manager;
+    private GameConfiguration gameConfig;
+    private Menu optionsMenu;
+    private int index = 0;
+    private boolean playersChanged = false;
+    private boolean scoreChanged = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_game);
         Intent in = getIntent();
-        index = in.getIntExtra("pass config index",0);
+        index = in.getIntExtra("pass config index", 0);
 
         manager = GameConfigManager.getInstance(null);
         gameConfig = manager.getConfig(index);
@@ -113,10 +112,10 @@ public class NewGameActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.save_button:
-                if(playersChanged && scoreChanged) {
+                if (playersChanged && scoreChanged) {
                     gameConfig.addGame(numOfPlayers, combinedScores);
                     showAchievementLevelEarned();
-                }else{
+                } else {
                     Toast.makeText(this, getString(R.string.incomplete_game_prompt), Toast.LENGTH_LONG).show();
                 }
                 break;
@@ -141,7 +140,7 @@ public class NewGameActivity extends AppCompatActivity {
         builder.setCancelable(false);
         builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i){
+            public void onClick(DialogInterface dialogInterface, int i) {
                 finish();
             }
         });
