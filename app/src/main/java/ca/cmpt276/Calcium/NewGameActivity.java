@@ -100,7 +100,7 @@ public class NewGameActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.saveButton:
+            case R.id.save_button:
                 String rankName = "temp_string";
                 String rank = rankName;       //  assign it to the rank name of the game
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -117,7 +117,7 @@ public class NewGameActivity extends AppCompatActivity {
                 finish();
                 break;
 
-            case R.id.backButton:
+            case R.id.back_button:
                 finish();
                 break;
             default:

@@ -14,5 +14,20 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="no_changes">No changes to save. Press back arrow to exit.</string>
+    <string name="back">Back</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="delete_game_config">Are you sure you would like to delete this game configuration and all associated games?</string>
+    <string name="level_1">Super Suns</string>
+    <string name="level_2">"Marvelous Mercurians "</string>
+    <string name="level_3">Valiant Venusians</string>
+    <string name="level_4">Excellent Earthlings</string>
+    <string name="level_5">Middling Martians</string>
+    <string name="level_6">"Juvenile Jovians "</string>
+    <string name="level_7">Silly Saturnians</string>
+    <string name="level_8">Unlucky Uranians</string>
+    <string name="level_9">Notorius Neptunians</string>
+    <string name="level_10">Puzzled Plutonians</string>
+
 
 </resources>

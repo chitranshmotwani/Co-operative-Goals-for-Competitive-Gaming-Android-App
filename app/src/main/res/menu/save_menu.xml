@@ -3,17 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <item
-            android:id="@+id/backButton"
+            android:id="@+id/back_button"
             android:icon="@drawable/back_icon"
             app:showAsAction="always"
-            android:title="Back"
+            android:title="@string/back"
             />
 
         <item
-            android:id="@+id/saveButton"
+            android:id="@+id/save_button"
             android:icon="@drawable/save_icon"
             app:showAsAction="ifRoom"
-            android:title="Save"
+            android:title="@string/save"
+            />
+
+        <item
+            android:id="@+id/delete_button"
+            android:icon="@drawable/ic_baseline_delete_24"
+            app:showAsAction="ifRoom"
+            android:title="@string/delete"
             />
 
 </menu>
