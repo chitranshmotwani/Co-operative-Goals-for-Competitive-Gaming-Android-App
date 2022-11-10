@@ -87,7 +87,7 @@
         app:layout_constraintTop_toBottomOf="@+id/expctdScore" />
 
     <ListView
-        android:id="@+id/gamesList"
+        android:id="@+id/ranks"
         android:layout_width="372dp"
         android:layout_height="150dp"
         android:layout_marginTop="88dp"
@@ -104,7 +104,7 @@
         android:text="@string/all_games"
         android:onClick="goToGamesList"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gamesList" />
+        app:layout_constraintTop_toBottomOf="@+id/ranks" />
 
     <Button
         android:id="@+id/btnNewGame"
@@ -115,5 +115,5 @@
         android:text="@string/new_game"
         android:onClick="goToNewGame"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gamesList" />
+        app:layout_constraintTop_toBottomOf="@+id/ranks" />
 </androidx.constraintlayout.widget.ConstraintLayout>

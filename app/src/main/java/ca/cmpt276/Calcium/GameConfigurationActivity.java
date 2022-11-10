@@ -7,12 +7,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.EventLogTags;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ca.cmpt276.Calcium.model.GameConfigManager;
 import ca.cmpt276.Calcium.model.GameConfiguration;
@@ -39,15 +41,16 @@ public class GameConfigurationActivity extends AppCompatActivity {
         EditText PoorScore = findViewById(R.id.poorScoreField);
         EditText GreatScore = findViewById(R.id.greatScoreField);
         Intent in = getIntent();
-        index = getIntent().getIntExtra("passing selected gameConfig",0);
-        highScore= manager.getConfig(getIntent().getIntExtra("passing selected gameconfig",0)).getHighPerPlayerScore();
-        lowerScore= manager.getConfig(getIntent().getIntExtra("passing selected gameconfig",0)).getLowPerPlayerScore();
-        GameName = manager.getConfig(getIntent().getIntExtra("passing selected gameconfig",0)).getName();
-        GameDescription= manager.getConfig(getIntent().getIntExtra("passing selected gameconfig",0)).getScoreSystemDescription();
+
+        index = in.getIntExtra("passing selected gameConfig",0);
+        highScore= manager.getConfig(in.getIntExtra("passing selected gameconfig",0)).getHighPerPlayerScore();
+        lowerScore= manager.getConfig(in.getIntExtra("passing selected gameconfig",0)).getLowPerPlayerScore();
+        GameName = manager.getConfig(in.getIntExtra("passing selected gameconfig",0)).getName();
+        GameDescription= manager.getConfig(in.getIntExtra("passing selected gameconfig",0)).getScoreSystemDescription();
         Description.setText((CharSequence) manager.getConfig(getIntent().getIntExtra("passing selected gameconfig",0)).getScoreSystemDescription());
-        PoorScore.setText(Integer.toString(manager.getConfig(getIntent().getIntExtra("passing selected gameconfig",0)).getLowPerPlayerScore()));
-        GreatScore.setText(Integer.toString(manager.getConfig(getIntent().getIntExtra("passing selected gameconfig",0)).getHighPerPlayerScore()));
-        Name.setText((CharSequence) manager.getConfig(getIntent().getIntExtra("passing selected gameConfig",0)).getName());
+        PoorScore.setText(Integer.toString(lowerScore));
+        GreatScore.setText(Integer.toString(highScore));
+        Name.setText(GameName);
 
         GreatScore.addTextChangedListener(new TextWatcher() {
             @Override
@@ -106,12 +109,15 @@ public class GameConfigurationActivity extends AppCompatActivity {
             }
         });
     }
+
     public void goToGamesList (View view){
         Intent intent = new Intent (this, GameListActivity.class);
+        intent.putExtra("pass config index",index);
         startActivity(intent);
     }
     public void goToNewGame (View view){
         Intent intent = new Intent (this, NewGameActivity.class);
+        intent.putExtra("pass config index",index);
         startActivity(intent);
     }
 
