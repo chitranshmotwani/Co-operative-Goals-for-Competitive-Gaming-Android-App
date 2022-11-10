@@ -9,62 +9,44 @@
 
 
     <TextView
-        android:id="@+id/GameDescription"
+        android:id="@+id/score_system_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="124dp"
-        android:layout_marginTop="30dp"
-        android:text="Description of Game"
-        android:textSize="18sp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/scrore_system_title"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textColorHint="#6FFFEB3B"
+        android:textSize="25dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/DescriptionofGame"
-        android:layout_width="0dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:ems="10"
-        android:hint="Please Enter Description of the Scores system"
-        android:inputType="textMultiLine"
-        android:scrollHorizontally="false"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textColorHint="#6FFFEB3B"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/GameDescription" />
-
     <TextView
-        android:id="@+id/NoofPlayers"
+        android:id="@+id/num_players_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="148dp"
-        android:layout_marginTop="56dp"
-        android:text="No. of Players"
-        android:textSize="18sp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="48dp"
+        android:text="@string/num_players_title"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textColorHint="#6FFFEB3B"
+        android:textSize="25dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/DescriptionofGame" />
+        app:layout_constraintTop_toBottomOf="@+id/score_system_description" />
 
     <EditText
-        android:id="@+id/CombinedScore_Input"
+        android:id="@+id/combined_score"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:hint="Please enter the combined score"
+        android:hint="@string/combined_score_hint"
         android:inputType="number"
         android:scrollHorizontally="false"
         android:textAlignment="center"
@@ -73,17 +55,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Combined_Score" />
+        app:layout_constraintTop_toBottomOf="@+id/combined_score_title" />
 
     <EditText
-        android:id="@+id/NoofPlayer_Input"
+        android:id="@+id/num_players"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:hint="PLease enter the number of players"
+        android:hint="@string/num_players_hint"
         android:inputType="number"
         android:scrollHorizontally="false"
         android:textAlignment="center"
@@ -92,21 +74,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/NoofPlayers" />
+        app:layout_constraintTop_toBottomOf="@+id/num_players_title" />
 
     <TextView
-        android:id="@+id/Combined_Score"
+        android:id="@+id/combined_score_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="136dp"
-        android:layout_marginTop="28dp"
-        android:text="Combined Score"
-        android:textSize="18sp"
+        android:layout_marginStart="112dp"
+        android:layout_marginTop="48dp"
+        android:text="@string/combined_score_title"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textColorHint="#6FFFEB3B"
+        android:textSize="25dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/NoofPlayer_Input" />
+        app:layout_constraintTop_toBottomOf="@+id/num_players" />
+
+    <TextView
+        android:id="@+id/score_system_description"
+        android:layout_width="311dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="20dp"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="18dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/score_system_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

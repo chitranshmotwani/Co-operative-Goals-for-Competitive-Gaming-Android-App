@@ -44,20 +44,6 @@ public class GameConfigurationActivity extends AppCompatActivity {
     private EditText greatScore;
     private EditText numPlayers;
 
-    private final int[] levelNames = {
-            R.string.level_1,
-            R.string.level_2,
-            R.string.level_3,
-            R.string.level_4,
-            R.string.level_5,
-            R.string.level_6,
-            R.string.level_7,
-            R.string.level_8,
-            R.string.level_9,
-            R.string.level_10
-    };
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -212,12 +198,16 @@ public class GameConfigurationActivity extends AppCompatActivity {
 
     public void goToGamesList(View view) {
         Intent intent = new Intent(this, GameListActivity.class);
+        intent.putExtra("passing selected gameConfig", index);
         startActivity(intent);
+        finish();
     }
 
     public void goToNewGame(View view) {
         Intent intent = new Intent(this, NewGameActivity.class);
+        intent.putExtra("passing selected gameConfig", index);
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -304,7 +294,7 @@ public class GameConfigurationActivity extends AppCompatActivity {
             }
 
             Integer minScore = displayedMinScores.get(position);
-            String achievementLevel = getString(levelNames[position]);
+            String achievementLevel = getString(manager.getLevelID(position));
 
             TextView score = gameView.findViewById(R.id.min_score);
             score.setText(String.valueOf(minScore));

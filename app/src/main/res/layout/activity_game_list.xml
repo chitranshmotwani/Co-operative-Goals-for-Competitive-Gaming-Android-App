@@ -7,13 +7,26 @@
     android:background="@drawable/space_background"
     tools:context=".GameListActivity">
 
+    <TextView
+        android:id="@+id/empty_game_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="164dp"
+        android:layout_marginBottom="44dp"
+        android:text="@string/empty_game_list"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/add_new_game"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/yellow"
         android:clickable="true"
         android:onClick="goToNewGame"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,12 +35,15 @@
         tools:ignore="VectorDrawableCompat" />
 
     <ListView
-        android:id="@+id/listViewGame"
-        android:layout_width="410dp"
-        android:layout_height="609dp"
-        android:layout_marginTop="24dp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp">
-    </ListView>
+        android:id="@+id/game_list"
+        android:layout_width="377dp"
+        android:layout_height="578dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:divider="@android:drawable/bottom_bar"
+        android:dividerHeight="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"></ListView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

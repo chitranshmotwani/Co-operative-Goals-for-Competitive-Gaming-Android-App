@@ -22,6 +22,10 @@ public class GameConfiguration {
     private int greatPerPlayerScore;
     private int poorPerPlayerScore;
 
+    public ArrayList<Game> getGames() {
+        return gameList;
+    }
+
     public enum AchievementLevel {
         LEVEL_1, //highest score
         LEVEL_2,
