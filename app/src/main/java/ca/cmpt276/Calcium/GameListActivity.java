@@ -64,6 +64,7 @@ public class GameListActivity extends AppCompatActivity {
         Intent intent = new Intent (this, NewGameActivity.class);
         intent.putExtra("passing selected gameConfig", index);
         startActivity(intent);
+        finish();
     }
 
     private void storeGameConfigManager() {
