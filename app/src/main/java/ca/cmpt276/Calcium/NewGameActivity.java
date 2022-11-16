@@ -102,7 +102,7 @@ public class NewGameActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.save_button:
                 if (playersChanged && scoreChanged) {
-                    gameConfig.addGame(numOfPlayers, combinedScores);
+                    gameConfig.addGame(numOfPlayers, combinedScores, GameConfiguration.DifficultyLevel.EASY);
                     showAchievementLevelEarned();
                 } else {
                     Toast.makeText(this, getString(R.string.incomplete_game_prompt), Toast.LENGTH_LONG).show();
