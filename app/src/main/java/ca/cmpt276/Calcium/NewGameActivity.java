@@ -17,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Locale;
+
 import ca.cmpt276.Calcium.model.GameConfigManager;
 import ca.cmpt276.Calcium.model.GameConfiguration;
 
@@ -149,11 +151,12 @@ public class NewGameActivity extends AppCompatActivity {
         int selected = group.getCheckedRadioButtonId();
 
         RadioButton btn = findViewById(selected);
-        String difficulty = btn.getText().toString();
+        String difficulty = btn.getText().toString().toUpperCase(Locale.ROOT);
 
         for (GameConfiguration.DifficultyLevel level :
                 GameConfiguration.DifficultyLevel.values()) {
-            if (difficulty.equals(level.toString())) {
+            String levelStr = level.toString();
+            if (difficulty.equals(levelStr)) {
                 return level;
             }
         }
