@@ -166,14 +166,18 @@ public class NewGameActivity extends AppCompatActivity {
     }
 
     private void showAchievementLevelEarned() {
-        GameConfiguration.AchievementLevel lvl = gameConfig.getGame(gameConfig.getNumOfGames() - 1).getAchievementLevel();
+        GameConfiguration.Game newestGame = gameConfig.getGame(gameConfig.getNumOfGames() - 1);
+        GameConfiguration.AchievementLevel lvl = newestGame.getAchievementLevel();
         int index = lvl.ordinal();
+
+        String difficulty = newestGame.getDifficultyLevel().toString().toLowerCase(Locale.ROOT);
+        difficulty = difficulty.substring(0,1).toUpperCase(Locale.ROOT) + difficulty.substring(1);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.congratulations));
         String level = getString(manager.getLevelID(index));
 
-        builder.setMessage(getString(R.string.achievement) + " " + level);
+        builder.setMessage(getString(R.string.achievement)+ level + getString(R.string.on_difficulty_lvl) + difficulty);
         builder.setCancelable(false);
         builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
