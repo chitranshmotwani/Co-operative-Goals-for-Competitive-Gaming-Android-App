@@ -19,18 +19,18 @@
     <string name="save">Save</string>
     <string name="delete">Delete</string>
     <string name="delete_game_config">Are you sure you would like to delete this game configuration and all associated games?</string>
-    <string name="level_1"> Super Suns</string>
-    <string name="level_2"> Marvelous Mercurians</string>
-    <string name="level_3"> Valiant Venusians</string>
-    <string name="level_4"> Excellent Earthlings</string>
-    <string name="level_5"> Middling Martians</string>
-    <string name="level_6"> Juvenile Jovians</string>
-    <string name="level_7"> Silly Saturnians</string>
-    <string name="level_8"> Unlucky Uranians</string>
-    <string name="level_9"> Notorius Neptunians</string>
-    <string name="level_10"> Puzzled Plutonians</string>
+    <string name="level_1">Super Suns</string>
+    <string name="level_2">Marvelous Mercurians</string>
+    <string name="level_3">Valiant Venusians</string>
+    <string name="level_4">Excellent Earthlings</string>
+    <string name="level_5">Middling Martians</string>
+    <string name="level_6">Juvenile Jovians</string>
+    <string name="level_7">Silly Saturnians</string>
+    <string name="level_8">Unlucky Uranians</string>
+    <string name="level_9">Notorius Neptunians</string>
+    <string name="level_10">Puzzled Plutonians</string>
     <string name="_0">0</string>
-    <string name="players">Players</string>
+    <string name="players">"Players: "</string>
     <string name="minimum_score_for">Minimum Score For</string>
     <string name="scrore_system_title">Scoring System</string>
     <string name="score_system_description">Please Enter Description of the Scores system</string>
@@ -40,9 +40,10 @@
     <string name="combined_score_title">Combined Score</string>
     <string name="incomplete_game_prompt">Game missing fields. Please try again.</string>
     <string name="congratulations">Congratulations!</string>
-    <string name="achievement">You reached the rank: </string>
+    <string name="achievement">"You reached the rank: "</string>
     <string name="ok">OK</string>
-    <string name="score">Score: </string>
+    <string name="score">"Score: "</string>
     <string name="difficulty_title">Game Difficulty Level </string>
+    <string name="difficulty_prefix">"Difficulty Level "</string>
 
 </resources>

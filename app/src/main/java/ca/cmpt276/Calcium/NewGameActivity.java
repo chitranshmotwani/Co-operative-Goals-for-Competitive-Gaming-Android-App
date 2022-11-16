@@ -173,7 +173,7 @@ public class NewGameActivity extends AppCompatActivity {
         builder.setTitle(getString(R.string.congratulations));
         String level = getString(manager.getLevelID(index));
 
-        builder.setMessage(getString(R.string.achievement) + level);
+        builder.setMessage(getString(R.string.achievement) + " " + level);
         builder.setCancelable(false);
         builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
