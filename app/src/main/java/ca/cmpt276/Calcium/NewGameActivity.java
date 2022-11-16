@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,6 +38,7 @@ public class NewGameActivity extends AppCompatActivity {
     private int index = 0;
     private boolean playersChanged = false;
     private boolean scoreChanged = false;
+    private boolean playerIndScoreChanged = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,7 @@ public class NewGameActivity extends AppCompatActivity {
         add_player.setOnClickListener( view -> {
             if (currNumOfPlayers+1 <= numOfPlayers) {
                 currNumOfPlayers++;
+                playerIndScoreChanged = false;
                 addOnePlayer(scoreListView);
             }
             else {
@@ -126,6 +129,7 @@ public class NewGameActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 scoreList.add(Integer.parseInt(String.valueOf(score.getText())));
+                playerIndScoreChanged = true;
             }
         });
     }
@@ -141,6 +145,7 @@ public class NewGameActivity extends AppCompatActivity {
         addPlayerTitle.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
         addPlayerScore.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT,1.0f));
         addPlayerScore.setTextColor(Color.WHITE);
+        addPlayerScore.setInputType(InputType.TYPE_CLASS_NUMBER);
         addPlayerScore.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
         addPlayerScore.setHintTextColor(Color.parseColor("#6FFFEB3B"));
         addPlayerScore.setHint("Please enter the score of player" + currNumOfPlayers);
@@ -162,8 +167,12 @@ public class NewGameActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.save_button:
-                if (playersChanged && scoreChanged) {
+                if (playersChanged && scoreChanged && playerIndScoreChanged) {
                     gameConfig.addGame(numOfPlayers, combinedScores);
+                    GameConfiguration.Game g = gameConfig.getGame(gameConfig.getNumOfGames() - 1);
+                    for (int i = 0; i < scoreList.size(); i++){
+                        g.addPlayerScore(scoreList.get(i));
+                    }
                     showAchievementLevelEarned();
                 } else {
                     Toast.makeText(this, getString(R.string.incomplete_game_prompt), Toast.LENGTH_LONG).show();

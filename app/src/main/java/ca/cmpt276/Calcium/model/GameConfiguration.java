@@ -163,6 +163,7 @@ public class GameConfiguration {
             this.numPlayers = numPlayers;
             this.score = score;
             this.achievementLevel = achievementLevel;
+            this.scoreList = new ArrayList<>();
         }
 
         public String getDateTimeCreated() {
@@ -187,7 +188,7 @@ public class GameConfiguration {
 
         public int getPlayerScore(int playerNum) { return scoreList.get(playerNum); }
 
-        public void setPlayerScore(int playerScore) { scoreList.add(playerScore); }
+        public void addPlayerScore(int playerScore) { this.scoreList.add(playerScore); }
 
         public AchievementLevel getAchievementLevel() {
             return achievementLevel;
