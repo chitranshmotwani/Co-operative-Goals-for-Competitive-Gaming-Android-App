@@ -31,6 +31,8 @@ public class NewGameActivity extends AppCompatActivity {
     private int numOfPlayers;
     private int combinedScores;
     private int currNumOfPlayers = 1;
+    private int currSumScore = 0;
+    private int currScore = 0;
     private GameConfigManager manager;
     private GameConfiguration gameConfig;
     private Menu optionsMenu;
@@ -53,6 +55,7 @@ public class NewGameActivity extends AppCompatActivity {
         manager = GameConfigManager.getInstance(null);
         gameConfig = manager.getConfig(index);
         setTitle(gameConfig.getName());
+        scoreList.add(0);
 
         add_player.setOnClickListener( view -> {
             if (currNumOfPlayers+1 <= numOfPlayers) {
@@ -60,7 +63,7 @@ public class NewGameActivity extends AppCompatActivity {
                 playerIndScoreChanged = false;
                 addOnePlayer(scoreListView);
             }
-            else {
+            else{
                 Toast.makeText(this, "Cannot add more players.", Toast.LENGTH_SHORT).show();
             }
         });
@@ -128,8 +131,18 @@ public class NewGameActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                scoreList.add(Integer.parseInt(String.valueOf(score.getText())));
+                currScore = Integer.parseInt(String.valueOf(score.getText()));
+                scoreList.set(currNumOfPlayers - 1, currScore);
+                //currSumScore += Integer.parseInt(String.valueOf(score.getText()));
                 playerIndScoreChanged = true;
+                Toast.makeText(NewGameActivity.this, String.valueOf(score.getText()), Toast.LENGTH_SHORT).show();
+//                if (currSumScore > combinedScores){
+//                    Toast.makeText(NewGameActivity.this, "Invalid scores.", Toast.LENGTH_SHORT).show();
+//                    playerIndScoreChanged = false;
+//                }
+//                else if (currNumOfPlayers == numOfPlayers && currSumScore != combinedScores){
+//                    Toast.makeText(NewGameActivity.this, "Invalid scores.", Toast.LENGTH_SHORT).show();
+//                }
             }
         });
     }
@@ -137,9 +150,10 @@ public class NewGameActivity extends AppCompatActivity {
     private void addOnePlayer(LinearLayout scoreListView){
         TextView addPlayerTitle = new TextView(this);
         EditText addPlayerScore = new EditText(this);
+        String txt = "Player" + currNumOfPlayers;
 
         addPlayerTitle.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT,1.0f));
-        addPlayerTitle.setText("Player"+currNumOfPlayers);
+        addPlayerTitle.setText(txt);
         addPlayerTitle.setTextColor(Color.WHITE);
         addPlayerTitle.setTextSize(20);
         addPlayerTitle.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
@@ -151,6 +165,7 @@ public class NewGameActivity extends AppCompatActivity {
         addPlayerScore.setHint("Please enter the score of player" + currNumOfPlayers);
         scoreListView.addView(addPlayerTitle);
         scoreListView.addView(addPlayerScore);
+        scoreList.add(0);
         setupPlayerScoreListTextWatcher(addPlayerScore);
     }
 
@@ -167,7 +182,7 @@ public class NewGameActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.save_button:
-                if (playersChanged && scoreChanged && playerIndScoreChanged) {
+                if (playersChanged && scoreChanged && playerIndScoreChanged && currNumOfPlayers == numOfPlayers) {
                     gameConfig.addGame(numOfPlayers, combinedScores);
                     GameConfiguration.Game g = gameConfig.getGame(gameConfig.getNumOfGames() - 1);
                     for (int i = 0; i < scoreList.size(); i++){

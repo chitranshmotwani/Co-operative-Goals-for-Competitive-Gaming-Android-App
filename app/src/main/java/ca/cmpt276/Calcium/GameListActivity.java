@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -48,6 +49,7 @@ public class GameListActivity extends AppCompatActivity {
         super.onStart();
         storeGameConfigManager();
         populateListView();
+        registerListItemClick();
     }
 
     @Override
@@ -81,6 +83,18 @@ public class GameListActivity extends AppCompatActivity {
         list.setAdapter(adapter);
         list.setEmptyView(findViewById(R.id.empty_game_list));
 
+    }
+    private void registerListItemClick() {
+        ListView list = findViewById(R.id.game_list);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent in = new Intent(GameListActivity.this, GameActivity.class);
+                in.putExtra("passing selected game", position);
+                in.putExtra("passing selected gameConfig", index);
+                startActivity(in);
+            }
+        });
     }
 
     private class GameListAdapter extends ArrayAdapter<GameConfiguration.Game>{

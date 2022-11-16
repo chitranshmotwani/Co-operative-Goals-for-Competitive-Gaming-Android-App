@@ -190,6 +190,8 @@ public class GameConfiguration {
 
         public void addPlayerScore(int playerScore) { this.scoreList.add(playerScore); }
 
+        public void setPlayerScore(int index, int score) { this.scoreList.set(index, score); }
+
         public AchievementLevel getAchievementLevel() {
             return achievementLevel;
         }
