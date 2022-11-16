@@ -121,7 +121,8 @@
         app:layout_constraintTop_toBottomOf="@+id/score_system_title" />
 
     <ScrollView
-        android:id="@+id/individual_score_list"
+        android:id="@+id/scrollView2"
+        android:background="@drawable/score_list_shape"
         android:layout_width="409dp"
         android:layout_height="183dp"
         android:layout_marginTop="4dp"
@@ -132,6 +133,7 @@
         app:layout_constraintTop_toBottomOf="@+id/Individual_score_title">
 
         <LinearLayout
+            android:id="@+id/individual_score_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -171,12 +173,13 @@
         android:id="@+id/add_player"
         android:layout_width="99dp"
         android:layout_height="31dp"
+        android:text="Add player"
         android:textAlignment="center"
         android:textColor="#DCB5ECEA"
-        android:text="Add player"
         android:textSize="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/individual_score_list"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.875"
         app:layout_constraintStart_toEndOf="@+id/Individual_score_title" />
 
 

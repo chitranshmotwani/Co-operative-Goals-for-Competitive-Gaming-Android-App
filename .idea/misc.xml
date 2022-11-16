@@ -3,9 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/69442/Desktop/CMPT276/CoopAchievement-1/app/src/main/res/drawable/listview_shape.xml" value="0.3355" />
         <entry key="..\:/Users/69442/Desktop/CMPT276/CoopAchievement-1/app/src/main/res/layout/activity_game_configuration.xml" value="0.3494791666666667" />
         <entry key="..\:/Users/69442/Desktop/CMPT276/CoopAchievement-1/app/src/main/res/layout/activity_game_configuration_list.xml" value="0.17239583333333333" />
-        <entry key="..\:/Users/69442/Desktop/CMPT276/CoopAchievement-1/app/src/main/res/layout/activity_new_game.xml" value="0.4" />
+        <entry key="..\:/Users/69442/Desktop/CMPT276/CoopAchievement-1/app/src/main/res/layout/activity_new_game.xml" value="0.37906976744186044" />
       </map>
     </option>
   </component>
