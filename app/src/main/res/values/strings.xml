@@ -40,7 +40,7 @@
     <string name="combined_score_title">Combined Score</string>
     <string name="incomplete_game_prompt">Game missing fields. Please try again.</string>
     <string name="congratulations">Congratulations!</string>
-    <string name="achievement">"You reached the rank: "</string>
+    <string name="achievement">"You reached the rank "</string>
     <string name="ok">OK</string>
     <string name="score">"Score: "</string>
     <string name="difficulty_title">Game Difficulty Level </string>
