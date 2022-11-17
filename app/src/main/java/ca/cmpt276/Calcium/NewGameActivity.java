@@ -1,7 +1,10 @@
 package ca.cmpt276.Calcium;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -123,7 +126,7 @@ public class NewGameActivity extends AppCompatActivity {
         GameConfiguration.AchievementLevel lvl = gameConfig.getGame(gameConfig.getNumOfGames() - 1).getAchievementLevel();
         int index = lvl.ordinal();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.congratulations));
         builder.setMessage(getString(R.string.achievement) + getString(manager.getLevelID(index)));
         builder.setCancelable(false);
@@ -133,6 +136,10 @@ public class NewGameActivity extends AppCompatActivity {
                 finish();
             }
         });
-        builder.show();
+        builder.show();*/
+        //getString(R.string.achievementName, manager.getLevelID(index));
+        Dialog mDialog =new Dialog(this);
+        mDialog.setContentView(R.layout.popup_achievement);
+        //mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 }
