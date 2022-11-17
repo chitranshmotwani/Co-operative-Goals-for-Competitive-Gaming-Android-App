@@ -185,9 +185,6 @@ public class NewGameActivity extends AppCompatActivity {
         builder.setTitle(getString(R.string.congratulations));
         String level = getString(manager.getLevelID(index));
 
-        builder.setMessage(getString(R.string.achievement)+ level + getString(R.string.on_difficulty_lvl) + difficulty);
-        builder.setCancelable(false);
-        builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
         MediaPlayer mp = MediaPlayer.create(this,R.raw.achievement_sound);
         mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -205,7 +202,8 @@ public class NewGameActivity extends AppCompatActivity {
 
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fade_in);
 
-        String s = getString(R.string.achievement_name, getString(manager.getLevelID(index)));
+        String s= getString(R.string.achievement_name) +"\n"+ level + getString(R.string.on_difficulty_lvl) + difficulty;
+
         Dialog dialog =new Dialog(this);
         dialog.setContentView(R.layout.popup_achievement);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
