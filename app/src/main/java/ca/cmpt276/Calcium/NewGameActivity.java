@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -137,9 +138,13 @@ public class NewGameActivity extends AppCompatActivity {
             }
         });
         builder.show();*/
-        //getString(R.string.achievementName, manager.getLevelID(index));
+        String s = getString(R.string.achievementName, getString(manager.getLevelID(index)));
         Dialog mDialog =new Dialog(this);
         mDialog.setContentView(R.layout.popup_achievement);
-        //mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        TextView tv= mDialog.findViewById(R.id.achievmentName);
+        tv.setText(s);
+        mDialog.show();
+
     }
 }

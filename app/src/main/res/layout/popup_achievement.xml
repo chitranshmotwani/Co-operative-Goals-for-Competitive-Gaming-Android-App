@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/popup_layout"
     android:layout_width="350dp"
     android:layout_height="350dp"
     android:layout_gravity="center">
@@ -11,26 +11,26 @@
         android:layout_height="150dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="18dp"
-        android:src="@drawable/trophy"/>
+        android:src="@drawable/trophy" />
 
     <TextView
         android:id="@+id/achievementUnlocked"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/achUnlocked"
-        android:textSize="22sp"
+        android:layout_below="@id/trophy"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="18dp"
-        android:layout_below="@id/trophy" />
+        android:text="@string/achUnlocked"
+        android:textSize="22sp" />
 
     <TextView
         android:id="@+id/achievmentName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/achievementName"
-        android:textSize="26sp"
+        android:layout_below="@id/achievementUnlocked"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="18dp"
-        android:layout_below="@id/achievementUnlocked"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:text="@string/achievementName"
+        android:textSize="26sp" />
 </RelativeLayout>
