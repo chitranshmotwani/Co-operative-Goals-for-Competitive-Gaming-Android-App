@@ -43,8 +43,8 @@
     <string name="achievement">You reached the rank: </string>
     <string name="ok">OK</string>
     <string name="score">Score: </string>
-    <string name="achUnlocked">Achievement Unlocked</string>
-    <string name="achievementName">You have achieved rank %1$s</string>
+    <string name="ach_unlocked">Achievement Unlocked</string>
+    <string name="achievement_name">You have achieved rank %1$s</string>
 
 
 </resources>

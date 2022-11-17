@@ -1,7 +1,6 @@
 package ca.cmpt276.Calcium;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -10,13 +9,15 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import ca.cmpt276.Calcium.model.GameConfigManager;
@@ -138,13 +139,25 @@ public class NewGameActivity extends AppCompatActivity {
             }
         });
         builder.show();*/
-        String s = getString(R.string.achievementName, getString(manager.getLevelID(index)));
+
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fade_in);
+
+        String s = getString(R.string.achievement_name, getString(manager.getLevelID(index)));
         Dialog mDialog =new Dialog(this);
         mDialog.setContentView(R.layout.popup_achievement);
-        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         TextView tv= mDialog.findViewById(R.id.achievmentName);
         tv.setText(s);
+        tv.setAnimation(animation);
         mDialog.show();
+
+        Button popupBtn = mDialog.findViewById(R.id.popup_ok_button);
+        popupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 }
