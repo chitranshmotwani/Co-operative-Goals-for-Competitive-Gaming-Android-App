@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -128,30 +129,33 @@ public class NewGameActivity extends AppCompatActivity {
         GameConfiguration.AchievementLevel lvl = gameConfig.getGame(gameConfig.getNumOfGames() - 1).getAchievementLevel();
         int index = lvl.ordinal();
 
-        /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getString(R.string.congratulations));
-        builder.setMessage(getString(R.string.achievement) + getString(manager.getLevelID(index)));
-        builder.setCancelable(false);
-        builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+        MediaPlayer mp = MediaPlayer.create(this,R.raw.achievement_sound);
+        mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                finish();
+            public void onPrepared(MediaPlayer mp) {
+                mp.start();
             }
         });
-        builder.show();*/
+
+        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.release();
+            }
+        });
 
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fade_in);
 
         String s = getString(R.string.achievement_name, getString(manager.getLevelID(index)));
-        Dialog mDialog =new Dialog(this);
-        mDialog.setContentView(R.layout.popup_achievement);
-        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        TextView tv= mDialog.findViewById(R.id.achievmentName);
+        Dialog dialog =new Dialog(this);
+        dialog.setContentView(R.layout.popup_achievement);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        TextView tv= dialog.findViewById(R.id.achievmentName);
         tv.setText(s);
         tv.setAnimation(animation);
-        mDialog.show();
+        dialog.show();
 
-        Button popupBtn = mDialog.findViewById(R.id.popup_ok_button);
+        Button popupBtn = dialog.findViewById(R.id.popup_ok_button);
         popupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
