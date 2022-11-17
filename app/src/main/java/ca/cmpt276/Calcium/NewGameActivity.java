@@ -63,7 +63,7 @@ public class NewGameActivity extends AppCompatActivity {
                 addOnePlayer(scoreListView);
             }
             else{
-                Toast.makeText(this, "Cannot add more players.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.cannot_add_more_players), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -144,7 +144,7 @@ public class NewGameActivity extends AppCompatActivity {
     private void addOnePlayer(LinearLayout scoreListView){
         TextView addPlayerTitle = new TextView(this);
         EditText addPlayerScore = new EditText(this);
-        String txt = "Player" + currNumOfPlayers;
+        String txt = getResources().getString(R.string.player_and_space) + currNumOfPlayers;
 
         addPlayerTitle.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT,1.0f));
         addPlayerTitle.setText(txt);
@@ -155,8 +155,8 @@ public class NewGameActivity extends AppCompatActivity {
         addPlayerScore.setTextColor(Color.WHITE);
         addPlayerScore.setInputType(InputType.TYPE_CLASS_NUMBER);
         addPlayerScore.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
-        addPlayerScore.setHintTextColor(Color.parseColor("#6FFFEB3B"));
-        addPlayerScore.setHint("Please enter the score of player" + currNumOfPlayers);
+        addPlayerScore.setHintTextColor(getColor(R.color.hint_color));
+        addPlayerScore.setHint(getResources().getString(R.string.enter_player_score) + currNumOfPlayers);
         scoreListView.addView(addPlayerTitle);
         scoreListView.addView(addPlayerScore);
         scoreList.add(0);

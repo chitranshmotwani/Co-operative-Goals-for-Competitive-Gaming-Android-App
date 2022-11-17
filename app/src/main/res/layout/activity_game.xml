@@ -90,7 +90,7 @@
         app:layout_constraintTop_toBottomOf="@+id/num_players" />
 
     <TextView
-        android:id="@+id/Individual_score_title"
+        android:id="@+id/individual_score_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="144dp"
@@ -117,7 +117,7 @@
         app:layout_constraintTop_toBottomOf="@+id/score_system_title" />
 
     <ScrollView
-        android:id="@+id/scrollView2"
+        android:id="@+id/scores_scroll"
         android:background="@drawable/score_list_shape"
         android:layout_width="409dp"
         android:layout_height="183dp"
@@ -126,7 +126,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Individual_score_title">
+        app:layout_constraintTop_toBottomOf="@+id/individual_score_title">
 
         <LinearLayout
             android:id="@+id/individual_score_list"

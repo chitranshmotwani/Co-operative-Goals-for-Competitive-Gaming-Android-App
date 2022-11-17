@@ -37,24 +37,24 @@ public class GameActivity extends AppCompatActivity {
         gameConfig = manager.getConfig(index);
         index = in.getIntExtra("passing selected game", 0);
         game = gameConfig.getGame(index);
-        LinearLayout scoreListView = findViewById(R.id.individual_score_list);
 
-        setupViews(scoreListView);
+        setupViews();
     }
 
-    private void setupViews(LinearLayout scoreListView){
+    private void setupViews(){
+        LinearLayout scoreListView = findViewById(R.id.individual_score_list);
         TextView descriptionView = findViewById(R.id.score_system_description);
         TextView numPlayerView = findViewById(R.id.num_players);
         TextView combScoreView = findViewById(R.id.combined_score);
 
-        setTitle("Game");
+        setTitle(getResources().getString(R.string.game_title));
         descriptionView.setText(gameConfig.getScoreSystemDescription());
         numPlayerView.setText(String.valueOf(game.getNumPlayers()));
         combScoreView.setText(String.valueOf(game.getScore()));
 
         for (int i = 0; i < game.getNumPlayers(); i++){
             TextView addPlayerTitle = new TextView(this);
-            String txt = "Player " + (i + 1) + ":      " + game.getPlayerScore(i) + " Points";
+            String txt = getResources().getString(R.string.player_and_space) + (i + 1) + getResources().getString(R.string.colon_and_space) + game.getPlayerScore(i) + getResources().getString(R.string.space_and_points);
             addPlayerTitle.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT,1.0f));
             addPlayerTitle.setText(txt);
             addPlayerTitle.setTextColor(Color.WHITE);

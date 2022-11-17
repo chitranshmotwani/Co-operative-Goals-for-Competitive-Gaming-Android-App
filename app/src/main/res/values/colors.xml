@@ -18,4 +18,5 @@
     <color name="Neptune">#0865CA</color>
     <color name="Pluto">#5806A1</color>
     <color name="asteroid">#686868</color>
+    <color name="hint_color">#6FFFEB3B</color>
 </resources>
