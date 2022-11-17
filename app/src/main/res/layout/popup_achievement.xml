@@ -7,18 +7,18 @@
     android:background="@drawable/popup_border">
 
     <ImageView
-        android:id="@+id/trophy"
+        android:id="@+id/acheivement_star"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="18dp"
-        android:src="@drawable/trophy" />
+        android:src="@drawable/star" />
 
     <TextView
         android:id="@+id/achievementUnlocked"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/trophy"
+        android:layout_below="@id/acheivement_star"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="18dp"
         android:text="@string/ach_unlocked"

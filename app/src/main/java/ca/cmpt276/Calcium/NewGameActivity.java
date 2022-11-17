@@ -15,6 +15,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -151,6 +152,8 @@ public class NewGameActivity extends AppCompatActivity {
         dialog.setContentView(R.layout.popup_achievement);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         TextView tv= dialog.findViewById(R.id.achievmentName);
+        ImageView iv= dialog.findViewById(R.id.acheivement_star);
+        iv.setAnimation(animation);
         tv.setText(s);
         tv.setAnimation(animation);
         dialog.show();
