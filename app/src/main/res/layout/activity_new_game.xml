@@ -28,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="40dp"
         android:text="@string/num_players_title"
         android:textAlignment="center"
         android:textColor="@color/white"
@@ -81,11 +81,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="112dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="40dp"
         android:text="@string/combined_score_title"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textColorHint="#6FFFEB3B"
         android:textSize="25dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -102,5 +101,30 @@
         android:textSize="18dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/score_system_title" />
+
+    <RadioGroup
+        android:id="@+id/game_difficulty_radio_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/difficulty_title" />
+
+    <TextView
+        android:id="@+id/difficulty_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/difficulty_title"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/combined_score" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,6 +15,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +25,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Locale;
+
 import ca.cmpt276.Calcium.model.GameConfigManager;
 import ca.cmpt276.Calcium.model.GameConfiguration;
 
@@ -30,19 +34,20 @@ public class NewGameActivity extends AppCompatActivity {
 
     private int numOfPlayers;
     private int combinedScores;
+    private int difficulty;
     private GameConfigManager manager;
     private GameConfiguration gameConfig;
     private Menu optionsMenu;
-    private int index = 0;
     private boolean playersChanged = false;
     private boolean scoreChanged = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_game);
         Intent in = getIntent();
-        index = in.getIntExtra("passing selected gameConfig", 0);
+        int index = in.getIntExtra("passing selected gameConfig", 0);
 
         manager = GameConfigManager.getInstance(null);
         gameConfig = manager.getConfig(index);
@@ -51,6 +56,54 @@ public class NewGameActivity extends AppCompatActivity {
         setupGameScoreDescription();
         setupGameNumPlayersTextWatcher();
         setupGameCombinedScoreTextWatcher();
+        setupGameDifficultyRadioGroup();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.save_menu, menu);
+        optionsMenu = menu;
+        optionsMenu.findItem(R.id.delete_button).setVisible(false);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.save_button:
+                if (playersChanged && scoreChanged) {
+                    GameConfiguration.DifficultyLevel lvl = getDifficultyLevelSelected();
+                    gameConfig.addGame(numOfPlayers, combinedScores, lvl);
+                    showAchievementLevelEarned();
+                } else {
+                    Toast.makeText(this, getString(R.string.incomplete_game_prompt), Toast.LENGTH_LONG).show();
+                }
+                break;
+
+            case R.id.back_button:
+                finish();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
+
+    private void setupGameDifficultyRadioGroup() {
+        RadioGroup group = findViewById(R.id.game_difficulty_radio_group);
+
+        String[] gameDifficulties = getResources().getStringArray(R.array.game_difficulty);
+        for (int i = 0; i < gameDifficulties.length; i++) {
+            String difficulty = gameDifficulties[i];
+
+            RadioButton btn = new RadioButton(this);
+            btn.setText(difficulty);
+            btn.setTextColor(getColor(R.color.white));
+            btn.setTextSize(18);
+            group.addView(btn);
+        }
     }
 
     private void setupGameScoreDescription() {
@@ -71,8 +124,10 @@ public class NewGameActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                playersChanged = true;
-                numOfPlayers = Integer.parseInt(String.valueOf(numPlayers.getText()));
+                if (!String.valueOf(numPlayers.getText()).equals("")) {
+                    playersChanged = true;
+                    numOfPlayers = Integer.parseInt(String.valueOf(numPlayers.getText()));
+                }
             }
         });
     }
@@ -90,47 +145,49 @@ public class NewGameActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                scoreChanged = true;
-                combinedScores = Integer.parseInt(String.valueOf(combinedScore.getText()));
+                if (!String.valueOf(combinedScore.getText()).equals("")) {
+                    scoreChanged = true;
+                    combinedScores = Integer.parseInt(String.valueOf(combinedScore.getText()));
+                }
+
             }
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.save_menu, menu);
-        optionsMenu = menu;
-        optionsMenu.findItem(R.id.delete_button).setVisible(false);
-        return true;
-    }
+    private GameConfiguration.DifficultyLevel getDifficultyLevelSelected() {
+        RadioGroup group = findViewById(R.id.game_difficulty_radio_group);
+        int selected = group.getCheckedRadioButtonId();
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        RadioButton btn = findViewById(selected);
+        String difficulty = btn.getText().toString().toUpperCase(Locale.ROOT);
 
-        switch (item.getItemId()) {
-            case R.id.save_button:
-                if (playersChanged && scoreChanged) {
-                    gameConfig.addGame(numOfPlayers, combinedScores);
-                    showAchievementLevelEarned();
-                } else {
-                    Toast.makeText(this, getString(R.string.incomplete_game_prompt), Toast.LENGTH_LONG).show();
-                }
-                break;
-
-            case R.id.back_button:
-                finish();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
+        for (GameConfiguration.DifficultyLevel level :
+                GameConfiguration.DifficultyLevel.values()) {
+            String levelStr = level.toString();
+            if (difficulty.equals(levelStr)) {
+                return level;
+            }
         }
-        return super.onOptionsItemSelected(item);
 
+        //default is normal difficulty
+        return GameConfiguration.DifficultyLevel.NORMAL;
     }
 
     private void showAchievementLevelEarned() {
-        GameConfiguration.AchievementLevel lvl = gameConfig.getGame(gameConfig.getNumOfGames() - 1).getAchievementLevel();
+        GameConfiguration.Game newestGame = gameConfig.getGame(gameConfig.getNumOfGames() - 1);
+        GameConfiguration.AchievementLevel lvl = newestGame.getAchievementLevel();
         int index = lvl.ordinal();
 
+        String difficulty = newestGame.getDifficultyLevel().toString().toLowerCase(Locale.ROOT);
+        difficulty = difficulty.substring(0,1).toUpperCase(Locale.ROOT) + difficulty.substring(1);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.congratulations));
+        String level = getString(manager.getLevelID(index));
+
+        builder.setMessage(getString(R.string.achievement)+ level + getString(R.string.on_difficulty_lvl) + difficulty);
+        builder.setCancelable(false);
+        builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
         MediaPlayer mp = MediaPlayer.create(this,R.raw.achievement_sound);
         mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
