@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import ca.cmpt276.Calcium.model.GameConfigManager;
@@ -156,6 +157,7 @@ public class NewGameActivity extends AppCompatActivity {
         iv.setAnimation(animation);
         tv.setText(s);
         tv.setAnimation(animation);
+        dialog.setCancelable(false);
         dialog.show();
 
         Button popupBtn = dialog.findViewById(R.id.popup_ok_button);
