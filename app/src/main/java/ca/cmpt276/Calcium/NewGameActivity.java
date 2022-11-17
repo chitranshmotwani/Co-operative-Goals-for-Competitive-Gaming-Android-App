@@ -15,14 +15,13 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Locale;
@@ -179,13 +178,10 @@ public class NewGameActivity extends AppCompatActivity {
         int index = lvl.ordinal();
 
         String difficulty = newestGame.getDifficultyLevel().toString().toLowerCase(Locale.ROOT);
-        difficulty = difficulty.substring(0,1).toUpperCase(Locale.ROOT) + difficulty.substring(1);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getString(R.string.congratulations));
+        difficulty = difficulty.substring(0, 1).toUpperCase(Locale.ROOT) + difficulty.substring(1);
         String level = getString(manager.getLevelID(index));
 
-        MediaPlayer mp = MediaPlayer.create(this,R.raw.achievement_sound);
+        MediaPlayer mp = MediaPlayer.create(this, R.raw.achievement_sound);
         mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
@@ -200,20 +196,17 @@ public class NewGameActivity extends AppCompatActivity {
             }
         });
 
-        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fade_in);
-
-        String s= getString(R.string.achievement_name) +"\n"+ level + getString(R.string.on_difficulty_lvl) + difficulty;
-
-        Dialog dialog =new Dialog(this);
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+        String s = getString(R.string.achievement_name) + "\n" + level + getString(R.string.on_difficulty_lvl) + difficulty;
+        Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.popup_achievement);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        TextView tv= dialog.findViewById(R.id.achievmentName);
-        ImageView iv= dialog.findViewById(R.id.acheivement_star);
+        TextView tv = dialog.findViewById(R.id.achievement_name);
+        ImageView iv = dialog.findViewById(R.id.achievement_star);
         iv.setAnimation(animation);
         tv.setText(s);
         tv.setAnimation(animation);
         dialog.setCancelable(false);
-        dialog.show();
 
         Button popupBtn = dialog.findViewById(R.id.popup_ok_button);
         popupBtn.setOnClickListener(new View.OnClickListener() {
@@ -222,6 +215,6 @@ public class NewGameActivity extends AppCompatActivity {
                 finish();
             }
         });
-
+        dialog.show();
     }
 }

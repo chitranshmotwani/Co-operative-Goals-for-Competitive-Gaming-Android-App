@@ -46,7 +46,7 @@
     <string name="difficulty_title">Game Difficulty Level </string>
     <string name="difficulty_prefix">"Difficulty Level "</string>
     <string name="on_difficulty_lvl">" on Difficulty Level "</string>
-    <string name="ach_unlocked">Achievement Unlocked</string>
+    <string name="achievement_unlocked_text">Achievement Unlocked</string>
     <string name="achievement_name">You Have Achieved Rank </string>
 
 
