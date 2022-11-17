@@ -172,8 +172,6 @@ public class GameConfiguration {
                 return HARD_MULTIPLIER;
             default:
                 return NORMAL_MULTIPLIER;
-
-
         }
     }
 
