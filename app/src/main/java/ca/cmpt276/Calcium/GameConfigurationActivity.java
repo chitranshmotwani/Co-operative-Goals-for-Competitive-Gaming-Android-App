@@ -80,7 +80,7 @@ public class GameConfigurationActivity extends AppCompatActivity {
     }
 
     private void updateAchievementList(int numPlayers) {
-        displayedMinScores = manager.getConfig(index).getMinimumScoresForAchievementLevels(numPlayers);
+        displayedMinScores = manager.getConfig(index).getMinimumScoresForAchievementLevels(numPlayers, GameConfiguration.DifficultyLevel.NORMAL);
 
         ArrayAdapter<Integer> adapter = new AchievementListAdapter(numPlayers);
         ListView list = findViewById(R.id.achievement_list);
@@ -200,12 +200,14 @@ public class GameConfigurationActivity extends AppCompatActivity {
         Intent intent = new Intent(this, GameListActivity.class);
         intent.putExtra("passing selected gameConfig", index);
         startActivity(intent);
+        finish();
     }
 
     public void goToNewGame(View view) {
         Intent intent = new Intent(this, NewGameActivity.class);
         intent.putExtra("passing selected gameConfig", index);
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -280,7 +282,10 @@ public class GameConfigurationActivity extends AppCompatActivity {
     private class AchievementListAdapter extends ArrayAdapter<Integer> {
 
         public AchievementListAdapter(int numPlayers) {
-            super(GameConfigurationActivity.this, R.layout.achievement_layout, manager.getConfig(index).getMinimumScoresForAchievementLevels(numPlayers));
+            super(GameConfigurationActivity.this,
+                    R.layout.achievement_layout,
+                    manager.getConfig(index).
+                            getMinimumScoresForAchievementLevels(numPlayers, GameConfiguration.DifficultyLevel.NORMAL));
         }
 
         @NonNull
