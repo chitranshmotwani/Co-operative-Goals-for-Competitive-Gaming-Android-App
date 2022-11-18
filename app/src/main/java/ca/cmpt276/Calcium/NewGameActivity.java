@@ -96,6 +96,7 @@ public class NewGameActivity extends AppCompatActivity {
             btn.setTextSize(18);
             group.addView(btn);
         }
+
     }
 
     private void setupGameScoreDescription() {
@@ -151,13 +152,16 @@ public class NewGameActivity extends AppCompatActivity {
         int selected = group.getCheckedRadioButtonId();
 
         RadioButton btn = findViewById(selected);
-        String difficulty = btn.getText().toString().toUpperCase(Locale.ROOT);
 
-        for (GameConfiguration.DifficultyLevel level :
-                GameConfiguration.DifficultyLevel.values()) {
-            String levelStr = level.toString();
-            if (difficulty.equals(levelStr)) {
-                return level;
+        if(btn != null) {
+            String difficulty = btn.getText().toString().toUpperCase(Locale.ROOT);
+
+            for (GameConfiguration.DifficultyLevel level :
+                    GameConfiguration.DifficultyLevel.values()) {
+                String levelStr = level.toString();
+                if (difficulty.equals(levelStr)) {
+                    return level;
+                }
             }
         }
 
