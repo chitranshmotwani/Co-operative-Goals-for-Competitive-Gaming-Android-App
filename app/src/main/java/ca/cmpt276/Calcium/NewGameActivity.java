@@ -29,8 +29,7 @@ import ca.cmpt276.Calcium.model.GameConfiguration;
 public class NewGameActivity extends AppCompatActivity {
 
     private int numOfPlayers;
-    private int combinedScores;
-    private int currNumOfPlayers = 1;
+    private int currNumOfPlayers = 0;
     private int currSumScore = 0;
     private GameConfigManager manager;
     private GameConfiguration gameConfig;
@@ -38,7 +37,6 @@ public class NewGameActivity extends AppCompatActivity {
     ArrayList<Integer> scoreList = new ArrayList<>();
     private int index = 0;
     private boolean playersChanged = false;
-    private boolean scoreChanged = false;
     private boolean playerIndScoreChanged = false;
 
     @Override
@@ -47,30 +45,13 @@ public class NewGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_game);
         Intent in = getIntent();
         index = in.getIntExtra("passing selected gameConfig", 0);
-        LinearLayout scoreListView = findViewById(R.id.individual_score_list);
-        Button add_player = findViewById(R.id.add_player);
-        EditText currentPlayerScore = findViewById(R.id.player1_score);
 
         manager = GameConfigManager.getInstance(null);
         gameConfig = manager.getConfig(index);
         setTitle(gameConfig.getName());
-        scoreList.add(0);
-
-        add_player.setOnClickListener( view -> {
-            if (currNumOfPlayers+1 <= numOfPlayers) {
-                currNumOfPlayers++;
-                playerIndScoreChanged = false;
-                addOnePlayer(scoreListView);
-            }
-            else{
-                Toast.makeText(this, getResources().getString(R.string.cannot_add_more_players), Toast.LENGTH_SHORT).show();
-            }
-        });
 
         setupGameScoreDescription();
         setupGameNumPlayersTextWatcher();
-        setupGameCombinedScoreTextWatcher();
-        setupPlayerScoreListTextWatcher(currentPlayerScore, 0);
     }
 
     private void setupGameScoreDescription() {
@@ -91,27 +72,22 @@ public class NewGameActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                playersChanged = true;
-                numOfPlayers = Integer.parseInt(String.valueOf(numPlayers.getText()));
-            }
-        });
-    }
+                if (!String.valueOf(numPlayers.getText()).equals("")){
+                    numOfPlayers = Integer.parseInt(String.valueOf(numPlayers.getText()));
+                    LinearLayout scoreListView = findViewById(R.id.individual_score_list);
+                    TextView combScore = findViewById(R.id.combined_score);
 
-    private void setupGameCombinedScoreTextWatcher() {
-        EditText combinedScore = findViewById(R.id.combined_score);
-        combinedScore.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
+                    combScore.setText("");
+                    scoreListView.removeAllViews();
+                    currNumOfPlayers = 0;
+                    scoreList = new ArrayList<>();
+                    playersChanged = true;
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                scoreChanged = true;
-                combinedScores = Integer.parseInt(String.valueOf(combinedScore.getText()));
+                    for (int i = 0; i < numOfPlayers; i++){
+                        currNumOfPlayers++;
+                        addOnePlayer(scoreListView);
+                    }
+                }
             }
         });
     }
@@ -130,13 +106,20 @@ public class NewGameActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                scoreList.set(indexPlayerScore, Integer.parseInt(String.valueOf(score.getText())));
-                currSumScore = 0;
-                for (int i = 0; i < currNumOfPlayers; i++){
-                    currSumScore += scoreList.get(i);
-                }
-                playerIndScoreChanged = true;
+                TextView combinedScore = findViewById(R.id.combined_score);
+                if (!String.valueOf(score.getText()).equals("")){
+                    scoreList.set(indexPlayerScore, Integer.parseInt(String.valueOf(score.getText())));
+                    currSumScore = 0;
+                    playerIndScoreChanged = true;
 
+                    for (int i = 0; i < currNumOfPlayers; i++){
+                        currSumScore += scoreList.get(i);
+                    }
+                    combinedScore.setText(String.valueOf(currSumScore));
+                }
+                else {
+                    playerIndScoreChanged = false;
+                }
             }
         });
     }
@@ -176,17 +159,8 @@ public class NewGameActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.save_button:
-                if (currSumScore > combinedScores){
-                    Toast.makeText(NewGameActivity.this, "Invalid scores.", Toast.LENGTH_SHORT).show();
-                    playerIndScoreChanged = false;
-                    return true;
-                }
-                else if (currNumOfPlayers == numOfPlayers && currSumScore != combinedScores){
-                    Toast.makeText(NewGameActivity.this, "Invalid scores.", Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-                if (playersChanged && scoreChanged && playerIndScoreChanged && currNumOfPlayers == numOfPlayers) {
-                    gameConfig.addGame(numOfPlayers, combinedScores);
+                if (playersChanged && playerIndScoreChanged && currNumOfPlayers == numOfPlayers) {
+                    gameConfig.addGame(numOfPlayers, currSumScore);
                     GameConfiguration.Game g = gameConfig.getGame(gameConfig.getNumOfGames() - 1);
                     for (int i = 0; i < scoreList.size(); i++){
                         g.addPlayerScore(scoreList.get(i));
@@ -204,7 +178,6 @@ public class NewGameActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
-
     }
 
     private void showAchievementLevelEarned() {

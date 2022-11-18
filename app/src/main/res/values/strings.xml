@@ -48,8 +48,8 @@
     <string name="add_player">Add player</string>
     <string name="player_1">Player 1</string>
     <string name="game_title">Game</string>
-    <string name="player_and_space">Player </string>
-    <string name="colon_and_space">:      </string>
+    <string name="player_and_space">"Player "</string>
+    <string name="colon_and_space">":       "</string>
     <string name="space_and_points"> Points</string>
     <string name="cannot_add_more_players">Cannot add more players.</string>
     <string name="enter_player_score">Please enter the score of player</string>

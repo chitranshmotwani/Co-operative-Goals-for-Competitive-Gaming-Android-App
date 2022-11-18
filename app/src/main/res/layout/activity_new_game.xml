@@ -39,7 +39,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/score_system_description" />
 
-    <EditText
+    <TextView
         android:id="@+id/combined_score"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -47,12 +47,9 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:hint="@string/combined_score_hint"
-        android:inputType="number"
         android:scrollHorizontally="false"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textColorHint="#6FFFEB3B"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -136,51 +133,8 @@
             android:id="@+id/individual_score_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/player1_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/player_1"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textColorHint="#6FFFEB3B"
-                android:textSize="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/num_players" />
-
-            <EditText
-                android:id="@+id/player1_score"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/enter_player1_score"
-                android:inputType="number"
-                android:scrollHorizontally="false"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textColorHint="#6FFFEB3B"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/num_players_title" />
-        </LinearLayout>
+            android:orientation="vertical"/>
     </ScrollView>
-
-    <Button
-        android:id="@+id/add_player"
-        android:layout_width="99dp"
-        android:layout_height="31dp"
-        android:text="@string/add_player"
-        android:textAlignment="center"
-        android:textColor="#DCB5ECEA"
-        android:textSize="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/scores_scroll"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.875"
-        app:layout_constraintStart_toEndOf="@+id/individual_score_title" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
