@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="achievementBackground" format="reference" />
+    <attr name="achievementImage" format="reference"/>
+    <attr name="achievementText" format="reference"/>
+</resources>

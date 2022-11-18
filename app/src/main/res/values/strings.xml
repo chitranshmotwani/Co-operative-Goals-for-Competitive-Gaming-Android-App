@@ -48,6 +48,12 @@
     <string name="on_difficulty_lvl">" on Difficulty Level "</string>
     <string name="achievement_unlocked_text">Achievement Unlocked</string>
     <string name="achievement_name">You Have Achieved Rank </string>
+    <string name="text_select_theme">Select Theme:</string>
 
+    <string-array name="theme_array">
+        <item>Theme 1</item>
+        <item>Theme 2</item>
+        <item>Theme 3</item>
+    </string-array>
 
 </resources>
