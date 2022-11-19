@@ -181,6 +181,7 @@ public class GameConfiguration {
         private int score;
         private AchievementLevel achievementLevel;
         private DifficultyLevel difficultyLevel;
+        private ArrayList<Integer> scoreList;
 
         public Game(LocalDateTime dateTimeCreated, int numPlayers, int score, AchievementLevel achievementLevel, DifficultyLevel difficultyLevel) {
             //no setter for dateTimeCreated as it should only be set on the game creation
@@ -189,6 +190,7 @@ public class GameConfiguration {
             this.score = score;
             this.achievementLevel = achievementLevel;
             this.difficultyLevel = difficultyLevel;
+            this.scoreList = new ArrayList<>();
         }
 
         public String getDateTimeCreated() {
@@ -210,6 +212,12 @@ public class GameConfiguration {
         public void setScore(int score) {
             this.score = score;
         }
+
+        public int getPlayerScore(int playerNum) { return scoreList.get(playerNum); }
+
+        public void addPlayerScore(int playerScore) { this.scoreList.add(playerScore); }
+
+        public void setPlayerScore(int index, int score) { this.scoreList.set(index, score); }
 
         public AchievementLevel getAchievementLevel() {
             return achievementLevel;
