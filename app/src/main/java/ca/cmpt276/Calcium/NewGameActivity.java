@@ -54,6 +54,41 @@ public class NewGameActivity extends AppCompatActivity {
         setupGameNumPlayersTextWatcher();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.save_menu, menu);
+        optionsMenu = menu;
+        optionsMenu.findItem(R.id.delete_button).setVisible(false);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.save_button:
+                if (playersChanged && playerIndScoreChanged && currNumOfPlayers == numOfPlayers) {
+                    gameConfig.addGame(numOfPlayers, currSumScore);
+                    GameConfiguration.Game g = gameConfig.getGame(gameConfig.getNumOfGames() - 1);
+                    for (int i = 0; i < scoreList.size(); i++){
+                        g.addPlayerScore(scoreList.get(i));
+                    }
+                    showAchievementLevelEarned();
+                } else {
+                    Toast.makeText(this, getString(R.string.incomplete_game_prompt), Toast.LENGTH_LONG).show();
+                }
+                break;
+
+            case R.id.back_button:
+                finish();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
     private void setupGameScoreDescription() {
         TextView description = findViewById(R.id.score_system_description);
         description.setText(gameConfig.getScoreSystemDescription());
@@ -144,40 +179,6 @@ public class NewGameActivity extends AppCompatActivity {
         scoreListView.addView(addPlayerScore);
         scoreList.add(0);
         setupPlayerScoreListTextWatcher(addPlayerScore, currNumOfPlayers-1);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.save_menu, menu);
-        optionsMenu = menu;
-        optionsMenu.findItem(R.id.delete_button).setVisible(false);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.save_button:
-                if (playersChanged && playerIndScoreChanged && currNumOfPlayers == numOfPlayers) {
-                    gameConfig.addGame(numOfPlayers, currSumScore);
-                    GameConfiguration.Game g = gameConfig.getGame(gameConfig.getNumOfGames() - 1);
-                    for (int i = 0; i < scoreList.size(); i++){
-                        g.addPlayerScore(scoreList.get(i));
-                    }
-                    showAchievementLevelEarned();
-                } else {
-                    Toast.makeText(this, getString(R.string.incomplete_game_prompt), Toast.LENGTH_LONG).show();
-                }
-                break;
-
-            case R.id.back_button:
-                finish();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void showAchievementLevelEarned() {
