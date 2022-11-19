@@ -15,6 +15,9 @@ import java.util.Collections;
  */
 public class GameConfiguration {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MMM dd @ HH:mm a");
+    private static final double EASY_MULTIPLIER = 0.75;
+    private static final double NORMAL_MULTIPLIER = 1;
+    private static final double HARD_MULTIPLIER = 1.25;
 
     private ArrayList<Game> gameList = new ArrayList<>();
     private String name;
@@ -37,6 +40,12 @@ public class GameConfiguration {
         LEVEL_8,
         LEVEL_9,
         LEVEL_10 //lowest score*/
+    }
+
+    public enum DifficultyLevel {
+        EASY,
+        NORMAL,
+        HARD
     }
 
     public GameConfiguration(String name, String scoreSystemDescription, int highPerPlayerScore, int lowPerPlayerScore) {
@@ -82,10 +91,10 @@ public class GameConfiguration {
         return gameList.get(index);
     }
 
-    public void addGame(int numPlayers, int score) {
-        AchievementLevel levelObtained = calculateAchievementLevel(numPlayers, score);
+    public void addGame(int numPlayers, int score, DifficultyLevel difficultyLevel) {
+        AchievementLevel levelObtained = calculateAchievementLevel(numPlayers, score, difficultyLevel);
 
-        gameList.add(new Game(LocalDateTime.now(), numPlayers, score, levelObtained));
+        gameList.add(new Game(LocalDateTime.now(), numPlayers, score, levelObtained, difficultyLevel));
     }
 
     public void deleteGame(int index) {
@@ -98,7 +107,7 @@ public class GameConfiguration {
         Game gameToBeChanged = gameList.get(index);
         gameToBeChanged.setNumPlayers(newNumberOfPlayers);
         gameToBeChanged.setAchievementLevel(
-                calculateAchievementLevel(gameToBeChanged.getNumPlayers(), gameToBeChanged.getScore())
+                calculateAchievementLevel(gameToBeChanged.getNumPlayers(), gameToBeChanged.getScore(), gameToBeChanged.getDifficultyLevel())
         );
     }
 
@@ -106,14 +115,16 @@ public class GameConfiguration {
         Game gameToBeChanged = gameList.get(index);
         gameToBeChanged.setScore(newScore);
         gameToBeChanged.setAchievementLevel(
-                calculateAchievementLevel(gameToBeChanged.getNumPlayers(), gameToBeChanged.getScore())
+                calculateAchievementLevel(gameToBeChanged.getNumPlayers(), gameToBeChanged.getScore(), gameToBeChanged.getDifficultyLevel())
         );
     }
 
-    public ArrayList<Integer> getMinimumScoresForAchievementLevels(int numPlayers) {
-        float scaledGreatScore = greatPerPlayerScore * numPlayers;
-        float scaledPoorScore = poorPerPlayerScore * numPlayers;
-        float interval = (scaledGreatScore - scaledPoorScore) / ((AchievementLevel.values().length) - 2);
+    public ArrayList<Integer> getMinimumScoresForAchievementLevels(int numPlayers, DifficultyLevel difficultyLevel) {
+        double scoreMultiplier = getDifficultyLvlMultiplier(difficultyLevel);
+
+        double scaledGreatScore = greatPerPlayerScore * numPlayers * scoreMultiplier;
+        double scaledPoorScore = poorPerPlayerScore * numPlayers * scoreMultiplier;
+        double interval = (scaledGreatScore - scaledPoorScore) / ((AchievementLevel.values().length) - 2);
 
         ArrayList<Integer> minScores = new ArrayList<>();
         minScores.add(0);
@@ -125,9 +136,12 @@ public class GameConfiguration {
         return minScores;
     }
 
-    private AchievementLevel calculateAchievementLevel(int numPlayers, int score) {
-        float scaledGreatScore = greatPerPlayerScore * numPlayers;
-        float scaledPoorScore = poorPerPlayerScore * numPlayers;
+    private AchievementLevel calculateAchievementLevel(int numPlayers, int score, DifficultyLevel difficultyLevel) {
+        double scoreMultiplier = getDifficultyLvlMultiplier(difficultyLevel);
+
+        double scaledGreatScore = greatPerPlayerScore * numPlayers * scoreMultiplier;
+        double scaledPoorScore = poorPerPlayerScore * numPlayers * scoreMultiplier;
+
         if(score < scaledPoorScore) {
             //return the ranking that is below the expected poor score
             return AchievementLevel.values()[AchievementLevel.values().length - 1];
@@ -137,7 +151,7 @@ public class GameConfiguration {
         }
 
         //top and bottom tiers already accounted for
-        float interval = (scaledGreatScore - scaledPoorScore) / ((AchievementLevel.values().length) - 2);
+        double interval = (scaledGreatScore - scaledPoorScore) / ((AchievementLevel.values().length) - 2);
         int index = 0;
         for (int i = 0; i < AchievementLevel.values().length; i++) {
             if (score < (int)((scaledPoorScore + (interval * i)))) {
@@ -150,19 +164,32 @@ public class GameConfiguration {
         return AchievementLevel.values()[AchievementLevel.values().length - index];
     }
 
+    private double getDifficultyLvlMultiplier(DifficultyLevel difficultyLevel) {
+        switch (difficultyLevel.ordinal()){
+            case 0:
+                return EASY_MULTIPLIER;
+            case 2:
+                return HARD_MULTIPLIER;
+            default:
+                return NORMAL_MULTIPLIER;
+        }
+    }
+
     public class Game {
         private final String dateTimeCreated;
         private int numPlayers;
         private int score;
         private AchievementLevel achievementLevel;
+        private DifficultyLevel difficultyLevel;
         private ArrayList<Integer> scoreList;
 
-        public Game(LocalDateTime dateTimeCreated, int numPlayers, int score, AchievementLevel achievementLevel) {
+        public Game(LocalDateTime dateTimeCreated, int numPlayers, int score, AchievementLevel achievementLevel, DifficultyLevel difficultyLevel) {
             //no setter for dateTimeCreated as it should only be set on the game creation
             this.dateTimeCreated = dateTimeCreated.format(FORMATTER);
             this.numPlayers = numPlayers;
             this.score = score;
             this.achievementLevel = achievementLevel;
+            this.difficultyLevel = difficultyLevel;
             this.scoreList = new ArrayList<>();
         }
 
@@ -199,6 +226,15 @@ public class GameConfiguration {
         public void setAchievementLevel(AchievementLevel achievementLvl) {
             achievementLevel = achievementLvl;
         }
+
+        public DifficultyLevel getDifficultyLevel() {
+            return difficultyLevel;
+        }
+
+        public void setDifficultyLevel(DifficultyLevel difficultyLevel) {
+            this.difficultyLevel = difficultyLevel;
+        }
+
 
     }
 }

@@ -1,7 +1,10 @@
 package ca.cmpt276.Calcium;
 
-import android.content.DialogInterface;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -10,10 +13,17 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +33,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
+import java.util.Locale;
+
 import ca.cmpt276.Calcium.model.GameConfigManager;
 import ca.cmpt276.Calcium.model.GameConfiguration;
 
@@ -31,6 +43,8 @@ public class NewGameActivity extends AppCompatActivity {
     private int numOfPlayers;
     private int currNumOfPlayers = 0;
     private int currSumScore = 0;
+    private int combinedScores;
+    private int difficulty;
     private GameConfigManager manager;
     private GameConfiguration gameConfig;
     private Menu optionsMenu;
@@ -73,6 +87,8 @@ public class NewGameActivity extends AppCompatActivity {
                     for (int i = 0; i < scoreList.size(); i++){
                         g.addPlayerScore(scoreList.get(i));
                     }
+                    GameConfiguration.DifficultyLevel lvl = getDifficultyLevelSelected();
+                    gameConfig.addGame(numOfPlayers, combinedScores, lvl);
                     showAchievementLevelEarned();
                 } else {
                     Toast.makeText(this, getString(R.string.incomplete_game_prompt), Toast.LENGTH_LONG).show();
@@ -88,6 +104,21 @@ public class NewGameActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void setupGameDifficultyRadioGroup() {
+        RadioGroup group = findViewById(R.id.game_difficulty_radio_group);
+
+        String[] gameDifficulties = getResources().getStringArray(R.array.game_difficulty);
+        for (int i = 0; i < gameDifficulties.length; i++) {
+            String difficulty = gameDifficulties[i];
+
+            RadioButton btn = new RadioButton(this);
+            btn.setText(difficulty);
+            btn.setTextColor(getColor(R.color.white));
+            btn.setTextSize(18);
+            group.addView(btn);
+        }
+
+    }
 
     private void setupGameScoreDescription() {
         TextView description = findViewById(R.id.score_system_description);
@@ -125,6 +156,28 @@ public class NewGameActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private GameConfiguration.DifficultyLevel getDifficultyLevelSelected() {
+        RadioGroup group = findViewById(R.id.game_difficulty_radio_group);
+        int selected = group.getCheckedRadioButtonId();
+
+        RadioButton btn = findViewById(selected);
+
+        if(btn != null) {
+            String difficulty = btn.getText().toString().toUpperCase(Locale.ROOT);
+
+            for (GameConfiguration.DifficultyLevel level :
+                    GameConfiguration.DifficultyLevel.values()) {
+                String levelStr = level.toString();
+                if (difficulty.equals(levelStr)) {
+                    return level;
+                }
+            }
+        }
+
+        //default is normal difficulty
+        return GameConfiguration.DifficultyLevel.NORMAL;
     }
 
     private void setupPlayerScoreListTextWatcher(EditText score, int indexPlayerScore) {
@@ -181,20 +234,50 @@ public class NewGameActivity extends AppCompatActivity {
         setupPlayerScoreListTextWatcher(addPlayerScore, currNumOfPlayers-1);
     }
 
+
     private void showAchievementLevelEarned() {
-        GameConfiguration.AchievementLevel lvl = gameConfig.getGame(gameConfig.getNumOfGames() - 1).getAchievementLevel();
+        GameConfiguration.Game newestGame = gameConfig.getGame(gameConfig.getNumOfGames() - 1);
+        GameConfiguration.AchievementLevel lvl = newestGame.getAchievementLevel();
         int index = lvl.ordinal();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getString(R.string.congratulations));
-        builder.setMessage(getString(R.string.achievement) + getString(manager.getLevelID(index)));
-        builder.setCancelable(false);
-        builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+        String difficulty = newestGame.getDifficultyLevel().toString().toLowerCase(Locale.ROOT);
+        difficulty = difficulty.substring(0, 1).toUpperCase(Locale.ROOT) + difficulty.substring(1);
+        String level = getString(manager.getLevelID(index));
+
+        MediaPlayer mp = MediaPlayer.create(this, R.raw.achievement_sound);
+        mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            public void onPrepared(MediaPlayer mp) {
+                mp.start();
+            }
+        });
+
+        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.release();
+            }
+        });
+
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+        String s = getString(R.string.achievement_name) + "\n" + level + getString(R.string.on_difficulty_lvl) + difficulty;
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.popup_achievement);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        TextView tv = dialog.findViewById(R.id.achievement_name);
+        ImageView iv = dialog.findViewById(R.id.achievement_star);
+        iv.setAnimation(animation);
+        tv.setText(s);
+        tv.setAnimation(animation);
+        dialog.setCancelable(false);
+
+        Button popupBtn = dialog.findViewById(R.id.popup_ok_button);
+        popupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 finish();
             }
         });
-        builder.show();
+        dialog.show();
     }
 }

@@ -18,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 
+import java.util.Locale;
+
 import ca.cmpt276.Calcium.model.GameConfigManager;
 import ca.cmpt276.Calcium.model.GameConfiguration;
 
@@ -66,6 +68,7 @@ public class GameListActivity extends AppCompatActivity {
         Intent intent = new Intent (this, NewGameActivity.class);
         intent.putExtra("passing selected gameConfig", index);
         startActivity(intent);
+        finish();
     }
 
     private void storeGameConfigManager() {
@@ -114,7 +117,7 @@ public class GameListActivity extends AppCompatActivity {
             GameConfiguration.Game currentGame = gameConfig.getGame(position);
 
             TextView gamePlayers = gameView.findViewById(R.id.game_players);
-            gamePlayers.setText(getString(R.string.players) + ": " + currentGame.getNumPlayers());
+            gamePlayers.setText(getString(R.string.players) + currentGame.getNumPlayers());
 
             TextView gameScores = gameView.findViewById(R.id.game_score);
             gameScores.setText(getString(R.string.score) + String.valueOf(currentGame.getScore()));
@@ -125,6 +128,11 @@ public class GameListActivity extends AppCompatActivity {
 
             TextView gameDateTime = gameView.findViewById(R.id.game_date);
             gameDateTime.setText(currentGame.getDateTimeCreated());
+
+            TextView gameDifficulty = gameView.findViewById(R.id.game_difficulty);
+            String difficulty = currentGame.getDifficultyLevel().toString().toLowerCase(Locale.ROOT);
+            difficulty = difficulty.substring(0,1).toUpperCase(Locale.ROOT) + difficulty.substring(1);
+            gameDifficulty.setText(getString(R.string.difficulty_prefix) + difficulty);
 
             return gameView;
         }
