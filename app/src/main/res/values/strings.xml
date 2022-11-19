@@ -48,7 +48,6 @@
     <string name="on_difficulty_lvl">" on Difficulty Level "</string>
     <string name="achievement_unlocked_text">Achievement Unlocked</string>
     <string name="achievement_name">You Have Achieved Rank </string>
-    <string name="score">Score: </string>
     <string name="individual_score">Individual Score</string>
     <string name="enter_player1_score">Please enter the score of player1</string>
     <string name="add_player">Add player</string>

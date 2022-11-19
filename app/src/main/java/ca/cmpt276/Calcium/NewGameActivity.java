@@ -82,13 +82,12 @@ public class NewGameActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.save_button:
                 if (playersChanged && playerIndScoreChanged && currNumOfPlayers == numOfPlayers) {
-                    gameConfig.addGame(numOfPlayers, currSumScore);
                     GameConfiguration.Game g = gameConfig.getGame(gameConfig.getNumOfGames() - 1);
                     for (int i = 0; i < scoreList.size(); i++){
                         g.addPlayerScore(scoreList.get(i));
                     }
                     GameConfiguration.DifficultyLevel lvl = getDifficultyLevelSelected();
-                    gameConfig.addGame(numOfPlayers, combinedScores, lvl);
+                    gameConfig.addGame(numOfPlayers, currSumScore, lvl);
                     showAchievementLevelEarned();
                 } else {
                     Toast.makeText(this, getString(R.string.incomplete_game_prompt), Toast.LENGTH_LONG).show();
