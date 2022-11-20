@@ -90,7 +90,7 @@ public class GameActivity extends AppCompatActivity {
                 if (playersChanged && playerIndScoreChanged) {
                     GameConfiguration.DifficultyLevel lvl = getDifficultyLevelSelected();
                     for (int i = 0; i < numOfPlayers; i++){
-                        if (i < scoreList.size() && i < game.getNumPlayers()){
+                        if (i < game.getNumPlayers()){
                             game.setPlayerScore(i, scoreList.get(i));
                         }
                         else if (i >= game.getNumPlayers()){
