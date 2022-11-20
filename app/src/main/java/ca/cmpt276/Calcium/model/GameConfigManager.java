@@ -5,15 +5,12 @@ import java.util.ArrayList;
 import ca.cmpt276.Calcium.R;
 
 /* GameConfigManager handles the adding, deleting and modifying of GameConfigurations. It also
-*  stores a list of the current GameConfigurations that have already been created. It is a singleton
-*  and supports returning a GameConfiguration object.
-*
+ *  stores a list of the current GameConfigurations that have already been created. It is a singleton
+ *  and supports returning a GameConfiguration object.
+ *
  */
-public class GameConfigManager{
+public class GameConfigManager {
     private static GameConfigManager manager;
-    private GameConfigManager(){}
-    private ArrayList<GameConfiguration> configs = new ArrayList<>();
-
     private final int[] levelNames = {
             R.string.level_1,
             R.string.level_2,
@@ -26,25 +23,37 @@ public class GameConfigManager{
             R.string.level_9,
             R.string.level_10
     };
+    private final ArrayList<GameConfiguration> configs = new ArrayList<>();
 
-    public static synchronized GameConfigManager getInstance(GameConfigManager storedManager){
+    private GameConfigManager() {
+    }
+
+    public static synchronized GameConfigManager getInstance(GameConfigManager storedManager) {
         if (manager == null) {
-            if(storedManager == null){
+            if (storedManager == null) {
                 manager = new GameConfigManager();
-            }else {
+            } else {
                 manager = storedManager;
             }
         }
         return manager;
     }
 
-    public GameConfiguration getConfig(int index)   { return configs.get(index); }
-    
-    public void addConfig(GameConfiguration newConfig)  { configs.add(newConfig); }
+    public GameConfiguration getConfig(int index) {
+        return configs.get(index);
+    }
 
-    public void deleteConfig(int index)  { configs.remove(index); }
+    public void addConfig(GameConfiguration newConfig) {
+        configs.add(newConfig);
+    }
 
-    public int getNumOfConfigs()    { return configs.size(); }
+    public void deleteConfig(int index) {
+        configs.remove(index);
+    }
+
+    public int getNumOfConfigs() {
+        return configs.size();
+    }
 
     public int getLevelID(int position) {
         return levelNames[position];
