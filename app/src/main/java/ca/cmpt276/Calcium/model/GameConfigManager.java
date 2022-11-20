@@ -39,9 +39,7 @@ public class GameConfigManager{
     }
 
     public GameConfiguration getConfig(int index)   { return configs.get(index); }
-
-    public void setConfig(int index, GameConfiguration newConfig)  { configs.set(index,newConfig); }
-
+    
     public void addConfig(GameConfiguration newConfig)  { configs.add(newConfig); }
 
     public void deleteConfig(int index)  { configs.remove(index); }
