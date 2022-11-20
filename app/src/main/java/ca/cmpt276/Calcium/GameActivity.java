@@ -98,6 +98,7 @@ public class GameActivity extends AppCompatActivity {
                     }
                     game.setNumPlayers(numOfPlayers);
                     game.setScore(currSumScore);
+                    game.setDifficultyLevel(lvl);
                     showAchievementLevelEarned();
                 } else {
                     Toast.makeText(this, getString(R.string.incomplete_game_prompt), Toast.LENGTH_LONG).show();
@@ -125,6 +126,10 @@ public class GameActivity extends AppCompatActivity {
             btn.setTextColor(getColor(R.color.white));
             btn.setTextSize(18);
             group.addView(btn);
+
+            if (game.getDifficultyLevel().toString().charAt(0) == difficulty.charAt(0)){
+                group.check(btn.getId());
+            }
         }
 
     }
