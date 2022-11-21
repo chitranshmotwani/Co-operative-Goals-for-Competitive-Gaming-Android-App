@@ -40,6 +40,9 @@ public class GameConfigManager {
     }
 
     public GameConfiguration getConfig(int index) {
+        if(index > configs.size() || index < 0) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
         return configs.get(index);
     }
 
