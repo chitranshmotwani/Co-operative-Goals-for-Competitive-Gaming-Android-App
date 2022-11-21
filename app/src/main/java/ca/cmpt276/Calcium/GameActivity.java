@@ -97,9 +97,9 @@ public class GameActivity extends AppCompatActivity {
                             game.addPlayerScore(scoreList.get(i));
                         }
                     }
+                    game.setDifficultyLevel(lvl);
                     gameConfig.changeGameScore(index, currSumScore);
                     gameConfig.changeGameNumberOfPlayers(index, numOfPlayers);
-                    game.setDifficultyLevel(lvl);
                     showAchievementLevelEarned();
                 } else {
                     Toast.makeText(this, getString(R.string.incomplete_game_prompt), Toast.LENGTH_LONG).show();
