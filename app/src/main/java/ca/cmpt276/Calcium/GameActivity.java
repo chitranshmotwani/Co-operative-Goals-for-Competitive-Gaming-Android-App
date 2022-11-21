@@ -97,8 +97,8 @@ public class GameActivity extends AppCompatActivity {
                             game.addPlayerScore(scoreList.get(i));
                         }
                     }
-                    game.setNumPlayers(numOfPlayers);
-                    game.setScore(currSumScore);
+                    gameConfig.changeGameScore(index, currSumScore);
+                    gameConfig.changeGameNumberOfPlayers(index, numOfPlayers);
                     game.setDifficultyLevel(lvl);
                     showAchievementLevelEarned();
                 } else {
