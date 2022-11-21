@@ -11,7 +11,7 @@ import ca.cmpt276.Calcium.R;
  */
 public class GameConfigManager {
     private static GameConfigManager manager;
-    private final int[] levelNames = {
+    private static final int[] LEVEL_NAMES = {
             R.string.level_1,
             R.string.level_2,
             R.string.level_3,
@@ -58,7 +58,7 @@ public class GameConfigManager {
         return configs.size();
     }
 
-    public int getLevelID(int position) {
-        return levelNames[position];
+    public static int getLevelID(int position) {
+        return LEVEL_NAMES[position];
     }
 }
