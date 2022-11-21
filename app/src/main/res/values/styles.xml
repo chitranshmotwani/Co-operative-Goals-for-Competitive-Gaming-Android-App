@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="popup_background_theme1">
+        <item name="achievementBackground">@drawable/theme1bg</item>
+    </style>
+    <style name="popup_background_theme2">
+        <item name="achievementBackground">@drawable/theme2bg</item>
+    </style>
+    <style name="popup_background_theme3">
+        <item name="achievementBackground">@drawable/theme3bg</item>
+    </style>
+    <style name="popup_image_theme1">
+        <item name="achievementImage">@drawable/theme1im</item>
+    </style>
+    <style name="popup_image_theme2">
+        <item name="achievementImage">@drawable/theme2im</item>
+    </style>
+    <style name="popup_image_theme3">
+        <item name="achievementImage">@drawable/theme3im</item>
+    </style>
+</resources>
