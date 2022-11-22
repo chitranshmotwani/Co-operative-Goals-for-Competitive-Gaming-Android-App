@@ -27,7 +27,7 @@
         android:layout_marginTop="16dp"
         android:alpha="50"
         android:divider="@android:drawable/button_onoff_indicator_off"
-        android:dividerHeight="3dp"
+        android:dividerHeight="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

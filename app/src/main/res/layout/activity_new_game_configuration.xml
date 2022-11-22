@@ -28,12 +28,12 @@
         android:id="@+id/new_score_description_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="124dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="36dp"
         android:text="@string/score_description_title"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/new_game_config_name" />
@@ -43,6 +43,7 @@
         android:layout_width="358dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
         android:hint="@string/score_description_hint"
@@ -52,6 +53,7 @@
         android:textColor="@color/white"
         android:textColorHint="#6FFFEB3B"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/new_score_description_title" />
 

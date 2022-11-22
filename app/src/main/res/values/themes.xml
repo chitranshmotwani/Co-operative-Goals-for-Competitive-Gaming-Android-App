@@ -14,6 +14,11 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="Theme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="achievementImage">@style/popup_image_theme</item>
+        <item name="achievementBackground">@style/popup_background_theme</item>
+    </style>
+
     <style name="Theme1" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="achievementImage">@style/popup_image_theme1</item>
         <item name="achievementBackground">@style/popup_background_theme1</item>
