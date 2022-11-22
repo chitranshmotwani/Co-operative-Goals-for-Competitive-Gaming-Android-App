@@ -1,0 +1,38 @@
+Work Required for User Stories:
+
+1 unit of Work is 1 hour of coding.
+
+Ability to select Game Played Difficulty:
+Brief Description: Each time a player creates a new game, they want to select a difficulty for that specific game play. There are three options (Normal, Easy, and Hard) that affect the way that the score required to earn an achievement is decided. The difficulty level should be visible when looking at the game list for each game play as well as on the achievement pop-up.
+Estimated Amount of work: 4.5 Units
+
+Achievement Earned Dialog:
+Brief Description: Once a game is saved after entering the scores and difficulty level, a popup dialog box would appear with a celebration sound and an animation stating the achievement level and the difficulty of the game played.
+Estimated Amount of work: 5.5 units
+
+Option to select a theme for the achievements:
+Brief Description: There is an option to select themes for the achievement screen when editing existing games or adding new games.
+Estimated Amount of work: 3 Units
+
+Ability to edit previously played games:
+Brief Description: When the user selects a game from the game list page, it enables the user to view, edit and save the changes for the selected game.  Achievement level will automatically change with the change of scores.
+Estimated Amount of work: 2.5 Units
+
+Friendly UI:
+Brief Description: The UI is attractive and appealing to the eyes and is able to convey details effectively.
+Estimated Amount of work: 2 Units
+
+Individual score input and score calculator:
+Brief Description: In the new game page, the user is required to enter individual scores for players, the input of the scores will appear after the user enters the number of players.  Due to the screen size, the input will be in a scroll view.
+Estimated Amount of work: 4.5 Units
+
+JUnit tests for one model class:
+Brief Description: Unit tests created for one class in the model to test its robustness and functionality when faced with a variety of user cases.
+Estimated Amount of work: 2.5 Units
+
+
+
+
+
+
+
