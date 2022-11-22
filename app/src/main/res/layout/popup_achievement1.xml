@@ -23,6 +23,7 @@
         android:layout_marginTop="18dp"
         android:text="@string/achievement_unlocked_text"
         android:textColor="@color/black"
+        android:textStyle="bold"
         android:textSize="22sp" />
 
     <TextView
@@ -34,7 +35,7 @@
         android:layout_marginTop="18dp"
         android:gravity="center"
         android:text="@string/achievement_name"
-        android:textColor="@color/purple_700"
+        android:textColor="@color/black"
         android:textSize="26sp" />
 
     <Button
@@ -43,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/achievement_name"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="154dp"
         android:text="@string/ok" />
 </RelativeLayout>

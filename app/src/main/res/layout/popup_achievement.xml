@@ -4,7 +4,7 @@
     android:layout_width="400dp"
     android:layout_height="400dp"
     android:layout_gravity="center"
-    android:background="@drawable/theme3bg">
+    android:background="@drawable/popup_border">
 
     <ImageView
         android:id="@+id/achievement_star"
@@ -12,7 +12,7 @@
         android:layout_height="150dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="18dp"
-        android:src="@drawable/theme3im"/> />
+        android:src="@drawable/star"/> />
 
     <TextView
         android:id="@+id/achievement_unlocked"
@@ -34,7 +34,7 @@
         android:layout_marginTop="18dp"
         android:gravity="center"
         android:text="@string/achievement_name"
-        android:textColor="@color/black"
+        android:textColor="@color/purple_700"
         android:textSize="26sp" />
 
     <Button
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/achievement_name"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="156dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="154dp"
         android:text="@string/ok" />
 </RelativeLayout>

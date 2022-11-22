@@ -12,6 +12,7 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.view.View;
 import android.view.animation.Animation;
@@ -20,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -50,6 +52,7 @@ public class NewGameActivity extends AppCompatActivity {
     private int index = 0;
     private boolean playersChanged = false;
     private boolean playerIndScoreChanged = false;
+    private Spinner spThemes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +68,7 @@ public class NewGameActivity extends AppCompatActivity {
         setupGameScoreDescription();
         setupGameNumPlayersTextWatcher();
         setupGameDifficultyRadioGroup();
+        setupSpinnerItemSelection();
     }
 
     @Override
@@ -117,6 +121,31 @@ public class NewGameActivity extends AppCompatActivity {
         }
 
     }
+
+
+    private void setupSpinnerItemSelection() {
+        spThemes = (Spinner) findViewById(R.id.select_theme_spinner);
+        spThemes.setSelection(ThemeApplication.currentPosition);
+        ThemeApplication.currentPosition = spThemes.getSelectedItemPosition();
+        spThemes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                if (ThemeApplication.currentPosition != position) {
+                    Utils.changeToTheme(NewGameActivity.this, position);
+                }
+                ThemeApplication.currentPosition = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+    }
+
 
     private void setupGameScoreDescription() {
         TextView description = findViewById(R.id.score_system_description);
@@ -243,7 +272,7 @@ public class NewGameActivity extends AppCompatActivity {
         String level = getString(manager.getLevelID(index));
 
         if (ThemeApplication.currentPosition==0) {
-            MediaPlayer mp = MediaPlayer.create(this, R.raw.achievement_sound1);
+            MediaPlayer mp = MediaPlayer.create(this, R.raw.achievement_sound);
             mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
@@ -259,7 +288,7 @@ public class NewGameActivity extends AppCompatActivity {
             });
         }
         else if (ThemeApplication.currentPosition==1) {
-            MediaPlayer mp = MediaPlayer.create(this, R.raw.achievement_sound2);
+            MediaPlayer mp = MediaPlayer.create(this, R.raw.achievement_sound1);
             mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
@@ -275,6 +304,22 @@ public class NewGameActivity extends AppCompatActivity {
             });
         }
         else if (ThemeApplication.currentPosition==2){
+            MediaPlayer mp = MediaPlayer.create(this, R.raw.achievement_sound2);
+            mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mp.start();
+                }
+            });
+
+            mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    mp.release();
+                }
+            });
+        }
+        else if (ThemeApplication.currentPosition==3){
             MediaPlayer mp = MediaPlayer.create(this, R.raw.achievement_sound3);
             mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
@@ -295,12 +340,15 @@ public class NewGameActivity extends AppCompatActivity {
         String s = getString(R.string.achievement_name) + "\n" + level + getString(R.string.on_difficulty_lvl) + difficulty;
         Dialog dialog = new Dialog(this);
         if (ThemeApplication.currentPosition==0) {
-            dialog.setContentView(R.layout.popup_achievement1);
+            dialog.setContentView(R.layout.popup_achievement);
         }
         else if (ThemeApplication.currentPosition==1) {
-            dialog.setContentView(R.layout.popup_achievement2);
+            dialog.setContentView(R.layout.popup_achievement1);
         }
         else if (ThemeApplication.currentPosition==2) {
+            dialog.setContentView(R.layout.popup_achievement2);
+        }
+        else if (ThemeApplication.currentPosition==3) {
             dialog.setContentView(R.layout.popup_achievement3);
         }
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

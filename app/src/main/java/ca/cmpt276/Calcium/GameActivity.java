@@ -287,25 +287,86 @@ public class GameActivity extends AppCompatActivity {
         difficulty = difficulty.substring(0, 1).toUpperCase(Locale.ROOT) + difficulty.substring(1);
         String level = getString(manager.getLevelID(index));
 
-        MediaPlayer mp = MediaPlayer.create(this, R.raw.achievement_sound);
-        mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mp.start();
-            }
-        });
+        if (ThemeApplication.currentPosition==0) {
+            MediaPlayer mp = MediaPlayer.create(this, R.raw.achievement_sound);
+            mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mp.start();
+                }
+            });
 
-        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                mp.release();
-            }
-        });
+            mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    mp.release();
+                }
+            });
+        }
+        else if (ThemeApplication.currentPosition==1) {
+            MediaPlayer mp = MediaPlayer.create(this, R.raw.achievement_sound1);
+            mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mp.start();
+                }
+            });
+
+            mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    mp.release();
+                }
+            });
+        }
+        else if (ThemeApplication.currentPosition==2){
+            MediaPlayer mp = MediaPlayer.create(this, R.raw.achievement_sound2);
+            mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mp.start();
+                }
+            });
+
+            mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    mp.release();
+                }
+            });
+        }
+        else if (ThemeApplication.currentPosition==3){
+            MediaPlayer mp = MediaPlayer.create(this, R.raw.achievement_sound3);
+            mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mp.start();
+                }
+            });
+
+            mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    mp.release();
+                }
+            });
+        }
 
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
         String s = getString(R.string.achievement_name) + "\n" + level + getString(R.string.on_difficulty_lvl) + difficulty;
         Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.popup_achievement);
+        if (ThemeApplication.currentPosition==0) {
+            dialog.setContentView(R.layout.popup_achievement);
+        }
+        else if (ThemeApplication.currentPosition==1) {
+            dialog.setContentView(R.layout.popup_achievement1);
+        }
+        else if (ThemeApplication.currentPosition==2) {
+            dialog.setContentView(R.layout.popup_achievement2);
+        }
+        else if (ThemeApplication.currentPosition==2) {
+            dialog.setContentView(R.layout.popup_achievement3);
+        }
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         TextView tv = dialog.findViewById(R.id.achievement_name);
         ImageView iv = dialog.findViewById(R.id.achievement_star);

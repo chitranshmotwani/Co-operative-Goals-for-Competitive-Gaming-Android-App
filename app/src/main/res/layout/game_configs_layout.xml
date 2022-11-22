@@ -2,11 +2,11 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:lineSpacingExtra="8sp"
-    android:paddingHorizontal="5dp"
-    android:paddingVertical="10dp"
+    android:paddingHorizontal="10dp"
+    android:paddingVertical="5dp"
     android:textAlignment="center"
+    android:textSize="25dp"
     android:textColor="@color/white"
+    android:textAllCaps="true"
     android:textStyle="bold">
-
 </TextView>
