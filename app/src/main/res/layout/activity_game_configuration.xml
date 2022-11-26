@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="300"
+    android:layout_height="wrap_content"
 
 
     android:background="@drawable/space_background"
@@ -52,10 +52,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="44dp"
             android:layout_marginTop="28dp"
+            android:layout_marginBottom="28dp"
             android:backgroundTint="@color/yellow"
             android:onClick="goToGamesList"
             android:text="@string/all_games"
             android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/barChart" />
 
@@ -188,10 +190,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="91dp"
             android:layout_marginTop="28dp"
+            android:layout_marginBottom="28dp"
             android:backgroundTint="@color/yellow"
             android:onClick="goToNewGame"
             android:text="@string/new_game"
             android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/all_games_button"
