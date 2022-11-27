@@ -1,12 +1,20 @@
 package ca.cmpt276.Calcium;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -31,8 +39,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 
@@ -261,9 +272,43 @@ public class NewGameActivity extends AppCompatActivity {
         scoreList.add(0);
         setupPlayerScoreListTextWatcher(addPlayerScore, currNumOfPlayers-1);
     }
+
+
     private void selfieCapture(){
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.selfie_capture);
+
+        Button captureImagebtn=dialog.findViewById(R.id.capture_image_btn);
+
+        ImageView iv=dialog.findViewById(R.id.selfie_view);
+
+        //Request for camera permission
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+        != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[]{
+                    Manifest.permission.CAMERA
+            },100);
+        }
+
+        captureImagebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(
+                        new ActivityResultContracts.StartActivityForResult(),
+                        result -> {
+                            if (result.getResultCode() == AppCompatActivity.RESULT_OK) {
+                                Intent data = result.getData();
+                                Bitmap bitmap =(Bitmap) data.getExtras().get("data");
+                                iv.setImageBitmap(bitmap);
+                            }
+                        }
+                );
+
+                Intent intent = new Intent (MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult.launch(intent);
+
+            }
+        });
 
         Button btn=dialog.findViewById(R.id.selfie_ok_button);
         btn.setOnClickListener(new View.OnClickListener() {
