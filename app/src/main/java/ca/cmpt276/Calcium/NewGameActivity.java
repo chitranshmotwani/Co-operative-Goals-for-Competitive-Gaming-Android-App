@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
@@ -91,7 +92,7 @@ public class NewGameActivity extends AppCompatActivity {
                     for (int i = 0; i < scoreList.size(); i++){
                         g.addPlayerScore(scoreList.get(i));
                     }
-                    showAchievementLevelEarned();
+                    selfieCapture();
                 } else {
                     Toast.makeText(this, getString(R.string.incomplete_game_prompt), Toast.LENGTH_LONG).show();
                 }
@@ -260,7 +261,22 @@ public class NewGameActivity extends AppCompatActivity {
         scoreList.add(0);
         setupPlayerScoreListTextWatcher(addPlayerScore, currNumOfPlayers-1);
     }
+    private void selfieCapture(){
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.selfie_capture);
 
+        Button btn=dialog.findViewById(R.id.selfie_ok_button);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAchievementLevelEarned();
+            }
+        });
+        dialog.setCancelable(false);
+        dialog.show();
+
+
+    }
 
     private void showAchievementLevelEarned() {
         GameConfiguration.Game newestGame = gameConfig.getGame(gameConfig.getNumOfGames() - 1);
