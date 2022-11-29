@@ -282,18 +282,11 @@ public class NewGameActivity extends AppCompatActivity {
 
         ImageView iv=dialog.findViewById(R.id.selfie_view);
 
-        //Request for camera permission
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-        != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this,new String[]{
-                    Manifest.permission.CAMERA
-            },100);
-        }
 
         captureImagebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(
+                ActivityResultLauncher<Intent> activityResultLaunch = registerForActivityResult(
                         new ActivityResultContracts.StartActivityForResult(),
                         result -> {
                             if (result.getResultCode() == AppCompatActivity.RESULT_OK) {
@@ -305,7 +298,7 @@ public class NewGameActivity extends AppCompatActivity {
                 );
 
                 Intent intent = new Intent (MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult.launch(intent);
+                activityResultLaunch.launch(intent);
 
             }
         });
@@ -319,7 +312,6 @@ public class NewGameActivity extends AppCompatActivity {
         });
         dialog.setCancelable(false);
         dialog.show();
-
 
     }
 
