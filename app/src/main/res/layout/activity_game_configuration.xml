@@ -59,7 +59,7 @@
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/barChart" />
+            app:layout_constraintTop_toBottomOf="@+id/achievement_bar_chart" />
 
         <EditText
             android:id="@+id/poor_score"
@@ -199,7 +199,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/all_games_button"
-            app:layout_constraintTop_toBottomOf="@+id/barChart" />
+            app:layout_constraintTop_toBottomOf="@+id/achievement_bar_chart" />
 
         <TextView
             android:id="@+id/achievement_title_1"
@@ -215,7 +215,7 @@
             app:layout_constraintTop_toBottomOf="@+id/poor_score_text" />
 
         <com.github.mikephil.charting.charts.BarChart
-            android:id="@+id/barChart"
+            android:id="@+id/achievement_bar_chart"
             android:layout_width="372dp"
             android:layout_height="53dp"
             app:layout_constraintEnd_toEndOf="parent"
