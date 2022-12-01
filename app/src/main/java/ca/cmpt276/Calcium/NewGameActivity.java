@@ -282,20 +282,19 @@ public class NewGameActivity extends AppCompatActivity {
 
         ImageView iv=dialog.findViewById(R.id.selfie_view);
 
-
         captureImagebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityResultLauncher<Intent> activityResultLaunch = registerForActivityResult(
-                        new ActivityResultContracts.StartActivityForResult(),
-                        result -> {
-                            if (result.getResultCode() == AppCompatActivity.RESULT_OK) {
-                                Intent data = result.getData();
-                                Bitmap bitmap =(Bitmap) data.getExtras().get("data");
-                                iv.setImageBitmap(bitmap);
-                            }
+                ActivityResultLauncher<Intent> activityResultLaunch = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == AppCompatActivity.RESULT_OK && result.getData() != null){
+                            Bundle bundle = result.getData().getExtras();
+                            Bitmap bitmap = (Bitmap) bundle.get("data");
+                            iv.setImageBitmap(bitmap);
                         }
-                );
+                    }
+                });
 
                 Intent intent = new Intent (MediaStore.ACTION_IMAGE_CAPTURE);
                 activityResultLaunch.launch(intent);
