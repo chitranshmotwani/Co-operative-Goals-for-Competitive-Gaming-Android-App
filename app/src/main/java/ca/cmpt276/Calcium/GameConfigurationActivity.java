@@ -2,6 +2,7 @@ package ca.cmpt276.Calcium;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,6 +19,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.LegendEntry;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 
 import java.util.ArrayList;
 
@@ -58,6 +69,58 @@ public class GameConfigurationActivity extends AppCompatActivity {
         setupSelectedGameConfigProperties();
         setupGameConfigPropertyTextWatchers();
         setupAchievementLevelsTextWatcher();
+        setupAchievementLevelsGraph();
+    }
+
+    private void setupAchievementLevelsGraph() {
+        ArrayList<LegendEntry> achievementNames = new ArrayList<>();
+
+
+        ArrayList<Integer> numTimesAchieved = manager.getConfig(index).getAchievementObtainedList();
+        ArrayList<BarEntry> entries = new ArrayList<>();
+
+        for (int i = 0; i < numTimesAchieved.size(); i++) {
+            LegendEntry legendEntry = new LegendEntry();
+            legendEntry.label = getString(manager.getLevelID(i));
+            achievementNames.add(legendEntry);
+            entries.add(new BarEntry(i, numTimesAchieved.get(i)));
+        }
+
+
+        BarDataSet dataSet = new BarDataSet(entries, "Number of times level reached");
+        dataSet.setColors(Color.YELLOW);
+        BarData data = new BarData(dataSet);
+        data.setValueTextColor(Color.WHITE);
+
+        BarChart barChart = findViewById(R.id.achievement_bar_chart);
+        barChart.setFitBars(true);
+        barChart.setData(data);
+        barChart.setTouchEnabled(false);
+
+        Description description = new Description();
+        description.setText("");
+        barChart.setDescription(description);
+
+        barChart.setDrawBorders(true);
+        barChart.setBorderColor(Color.WHITE);
+        barChart.setBorderWidth(2);
+
+        Legend l = barChart.getLegend();
+        l.setTextColor(Color.WHITE);
+        LegendEntry le = new LegendEntry();
+        l.setCustom(achievementNames);
+
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setEnabled(false);
+
+        YAxis yAxis = barChart.getAxisRight();
+        yAxis.setEnabled(false);
+        yAxis = barChart.getAxisLeft();
+        yAxis.setEnabled(false);
+
+
+
+        barChart.invalidate();
     }
 
     private void setupAchievementLevelsTextWatcher() {
