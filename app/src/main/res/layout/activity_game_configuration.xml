@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
 
 
-    android:background="@color/asteroid"
+    android:background="@drawable/space_background"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="1.0"
     app:layout_constraintStart_toStartOf="parent"
@@ -30,21 +30,7 @@
             app:layout_constraintEnd_toStartOf="@+id/great_score_text"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/poor_score" />
-
-        <TextView
-            android:id="@+id/achievement_title_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/players"
-            android:textColor="#FFFFFF"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/num_players"
-            app:layout_constraintTop_toBottomOf="@+id/great_score_text" />
+            app:layout_constraintTop_toBottomOf="@+id/expected_score_title" />
 
         <Button
             android:id="@+id/all_games_button"
@@ -65,7 +51,7 @@
             android:id="@+id/poor_score"
             android:layout_width="124dp"
             android:layout_height="50dp"
-            android:layout_marginStart="44dp"
+            android:layout_marginStart="36dp"
             android:ems="10"
             android:hint="@string/poor_score_hint"
             android:inputType="number"
@@ -74,7 +60,7 @@
             android:textColor="@color/white"
             android:textColorHint="#6FFFEB3B"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/expected_score_title" />
+            app:layout_constraintTop_toBottomOf="@+id/poor_score_text" />
 
         <EditText
             android:id="@+id/great_score"
@@ -91,27 +77,27 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/poor_score"
-            app:layout_constraintTop_toBottomOf="@+id/expected_score_title" />
+            app:layout_constraintTop_toBottomOf="@+id/great_score_text" />
 
         <TextView
             android:id="@+id/great_score_text"
             android:layout_width="143dp"
             android:layout_height="21dp"
-            android:layout_marginEnd="36dp"
+            android:layout_marginEnd="40dp"
             android:text="@string/great_score_hint"
             android:textAlignment="center"
             android:textColor="@color/yellow"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/great_score" />
+            app:layout_constraintTop_toBottomOf="@+id/expected_score_title" />
 
         <EditText
             android:id="@+id/num_players"
             android:layout_width="48dp"
             android:layout_height="51dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="25dp"
             android:ems="10"
             android:hint="@string/_0"
             android:inputType="textPersonName"
@@ -121,7 +107,34 @@
             android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/achievement_title_1"
-            app:layout_constraintTop_toBottomOf="@+id/great_score_text" />
+            app:layout_constraintTop_toBottomOf="@+id/great_score" />
+
+        <TextView
+            android:id="@+id/achievement_title_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="@string/players"
+            android:textColor="#FFFFFF"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.166"
+            app:layout_constraintStart_toEndOf="@+id/num_players"
+            app:layout_constraintTop_toBottomOf="@+id/great_score" />
+
+        <TextView
+            android:id="@+id/achievement_title_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="28dp"
+            android:text="@string/minimum_score_for"
+            android:textColor="#FFFFFF"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/poor_score" />
 
         <EditText
             android:id="@+id/game_config_name"
@@ -176,13 +189,14 @@
             android:id="@+id/achievement_list"
             android:layout_width="372dp"
             android:layout_height="150dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="16dp"
             android:background="#000000"
             android:divider="@android:drawable/bottom_bar"
             android:dividerHeight="2dp"
             android:nestedScrollingEnabled="true"
             android:scrollbarAlwaysDrawVerticalTrack="true"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.487"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/achievement_title_1" />
 
@@ -203,26 +217,15 @@
             app:layout_constraintStart_toEndOf="@+id/all_games_button"
             app:layout_constraintTop_toBottomOf="@+id/achievement_bar_chart" />
 
-        <TextView
-            android:id="@+id/achievement_title_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/minimum_score_for"
-            android:textColor="#FFFFFF"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/poor_score_text" />
-
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/achievement_bar_chart"
             android:layout_width="372dp"
             android:layout_height="200dp"
+            android:layout_marginTop="62dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.487"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/achievement_stat_title" />
+            app:layout_constraintTop_toBottomOf="@+id/achievement_list" />
 
         <TextView
             android:id="@+id/achievement_stat_title"

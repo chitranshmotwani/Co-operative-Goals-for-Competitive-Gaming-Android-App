@@ -55,6 +55,8 @@ public class GameConfigurationActivity extends AppCompatActivity {
     private EditText greatScore;
     private EditText numPlayers;
 
+    private int[] achievementLevelColours = {R.color.Sun, R.color.Mercury, R.color.Venus, R.color.Earth, R.color.Mars, R.color.Jupiter, R.color.Saturn,
+    R.color.Uranus, R.color.Neptune, R.color.Pluto};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,21 +76,21 @@ public class GameConfigurationActivity extends AppCompatActivity {
 
     private void setupAchievementLevelsGraph() {
         ArrayList<LegendEntry> achievementNames = new ArrayList<>();
-
-
         ArrayList<Integer> numTimesAchieved = manager.getConfig(index).getAchievementObtainedList();
         ArrayList<BarEntry> entries = new ArrayList<>();
+        ArrayList<Integer> colors = new ArrayList<>();
 
         for (int i = 0; i < numTimesAchieved.size(); i++) {
             LegendEntry legendEntry = new LegendEntry();
             legendEntry.label = getString(manager.getLevelID(i));
+            legendEntry.formColor = getColor(achievementLevelColours[i]);
             achievementNames.add(legendEntry);
             entries.add(new BarEntry(i, numTimesAchieved.get(i)));
+            colors.add(getColor(achievementLevelColours[i]));
         }
 
-
         BarDataSet dataSet = new BarDataSet(entries, "Number of times level reached");
-        dataSet.setColors(Color.YELLOW);
+        dataSet.setColors(colors);
         BarData data = new BarData(dataSet);
         data.setValueTextColor(Color.WHITE);
 
@@ -101,24 +103,24 @@ public class GameConfigurationActivity extends AppCompatActivity {
         description.setText("");
         barChart.setDescription(description);
 
-        barChart.setDrawBorders(true);
-        barChart.setBorderColor(Color.WHITE);
-        barChart.setBorderWidth(2);
-
         Legend l = barChart.getLegend();
         l.setTextColor(Color.WHITE);
-        LegendEntry le = new LegendEntry();
         l.setCustom(achievementNames);
+        l.setWordWrapEnabled(true);
+        l.setXEntrySpace(10);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
 
         XAxis xAxis = barChart.getXAxis();
         xAxis.setEnabled(false);
-
         YAxis yAxis = barChart.getAxisRight();
         yAxis.setEnabled(false);
         yAxis = barChart.getAxisLeft();
-        yAxis.setEnabled(false);
-
-
+        yAxis.setDrawLabels(false);
+        yAxis.setDrawAxisLine(false);
+        yAxis.setDrawGridLines(false);
+        yAxis.setDrawZeroLine(true);
+        yAxis.setZeroLineWidth(2);
+        yAxis.setZeroLineColor(Color.WHITE);
 
         barChart.invalidate();
     }
