@@ -5,36 +5,30 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.Spinner;
-import android.widget.TableLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
-
 import java.util.Locale;
 
 import ca.cmpt276.Calcium.model.GameConfigManager;
@@ -53,6 +47,7 @@ public class NewGameActivity extends AppCompatActivity {
     private boolean playersChanged = false;
     private boolean playerIndScoreChanged = false;
     private Spinner spThemes;
+    private Dialog achievementPopup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +64,12 @@ public class NewGameActivity extends AppCompatActivity {
         setupGameNumPlayersTextWatcher();
         setupGameDifficultyRadioGroup();
         setupSpinnerItemSelection();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        achievementPopup.dismiss();
     }
 
     @Override
@@ -367,5 +368,6 @@ public class NewGameActivity extends AppCompatActivity {
             }
         });
         dialog.show();
+        achievementPopup = dialog;
     }
 }
