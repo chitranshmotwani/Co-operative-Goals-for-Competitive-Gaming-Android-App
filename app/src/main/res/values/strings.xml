@@ -60,6 +60,7 @@
     <string name="enter_player_score">Please enter the score of player</string>
     <string name="text_select_theme">Select Theme:</string>
     <string name="capture">Capture Image</string>
+    <string name="view_image_text">View Image</string>
 
     <string-array name="theme_array">
         <item>Default</item>

@@ -23,15 +23,4 @@
         android:layout_marginEnd="38dp"
         android:text="@string/ok" />
 
-    <Button
-        android:id="@+id/capture_image_btn"
-        android:layout_width="184dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/captured_image"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="53dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="37dp"
-        android:layout_toStartOf="@+id/view_image_ok"
-        android:text="@string/capture" />
 </RelativeLayout>

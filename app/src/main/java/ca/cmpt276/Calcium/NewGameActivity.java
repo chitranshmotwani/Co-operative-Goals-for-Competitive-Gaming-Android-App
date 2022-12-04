@@ -4,23 +4,21 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import android.Manifest;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
@@ -28,12 +26,9 @@ import android.widget.Button;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Spinner;
-import android.widget.TableLayout;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -41,11 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 
@@ -61,7 +52,8 @@ public class NewGameActivity extends AppCompatActivity {
     private int currSumScore = 0;
     private GameConfigManager manager;
     private GameConfiguration gameConfig;
-    private ImageView iv1;
+    private ImageView capturedImage1;
+    private ImageView capturedImage2;
     private Menu optionsMenu;
     ArrayList<Integer> scoreList = new ArrayList<>();
     private int index = 0;
@@ -287,7 +279,8 @@ public class NewGameActivity extends AppCompatActivity {
                         Intent data = result.getData();
                         Bitmap image=(Bitmap) data.getExtras().get("data");
 
-                       iv1.setImageBitmap(image);
+                       capturedImage1.setImageBitmap(image);
+                       capturedImage2.setImageBitmap(image);
                     }
                 }
             }
@@ -295,12 +288,14 @@ public class NewGameActivity extends AppCompatActivity {
 
 
     private void selfieCapture(){
-        Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.selfie_capture);
+        Dialog dialogSelfieCapture = new Dialog(this);
+        Dialog dialogViewImg = new Dialog(this);
+        dialogSelfieCapture.setContentView(R.layout.selfie_capture);
+        dialogViewImg.setContentView(R.layout.view_image);
 
-        Button captureImagebtn=dialog.findViewById(R.id.capture_image_btn);
+        Button captureImagebtn=dialogSelfieCapture.findViewById(R.id.capture_image_btn);
 
-         iv1=dialog.findViewById(R.id.selfie_view);
+        capturedImage1 =dialogSelfieCapture.findViewById(R.id.captured_image);
 
         captureImagebtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -312,16 +307,49 @@ public class NewGameActivity extends AppCompatActivity {
             }
         });
 
-        Button btn=dialog.findViewById(R.id.selfie_ok_button);
-        btn.setOnClickListener(new View.OnClickListener() {
+        Button selfieOkBtn=dialogSelfieCapture.findViewById(R.id.view_image_ok);
+        selfieOkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showAchievementLevelEarned();
+                if(hasImage(capturedImage1)) {
+                    showAchievementLevelEarned();
+                    dialogSelfieCapture.dismiss();
+                }
+                else{
+                    Toast.makeText(v.getContext(), "No Image has been Captured for the Current Game", Toast.LENGTH_LONG).show();
+                }
             }
         });
-        dialog.setCancelable(false);
-        dialog.show();
+        dialogSelfieCapture.setCancelable(false);
+        dialogSelfieCapture.show();
 
+        Button viewImagebtn=findViewById(R.id.view_image_btn);
+        capturedImage2=dialogViewImg.findViewById(R.id.captured_image);
+        if(hasImage(capturedImage2)){
+            viewImagebtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
+        }
+        else {
+            Toast.makeText(this, "No Image has been Captured for the Current Game", Toast.LENGTH_LONG).show();
+        }
+
+
+    }
+
+    private boolean hasImage(@NonNull ImageView view) {
+        Drawable drawable = view.getDrawable();
+        boolean hasImage = (drawable != null);
+
+        if (hasImage && (drawable instanceof BitmapDrawable)) {
+            hasImage = ((BitmapDrawable)drawable).getBitmap() != null;
+        }
+
+        return hasImage;
     }
 
     private void showAchievementLevelEarned() {
@@ -425,7 +453,7 @@ public class NewGameActivity extends AppCompatActivity {
         popupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                dialog.dismiss();
             }
         });
         dialog.show();
