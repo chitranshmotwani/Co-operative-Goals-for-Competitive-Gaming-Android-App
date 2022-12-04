@@ -481,7 +481,7 @@ public class GameActivity extends AppCompatActivity {
         popupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                dialog.dismiss();
             }
         });
         dialog.show();
