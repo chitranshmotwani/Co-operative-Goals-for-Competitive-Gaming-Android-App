@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -349,7 +348,6 @@ public class GameActivity extends AppCompatActivity {
 
         Button viewImagebtn = findViewById(R.id.view_image_btn);
         capturedImage2 = dialogViewImg.findViewById(R.id.captured_image);
-        ImageView capturedImage3 = dialogViewImg.findViewById(R.id.captured_image);
         Button viewImageOk = dialogViewImg.findViewById(R.id.view_image_ok);
         viewImagebtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -378,6 +376,7 @@ public class GameActivity extends AppCompatActivity {
         if (imagePresent && (drawable instanceof BitmapDrawable)) {
             imagePresent = ((BitmapDrawable) drawable).getBitmap() != null;
         }
+
         return imagePresent;
     }
 
