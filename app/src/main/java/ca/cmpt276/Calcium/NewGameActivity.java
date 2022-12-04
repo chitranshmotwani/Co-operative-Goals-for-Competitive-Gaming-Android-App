@@ -316,7 +316,7 @@ public class NewGameActivity extends AppCompatActivity {
                     dialogSelfieCapture.dismiss();
                 }
                 else{
-                    Toast.makeText(v.getContext(), "No Image has been Captured for the Current Game", Toast.LENGTH_LONG).show();
+                    Toast.makeText(v.getContext(), getString(R.string.no_image_prompt), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -325,19 +325,26 @@ public class NewGameActivity extends AppCompatActivity {
 
         Button viewImagebtn=findViewById(R.id.view_image_btn);
         capturedImage2=dialogViewImg.findViewById(R.id.captured_image);
-        if(hasImage(capturedImage2)){
-            viewImagebtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
+        Button viewImageOk = dialogViewImg.findViewById(R.id.view_image_ok);
+        viewImagebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (hasImage(capturedImage2)==true){
+                    dialogViewImg.show();
+                    dialogViewImg.setCancelable(false);
+                    viewImageOk.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialogViewImg.dismiss();
+                        }
+                    });
                 }
-            });
 
-        }
-        else {
-            Toast.makeText(this, "No Image has been Captured for the Current Game", Toast.LENGTH_LONG).show();
-        }
-
+                else{
+                    Toast.makeText(NewGameActivity.this, getString(R.string.no_image_prompt), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
     }
 

@@ -61,6 +61,7 @@
     <string name="text_select_theme">Select Theme:</string>
     <string name="capture">Capture Image</string>
     <string name="view_image_text">View Image</string>
+    <string name="no_image_prompt">No Image has been Captured for the Current Game</string>
 
     <string-array name="theme_array">
         <item>Default</item>
