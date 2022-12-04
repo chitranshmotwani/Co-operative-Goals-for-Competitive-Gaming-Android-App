@@ -1,12 +1,18 @@
 package ca.cmpt276.Calcium;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -27,6 +33,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,6 +55,8 @@ public class GameActivity extends AppCompatActivity {
     private int currSumScore = 0;
     private GameConfigManager manager;
     private GameConfiguration gameConfig;
+    private ImageView capturedImage1;
+    private ImageView capturedImage2;
     private GameConfiguration.Game game;
     private Menu optionsMenu;
     ArrayList<Integer> scoreList = new ArrayList<>();
@@ -72,6 +84,7 @@ public class GameActivity extends AppCompatActivity {
         setupCombinedScore();
         setupGameNumPlayersTextWatcher();
         setupGameDifficultyRadioGroup();
+        viewImage();
     }
 
     @Override
@@ -100,7 +113,7 @@ public class GameActivity extends AppCompatActivity {
                     game.setDifficultyLevel(lvl);
                     gameConfig.changeGameScore(index, currSumScore);
                     gameConfig.changeGameNumberOfPlayers(index, numOfPlayers);
-                    showAchievementLevelEarned();
+                    selfieCapture();
                 } else {
                     Toast.makeText(this, getString(R.string.incomplete_game_prompt), Toast.LENGTH_LONG).show();
                 }
@@ -277,6 +290,96 @@ public class GameActivity extends AppCompatActivity {
         setupPlayerScoreListTextWatcher(addPlayerScore, currNumOfPlayers-1);
     }
 
+    private final ActivityResultLauncher<Intent> activityResultLaunch = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+
+                @Override
+                public void onActivityResult(ActivityResult result) {
+
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        Bitmap image = (Bitmap) data.getExtras().get("data");
+
+                        capturedImage1.setImageBitmap(image);
+                        capturedImage2.setImageBitmap(image);
+                    }
+                }
+            }
+    );
+
+    private void selfieCapture() {
+        Dialog dialogSelfieCapture = new Dialog(this);
+        dialogSelfieCapture.setContentView(R.layout.selfie_capture);
+
+        Button captureImagebtn = dialogSelfieCapture.findViewById(R.id.capture_image_btn);
+
+        capturedImage1 = dialogSelfieCapture.findViewById(R.id.captured_image);
+
+        captureImagebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                activityResultLaunch.launch(intent);
+
+            }
+        });
+
+        Button selfieOkBtn = dialogSelfieCapture.findViewById(R.id.view_image_ok);
+        selfieOkBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (hasImage(capturedImage1)) {
+                    showAchievementLevelEarned();
+                    dialogSelfieCapture.dismiss();
+                } else {
+                    Toast.makeText(v.getContext(), getString(R.string.no_image_prompt), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        dialogSelfieCapture.setCancelable(false);
+        dialogSelfieCapture.show();
+
+    }
+
+    private void viewImage() {
+        Dialog dialogViewImg = new Dialog(this);
+        dialogViewImg.setContentView(R.layout.view_image);
+
+        Button viewImagebtn = findViewById(R.id.view_image_btn);
+        capturedImage2 = dialogViewImg.findViewById(R.id.captured_image);
+        ImageView capturedImage3 = dialogViewImg.findViewById(R.id.captured_image);
+        Button viewImageOk = dialogViewImg.findViewById(R.id.view_image_ok);
+        viewImagebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (hasImage(capturedImage2) == true) {
+                    dialogViewImg.show();
+                    dialogViewImg.setCancelable(false);
+                    viewImageOk.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialogViewImg.dismiss();
+                        }
+                    });
+                } else {
+                    Toast.makeText(v.getContext(), getString(R.string.no_image_prompt), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+    }
+
+    private boolean hasImage(@NonNull ImageView view) {
+        Drawable drawable = view.getDrawable();
+        boolean imagePresent = (drawable != null);
+
+        if (imagePresent && (drawable instanceof BitmapDrawable)) {
+            imagePresent = ((BitmapDrawable) drawable).getBitmap() != null;
+        }
+        return imagePresent;
+    }
 
     private void showAchievementLevelEarned() {
         GameConfiguration.Game newestGame = gameConfig.getGame(gameConfig.getNumOfGames() - 1);
