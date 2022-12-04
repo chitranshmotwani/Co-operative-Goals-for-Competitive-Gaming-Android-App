@@ -350,13 +350,13 @@ public class NewGameActivity extends AppCompatActivity {
 
     private boolean hasImage(@NonNull ImageView view) {
         Drawable drawable = view.getDrawable();
-        boolean hasImage = (drawable != null);
+        boolean imagePresent = (drawable != null);
 
-        if (hasImage && (drawable instanceof BitmapDrawable)) {
-            hasImage = ((BitmapDrawable)drawable).getBitmap() != null;
+        if (imagePresent && (drawable instanceof BitmapDrawable)) {
+            imagePresent = ((BitmapDrawable)drawable).getBitmap() != null;
         }
 
-        return hasImage;
+        return imagePresent;
     }
 
     private void showAchievementLevelEarned() {
