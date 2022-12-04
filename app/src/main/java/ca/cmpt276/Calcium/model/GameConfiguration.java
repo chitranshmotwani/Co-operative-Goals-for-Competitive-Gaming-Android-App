@@ -20,6 +20,8 @@ public class GameConfiguration {
     private static final double HARD_MULTIPLIER = 1.25;
 
     private ArrayList<Game> gameList = new ArrayList<>();
+
+    private ArrayList<Integer> achievementObtainedList;
     private String name;
     private String scoreSystemDescription;
     private int greatPerPlayerScore;
@@ -53,6 +55,7 @@ public class GameConfiguration {
         this.scoreSystemDescription = scoreSystemDescription;
         this.greatPerPlayerScore = highPerPlayerScore;
         this.poorPerPlayerScore = lowPerPlayerScore;
+        achievementObtainedList = new ArrayList<Integer>(Collections.nCopies(AchievementLevel.values().length, 0));
     }
 
     public String getName() {
@@ -93,7 +96,8 @@ public class GameConfiguration {
 
     public void addGame(int numPlayers, int score, DifficultyLevel difficultyLevel) {
         AchievementLevel levelObtained = calculateAchievementLevel(numPlayers, score, difficultyLevel);
-
+        Integer numTimesAchieved = achievementObtainedList.get(levelObtained.ordinal());
+        achievementObtainedList.set(levelObtained.ordinal(), ++numTimesAchieved);
         gameList.add(new Game(LocalDateTime.now(), numPlayers, score, levelObtained, difficultyLevel));
     }
 
@@ -102,6 +106,10 @@ public class GameConfiguration {
     }
 
     public int getNumOfGames() { return gameList.size(); }
+
+    public ArrayList<Integer> getAchievementObtainedList() {
+        return achievementObtainedList;
+    }
 
     public void changeGameNumberOfPlayers(int index, int newNumberOfPlayers) {
         Game gameToBeChanged = gameList.get(index);
@@ -113,10 +121,20 @@ public class GameConfiguration {
 
     public void changeGameScore(int index, int newScore) {
         Game gameToBeChanged = gameList.get(index);
+        AchievementLevel prevLevel = gameToBeChanged.getAchievementLevel();
         gameToBeChanged.setScore(newScore);
         gameToBeChanged.setAchievementLevel(
                 calculateAchievementLevel(gameToBeChanged.getNumPlayers(), gameToBeChanged.getScore(), gameToBeChanged.getDifficultyLevel())
         );
+
+        AchievementLevel currLevel = gameToBeChanged.getAchievementLevel();
+        if(prevLevel != currLevel) {
+            Integer prev = achievementObtainedList.get(prevLevel.ordinal());
+            achievementObtainedList.set(prevLevel.ordinal(), prev - 1);
+
+            Integer curr = achievementObtainedList.get(currLevel.ordinal());
+            achievementObtainedList.set(currLevel.ordinal(), curr + 1);
+        }
     }
 
     public ArrayList<Integer> getMinimumScoresForAchievementLevels(int numPlayers, DifficultyLevel difficultyLevel) {

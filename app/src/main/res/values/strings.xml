@@ -35,7 +35,7 @@
     <string name="scrore_system_title">Scoring System</string>
     <string name="score_system_description">Please Enter Description of the Scores system</string>
     <string name="num_players_title">Number of Players</string>
-    <string name="num_players_hint">PLease enter the number of players</string>
+    <string name="num_players_hint">Please enter the number of players</string>
     <string name="combined_score_hint">Please enter the combined score</string>
     <string name="combined_score_title">Combined Score</string>
     <string name="incomplete_game_prompt">Game missing fields. Please try again.</string>
