@@ -5,6 +5,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,6 +14,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -59,6 +61,7 @@ public class NewGameActivity extends AppCompatActivity {
     private int currSumScore = 0;
     private GameConfigManager manager;
     private GameConfiguration gameConfig;
+    private ImageView iv1;
     private Menu optionsMenu;
     ArrayList<Integer> scoreList = new ArrayList<>();
     private int index = 0;
@@ -273,6 +276,23 @@ public class NewGameActivity extends AppCompatActivity {
         setupPlayerScoreListTextWatcher(addPlayerScore, currNumOfPlayers-1);
     }
 
+    private ActivityResultLauncher<Intent> activityResultLaunch = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+
+                @Override
+                public void onActivityResult(ActivityResult result) {
+
+                    if (result.getResultCode() == Activity.RESULT_OK){
+                        Intent data = result.getData();
+                        Bitmap image=(Bitmap) data.getExtras().get("data");
+
+                       iv1.setImageBitmap(image);
+                    }
+                }
+            }
+    );
+
 
     private void selfieCapture(){
         Dialog dialog = new Dialog(this);
@@ -280,21 +300,11 @@ public class NewGameActivity extends AppCompatActivity {
 
         Button captureImagebtn=dialog.findViewById(R.id.capture_image_btn);
 
-        ImageView iv=dialog.findViewById(R.id.selfie_view);
+         iv1=dialog.findViewById(R.id.selfie_view);
 
         captureImagebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityResultLauncher<Intent> activityResultLaunch = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == AppCompatActivity.RESULT_OK && result.getData() != null){
-                            Bundle bundle = result.getData().getExtras();
-                            Bitmap bitmap = (Bitmap) bundle.get("data");
-                            iv.setImageBitmap(bitmap);
-                        }
-                    }
-                });
 
                 Intent intent = new Intent (MediaStore.ACTION_IMAGE_CAPTURE);
                 activityResultLaunch.launch(intent);
