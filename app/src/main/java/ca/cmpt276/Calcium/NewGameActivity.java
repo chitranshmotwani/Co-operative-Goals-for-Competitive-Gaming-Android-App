@@ -5,36 +5,30 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.Spinner;
-import android.widget.TableLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
-
 import java.util.Locale;
 
 import ca.cmpt276.Calcium.model.GameConfigManager;
@@ -50,7 +44,6 @@ public class NewGameActivity extends AppCompatActivity {
     private Menu optionsMenu;
     ArrayList<Integer> scoreList = new ArrayList<>();
     private int index = 0;
-    private boolean playersChanged = false;
     private boolean playerIndScoreChanged = false;
     private Spinner spThemes;
 
@@ -65,6 +58,7 @@ public class NewGameActivity extends AppCompatActivity {
         gameConfig = manager.getConfig(index);
         setTitle(gameConfig.getName());
 
+        setupDefaultPlayerScores();
         setupGameScoreDescription();
         setupGameNumPlayersTextWatcher();
         setupGameDifficultyRadioGroup();
@@ -84,7 +78,7 @@ public class NewGameActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.save_button:
-                if (playersChanged && playerIndScoreChanged) {
+                if (playerIndScoreChanged) {
                     GameConfiguration.DifficultyLevel lvl = getDifficultyLevelSelected();
                     gameConfig.addGame(numOfPlayers, currSumScore, lvl);
                     GameConfiguration.Game g = gameConfig.getGame(gameConfig.getNumOfGames() - 1);
@@ -174,7 +168,6 @@ public class NewGameActivity extends AppCompatActivity {
                     scoreListView.removeAllViews();
                     currNumOfPlayers = 0;
                     scoreList = new ArrayList<>();
-                    playersChanged = true;
 
                     for (int i = 0; i < numOfPlayers; i++){
                         currNumOfPlayers++;
@@ -183,6 +176,19 @@ public class NewGameActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void setupDefaultPlayerScores() {
+        TextView numPlayersView = findViewById(R.id.num_players);
+        Integer defaultNumPlayers = gameConfig.getDefaultNumPlayers();
+        numPlayersView.setText(String.valueOf(defaultNumPlayers));
+
+        numOfPlayers = defaultNumPlayers;
+        for (int i = 0; i < defaultNumPlayers; i++) {
+            currNumOfPlayers++;
+            addOnePlayer(findViewById(R.id.individual_score_list));
+        }
+
     }
 
     private GameConfiguration.DifficultyLevel getDifficultyLevelSelected() {

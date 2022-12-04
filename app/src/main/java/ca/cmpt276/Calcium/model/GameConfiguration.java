@@ -24,9 +24,14 @@ public class GameConfiguration {
     private String scoreSystemDescription;
     private int greatPerPlayerScore;
     private int poorPerPlayerScore;
+    private final int defaultNumPlayers = 2;
 
     public ArrayList<Game> getGames() {
         return gameList;
+    }
+
+    public int getDefaultNumPlayers() {
+        return defaultNumPlayers;
     }
 
     public enum AchievementLevel {
