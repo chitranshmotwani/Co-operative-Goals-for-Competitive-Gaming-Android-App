@@ -60,6 +60,7 @@ public class NewGameActivity extends AppCompatActivity {
     private boolean playersChanged = false;
     private boolean playerIndScoreChanged = false;
     private Spinner spThemes;
+    private Dialog achievementPopup;
 
     private final ActivityResultLauncher<Intent> activityResultLaunch = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -95,6 +96,12 @@ public class NewGameActivity extends AppCompatActivity {
         setupGameDifficultyRadioGroup();
         setupSpinnerItemSelection();
         viewImage();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        achievementPopup.dismiss();
     }
 
     @Override
@@ -456,5 +463,6 @@ public class NewGameActivity extends AppCompatActivity {
             }
         });
         dialog.show();
+        achievementPopup = dialog;
     }
 }
