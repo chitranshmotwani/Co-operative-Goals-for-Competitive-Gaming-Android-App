@@ -21,7 +21,7 @@ public class GameConfiguration {
 
     private ArrayList<Game> gameList = new ArrayList<>();
 
-    private ArrayList<Integer> achievementObtainedList;
+    private ArrayList<Integer> achievementObtainedList = new ArrayList<Integer>(Collections.nCopies(AchievementLevel.values().length, 0));
     private String name;
     private String scoreSystemDescription;
     private int greatPerPlayerScore;
@@ -55,7 +55,6 @@ public class GameConfiguration {
         this.scoreSystemDescription = scoreSystemDescription;
         this.greatPerPlayerScore = highPerPlayerScore;
         this.poorPerPlayerScore = lowPerPlayerScore;
-        achievementObtainedList = new ArrayList<Integer>(Collections.nCopies(AchievementLevel.values().length, 0));
     }
 
     public String getName() {
