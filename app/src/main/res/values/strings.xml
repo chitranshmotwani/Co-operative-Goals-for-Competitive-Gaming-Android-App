@@ -18,6 +18,7 @@
     <string name="back">Back</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
+    <string name="about">About</string>
     <string name="delete_game_config">Are you sure you would like to delete this game configuration and all associated games?</string>
     <string name="level_1">Super Suns</string>
     <string name="level_2">Marvelous Mercurians</string>
@@ -59,6 +60,20 @@
     <string name="cannot_add_more_players">Cannot add more players.</string>
     <string name="enter_player_score">Please enter the score of player</string>
     <string name="text_select_theme">Select Theme:</string>
+    <string name="replay">Replay</string>
+    <string name="acknowledgements">Acknowledgements</string>
+    <string name="about_authors">About the Authors</string>
+    <string name="authors">This app is developed by Jennifer Gu, Weipeng Yao, Thomas Reginold George and Chitransh Motwani of Group Calcium for CMPT 276 during the Fall 2022 semester under Dr. Brian Fraser.</string>
+    <string name="about_course">About the course</string>
+    <string name="course">CMPT 276 is being taught by Dr. Brian Fraser for Fall 2022. Find more information on: https://opencoursehub.cs.sfu.ca/bfraser/grav-cms/cmpt276/home</string>
+    <string name="about_app">About the App</string>
+    <string name="app">This Android app provides achievement goals to turn some competitive board games into a more co-operative experience. At the end of game, the combined score of all players is used to calculate a combined achievement level, with a higher total score earning a better achievement.</string>
+    <string name="reference">Reference</string>
+    <string name="reference1">1. The background image is downloaded from: https://www.freepik.com/free-photo/starry-night-sky_7061153.htm</string>
+    <string name="reference2">2. The sounds used for animation have been downloaded from: https://mixkit.co/free-sound-effects/</string>
+    <string name="reference3">3. The images for the pop-up have been downloaded from: https://www.freepik.com/free-photos-vectors/cartoon-background</string>
+
+
 
     <string-array name="theme_array">
         <item>Default</item>
