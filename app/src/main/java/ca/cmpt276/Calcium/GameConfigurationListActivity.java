@@ -2,6 +2,7 @@ package ca.cmpt276.Calcium;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,6 +21,9 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import ca.cmpt276.Calcium.model.GameConfigManager;
 
@@ -100,16 +106,18 @@ public class GameConfigurationListActivity extends AppCompatActivity {
     }
 
     private void populateGameConfigList() {
-        ArrayList<String> gameConfigs = new ArrayList<String>();
+        ArrayList<String> name = new ArrayList<>();
+        ArrayList<Bitmap> icon = new ArrayList<>();
 
         for (int i = 0; i < manager.getNumOfConfigs(); i++) {
-            gameConfigs.add(manager.getConfig(i).getName());
+            name.add(manager.getConfig(i).getName());
+            icon.add(manager.getConfig(i).getIcon());
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.game_configs_layout, gameConfigs);
+        ImageList im = new ImageList(this, name, icon);
 
         ListView list = findViewById(R.id.game_config_list);
-        list.setAdapter(adapter);
+        list.setAdapter(im);
         list.setEmptyView(findViewById(R.id.empty_game_configs));
     }
 
