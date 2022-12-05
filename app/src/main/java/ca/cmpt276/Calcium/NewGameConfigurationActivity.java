@@ -15,9 +15,12 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -62,10 +65,11 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
         setupGameConfigNameTextWatcher();
         setupGameConfigScoreDescriptionTextWatcher();
         setupGameConfigScoreRangeTextWatchers();
-        setupCamera();
+        setupTakePhotoButton();
+        setupPhoto();
     }
 
-    private void setupCamera(){
+    private void setupTakePhotoButton(){
         Button takePhoto = findViewById(R.id.take_photo);
         picture = findViewById(R.id.picture);
 
@@ -81,6 +85,13 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
             }
         });
         intent2=new Intent(this,Camera.class);
+    }
+
+    private void setupPhoto(){
+        ImageView photo = findViewById(R.id.picture);
+        photo.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_default_box));
+
+
     }
 
 

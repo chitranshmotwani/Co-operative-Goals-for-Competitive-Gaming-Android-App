@@ -3,6 +3,7 @@ package ca.cmpt276.Calcium;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -32,7 +33,6 @@ import java.io.IOException;
 public class Camera extends Activity {
     private ImageView cameraPicture;
     public static final int TAKE_PHOTO = 1;
-    private Button pestDection=null;
     private Button pictureSave=null;
     private Intent intent3;
     private Uri imageUri;
@@ -45,7 +45,7 @@ public class Camera extends Activity {
         cameraPicture = super.findViewById(R.id.picture);
 
 
-        File outputImage = new File(getExternalCacheDir(), "output_image.jpg");
+        File outputImage = new File(getCacheDir(), "output_image.jpg");
         // Change the photo if exist
         try {
             if (outputImage.exists()) {
@@ -58,9 +58,9 @@ public class Camera extends Activity {
 
         if (Build.VERSION.SDK_INT >= 24) {
             imageUri = FileProvider.getUriForFile(this, "ca.cmpt276.Calcium.fileprovider", outputImage);
-            Log.d("MainActivity", outputImage.toString() + "System Version Higher than Android7.0");
+            Log.d("NewConfigurationActivity", outputImage.toString() + "System Version Higher than Android7.0");
         } else {
-            Log.d("MainActivity", outputImage.toString() + "System Version Lower than Android7.0");
+            Log.d("NewConfigurationActivity", outputImage.toString() + "System Version Lower than Android7.0");
             imageUri = Uri.fromFile(outputImage);
         }
         // Dynamically apply for permission
@@ -84,7 +84,7 @@ public class Camera extends Activity {
         public void onClick(View view){
             BitmapDrawable bmpDrawable = (BitmapDrawable) cameraPicture.getDrawable();
             Bitmap bitmap = bmpDrawable.getBitmap();
-            saveToSystemGallery(bitmap);
+            saveToLocal(bitmap);
             Toast.makeText(getApplicationContext(),getString(R.string.saved),Toast.LENGTH_SHORT).show();
             startActivity(intent3);
         }
@@ -106,8 +106,11 @@ public class Camera extends Activity {
                 break;
         }
     }
-    public void saveToSystemGallery(Bitmap bmp) {
-        File appDir = new File(Environment.getExternalStorageDirectory(), "Pictures");
+
+    public void saveToLocal(Bitmap bmp) {
+        //  File appDir = new File(Environment.getExternalStorageDirectory(), "Pictures");
+
+        File appDir = new File(this.getFilesDir(), "Pictures");
         if (!appDir.exists()) {
             appDir.mkdir();
         }

@@ -1,5 +1,7 @@
 package ca.cmpt276.Calcium.model;
 
+import android.widget.ImageView;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ public class GameConfiguration {
     private String scoreSystemDescription;
     private int greatPerPlayerScore;
     private int poorPerPlayerScore;
+    private ImageView icon;
 
     public ArrayList<Game> getGames() {
         return gameList;
