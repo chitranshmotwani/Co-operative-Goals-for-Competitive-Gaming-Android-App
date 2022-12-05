@@ -79,6 +79,7 @@ public class GameActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.save_menu, menu);
         optionsMenu = menu;
         optionsMenu.findItem(R.id.delete_button).setVisible(false);
+        optionsMenu.findItem(R.id.about_button).setVisible(false);
         return true;
     }
 

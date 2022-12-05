@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/space_background">
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="10dp">
+
+        <TextView
+            android:id="@+id/acknowledgement_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/acknowledgements"
+            android:textColor="#fff"
+            android:textSize="25dp"
+            android:fontFamily="sans-serif-black" />
+
+        <TextView
+            android:id="@+id/about_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/acknowledgement_page"
+            android:layout_marginTop="10dp"
+            android:text="@string/about_authors"
+            android:textColor="#fff"
+            android:textSize="15dp"
+            android:fontFamily="sans-serif-black"/>
+
+        <TextView
+            android:id="@+id/author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/about_author"
+            android:layout_marginTop="10dp"
+            android:text="@string/authors"
+            android:textColor="#fff"
+            android:textSize="15dp"
+            android:fontFamily="sans-serif"/>
+
+        <TextView
+            android:id="@+id/course"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/author"
+            android:layout_marginTop="10dp"
+            android:text="@string/about_course"
+            android:textColor="#fff"
+            android:textSize="15dp"
+            android:fontFamily="sans-serif-black"/>
+
+        <TextView
+            android:id="@+id/website"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/course"
+            android:layout_marginTop="10dp"
+            android:text="@string/course"
+            android:autoLink="web"
+            android:textColor="#fff"
+            android:textSize="15dp"
+            android:fontFamily="sans-serif"/>
+
+        <TextView
+            android:id="@+id/about"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/website"
+            android:layout_marginTop="10dp"
+            android:text="@string/about_app"
+            android:textColor="#fff"
+            android:textSize="15dp"
+            android:fontFamily="sans-serif-black"/>
+
+        <TextView
+            android:id="@+id/about_app"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/about"
+            android:layout_marginTop="10dp"
+            android:text="@string/app"
+            android:textColor="#fff"
+            android:textSize="15dp"
+            android:fontFamily="sans-serif"/>
+
+        <TextView
+            android:id="@+id/reference"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/about_app"
+            android:layout_marginTop="10dp"
+            android:text="@string/reference"
+            android:textColor="#fff"
+            android:textSize="15dp"
+            android:fontFamily="sans-serif-black"/>
+
+        <TextView
+            android:id="@+id/reference1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/reference"
+            android:layout_marginTop="10dp"
+            android:text="@string/reference1"
+            android:autoLink="web"
+            android:textColor="#fff"
+            android:textSize="15dp"
+            android:fontFamily="sans-serif"/>
+
+        <TextView
+            android:id="@+id/reference2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/reference1"
+            android:layout_marginTop="10dp"
+            android:text="@string/reference2"
+            android:autoLink="web"
+            android:textColor="#fff"
+            android:textSize="15dp"
+            android:fontFamily="sans-serif"/>
+
+        <TextView
+            android:id="@+id/reference3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/reference2"
+            android:layout_marginTop="10dp"
+            android:text="@string/reference3"
+            android:autoLink="web"
+            android:textColor="#fff"
+            android:textSize="15dp"
+            android:fontFamily="sans-serif"/>
+
+
+    </RelativeLayout>
+</ScrollView>
