@@ -1,14 +1,38 @@
 package ca.cmpt276.Calcium;
 
+import android.Manifest;
+import android.content.ContentValues;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.core.os.EnvironmentCompat;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import ca.cmpt276.Calcium.model.GameConfigManager;
 import ca.cmpt276.Calcium.model.GameConfiguration;
@@ -23,6 +47,10 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
     private int lowerScore = 0;
     private GameConfigManager manager;
     private Menu optionsMenu;
+    public static final int TAKE_PHOTO = 1;
+    public static final int CHOOSE_PHOTO = 2;
+    private ImageView picture;
+    private Intent intent2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +62,27 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
         setupGameConfigNameTextWatcher();
         setupGameConfigScoreDescriptionTextWatcher();
         setupGameConfigScoreRangeTextWatchers();
-
+        setupCamera();
     }
+
+    private void setupCamera(){
+        Button takePhoto = findViewById(R.id.take_photo);
+        picture = findViewById(R.id.picture);
+
+        takePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Dynamically apply for permission
+                if (ContextCompat.checkSelfPermission(NewGameConfigurationActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(NewGameConfigurationActivity.this, new String[]{Manifest.permission.CAMERA}, TAKE_PHOTO);
+                } else {
+                    startActivity(intent2);
+                }
+            }
+        });
+        intent2=new Intent(this,Camera.class);
+    }
+
 
     private void setupGameConfigScoreRangeTextWatchers() {
         EditText greatScore = findViewById(R.id.new_great_score);
