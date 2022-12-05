@@ -46,6 +46,7 @@ public class GameActivity extends AppCompatActivity {
     private boolean ini = true;
     private boolean validPlayers = true;
     private boolean playerIndScoreChanged = true;
+    private Dialog achievementPopup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,13 @@ public class GameActivity extends AppCompatActivity {
         setupCombinedScore();
         setupGameNumPlayersTextWatcher();
         setupGameDifficultyRadioGroup();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        achievementPopup.dismiss();
     }
 
     @Override
@@ -381,5 +389,6 @@ public class GameActivity extends AppCompatActivity {
             }
         });
         dialog.show();
+        achievementPopup = dialog;
     }
 }
