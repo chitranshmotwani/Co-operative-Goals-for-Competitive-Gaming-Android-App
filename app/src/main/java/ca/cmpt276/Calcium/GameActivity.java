@@ -5,34 +5,28 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TableLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
-
 import java.util.Locale;
 
 import ca.cmpt276.Calcium.model.GameConfigManager;
@@ -183,7 +177,8 @@ public class GameActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (!String.valueOf(numPlayers.getText()).equals("")){
+                String input = String.valueOf(numPlayers.getText());
+                if (!input.equals("")  && (Integer.parseInt(input) != currNumOfPlayers)){
                     playersChanged = true;
                     numOfPlayers = Integer.parseInt(String.valueOf(numPlayers.getText()));
                     setupPlayerScores();
