@@ -44,7 +44,7 @@ public class GameActivity extends AppCompatActivity {
     ArrayList<Integer> scoreList = new ArrayList<>();
     private int index = 0;
     private boolean ini = true;
-    private boolean playersChanged = true;
+    private boolean validPlayers = true;
     private boolean playerIndScoreChanged = true;
 
     @Override
@@ -81,7 +81,7 @@ public class GameActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.save_button:
-                if (playersChanged && playerIndScoreChanged) {
+                if (validPlayers && playerIndScoreChanged) {
                     GameConfiguration.DifficultyLevel lvl = getDifficultyLevelSelected();
                     for (int i = 0; i < numOfPlayers; i++){
                         if (i < game.getNumPlayers()){
@@ -146,7 +146,6 @@ public class GameActivity extends AppCompatActivity {
         combScore.setText("");
         scoreListView.removeAllViews();
         currNumOfPlayers = 0;
-        scoreList = new ArrayList<>();
 
         for (int i = 0; i < numOfPlayers; i++){
             currNumOfPlayers++;
@@ -179,12 +178,12 @@ public class GameActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 String input = String.valueOf(numPlayers.getText());
                 if (!input.equals("")  && (Integer.parseInt(input) != currNumOfPlayers)){
-                    playersChanged = true;
-                    numOfPlayers = Integer.parseInt(String.valueOf(numPlayers.getText()));
+                    validPlayers = true;
+                    numOfPlayers = Integer.parseInt(input);
                     setupPlayerScores();
                 }
-                else {
-                    playersChanged = false;
+                else if (input.equals("")) {
+                    validPlayers = false;
                 }
             }
         });
@@ -266,7 +265,11 @@ public class GameActivity extends AppCompatActivity {
             playerIndScoreChanged = true;
         }
         else {
-            scoreList.add(0);
+            if(currNumOfPlayers <= scoreList.size()) {
+                addPlayerScore.setText(String.valueOf(scoreList.get(currNumOfPlayers - 1)));
+            } else {
+                scoreList.add(0);
+            }
             playerIndScoreChanged = false;
         }
         setupPlayerScoreListTextWatcher(addPlayerScore, currNumOfPlayers-1);
