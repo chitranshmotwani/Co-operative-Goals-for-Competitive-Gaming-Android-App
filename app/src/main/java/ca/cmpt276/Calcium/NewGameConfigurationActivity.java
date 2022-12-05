@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -51,9 +53,9 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
     private GameConfigManager manager;
     private Menu optionsMenu;
     public static final int TAKE_PHOTO = 1;
-    public static final int CHOOSE_PHOTO = 2;
-    private ImageView picture;
+    private int photo_changed = 0;
     private Intent intent2;
+    private Bitmap bi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,34 +68,41 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
         setupGameConfigScoreDescriptionTextWatcher();
         setupGameConfigScoreRangeTextWatchers();
         setupTakePhotoButton();
-        setupPhoto();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        showPhoto();
     }
 
     private void setupTakePhotoButton(){
-        Button takePhoto = findViewById(R.id.take_photo);
-        picture = findViewById(R.id.picture);
-
-        takePhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Dynamically apply for permission
+        Button take_photo = findViewById(R.id.take_photo);
+        take_photo.setOnClickListener(view -> {
+            if (!name.equals("")){
+                intent2=new Intent(this,Camera.class);
                 if (ContextCompat.checkSelfPermission(NewGameConfigurationActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(NewGameConfigurationActivity.this, new String[]{Manifest.permission.CAMERA}, TAKE_PHOTO);
                 } else {
+                    intent2.putExtra("name of game config", name);
                     startActivity(intent2);
+                    photo_changed = 1;
                 }
             }
+            else {
+                Toast.makeText(this, "Please enter the name of game.", Toast.LENGTH_SHORT).show();
+            }
         });
-        intent2=new Intent(this,Camera.class);
     }
 
-    private void setupPhoto(){
+    private void showPhoto(){
         ImageView photo = findViewById(R.id.picture);
-        photo.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_default_box));
-
-
+        if (!name.equals("")){
+            String s = getFilesDir().getAbsolutePath() + "/Pictures/" + name + ".jpg";
+            bi = BitmapFactory.decodeFile(s);
+            photo.setImageBitmap(bi);
+        }
     }
-
 
     private void setupGameConfigScoreRangeTextWatchers() {
         EditText greatScore = findViewById(R.id.new_great_score);
@@ -195,6 +204,12 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
             case R.id.save_button:
                 GameConfiguration newGameConfig = new GameConfiguration(name, scoreDescription, highScore, lowerScore);
                 manager.addConfig(newGameConfig);
+                if (photo_changed == 1){
+                    newGameConfig.setIcon(bi);
+                }
+                else{
+                    newGameConfig.setIcon(BitmapFactory.decodeResource(getResources(),R.drawable.ic_default_box));
+                }
                 finish();
                 break;
 

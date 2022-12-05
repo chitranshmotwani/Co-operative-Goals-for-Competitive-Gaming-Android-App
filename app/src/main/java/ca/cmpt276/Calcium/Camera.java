@@ -70,7 +70,6 @@ public class Camera extends Activity {
             startCamera();
         }
 
-        intent3 = new Intent(getApplicationContext(),NewGameConfigurationActivity.class);
         pictureSave.setOnClickListener(new pictureSaveFunction());
 
     }
@@ -86,7 +85,7 @@ public class Camera extends Activity {
             Bitmap bitmap = bmpDrawable.getBitmap();
             saveToLocal(bitmap);
             Toast.makeText(getApplicationContext(),getString(R.string.saved),Toast.LENGTH_SHORT).show();
-            startActivity(intent3);
+            finish();
         }
     }
     @Override
@@ -114,7 +113,7 @@ public class Camera extends Activity {
         if (!appDir.exists()) {
             appDir.mkdir();
         }
-        String fileName = System.currentTimeMillis() + ".jpg";
+        String fileName = getIntent().getStringExtra("name of game config")+ ".jpg";
         File file = new File(appDir, fileName);
         try {
             FileOutputStream fos = new FileOutputStream(file);
