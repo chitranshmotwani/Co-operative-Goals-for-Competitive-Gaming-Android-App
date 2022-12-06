@@ -41,7 +41,7 @@ public class Camera extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.camera);
-        pictureSave=super.findViewById(R.id.pictureSave);
+        pictureSave=super.findViewById(R.id.picture_save);
         cameraPicture = super.findViewById(R.id.picture);
 
 

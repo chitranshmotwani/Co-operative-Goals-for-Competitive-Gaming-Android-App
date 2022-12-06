@@ -53,7 +53,7 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
     private GameConfigManager manager;
     private Menu optionsMenu;
     public static final int TAKE_PHOTO = 1;
-    private int photo_changed = 0;
+    private boolean photo_changed = false;
     private Intent intent2;
     private Bitmap bi;
 
@@ -80,13 +80,13 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
         Button take_photo = findViewById(R.id.take_photo);
         take_photo.setOnClickListener(view -> {
             if (!name.equals("")){
-                intent2=new Intent(this,Camera.class);
+                intent2 = new Intent(this,Camera.class);
                 if (ContextCompat.checkSelfPermission(NewGameConfigurationActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(NewGameConfigurationActivity.this, new String[]{Manifest.permission.CAMERA}, TAKE_PHOTO);
                 } else {
                     intent2.putExtra("name of game config", name);
                     startActivity(intent2);
-                    photo_changed = 1;
+                    photo_changed = true;
                 }
             }
             else {
@@ -204,7 +204,7 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
             case R.id.save_button:
                 GameConfiguration newGameConfig = new GameConfiguration(name, scoreDescription, highScore, lowerScore);
                 manager.addConfig(newGameConfig);
-                if (photo_changed == 1){
+                if (photo_changed){
                     newGameConfig.setIcon(bi);
                 }
                 else{

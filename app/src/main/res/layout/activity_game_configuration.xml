@@ -245,6 +245,8 @@
             android:layout_width="201dp"
             android:layout_height="52dp"
             android:layout_marginTop="150dp"
+            android:backgroundTint="@color/yellow"
+            android:textColor="@color/black"
             android:text="@string/change_photo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.493"

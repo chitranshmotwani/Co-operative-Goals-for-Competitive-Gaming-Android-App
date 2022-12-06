@@ -22,7 +22,7 @@
         android:layout_column="1"
         android:layout_columnWeight="1"
         android:layout_marginLeft="10dp"
-        android:textColor="#1E90FF"
+        android:textColor="@color/white"
         android:textSize="30dp" />
 
 </LinearLayout>

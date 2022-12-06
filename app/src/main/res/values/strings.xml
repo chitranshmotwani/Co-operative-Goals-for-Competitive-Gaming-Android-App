@@ -75,6 +75,7 @@
     <string name="saved">Saved</string>
     <string name="change_photo">Change Photo</string>
     <string name="enter_game_name_pls">Please enter the name of game.</string>
+    <string name="take_a_photo">Take a photo</string>
 
 
     <string-array name="theme_array">
