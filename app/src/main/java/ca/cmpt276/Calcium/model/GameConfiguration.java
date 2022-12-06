@@ -1,5 +1,8 @@
 package ca.cmpt276.Calcium.model;
 
+import android.graphics.Bitmap;
+import android.widget.ImageView;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -27,6 +30,7 @@ public class GameConfiguration {
     private int greatPerPlayerScore;
     private int poorPerPlayerScore;
     private final int defaultNumPlayers = 2;
+    private Bitmap icon;
 
     public ArrayList<Game> getGames() {
         return gameList;
@@ -110,6 +114,10 @@ public class GameConfiguration {
     }
 
     public int getNumOfGames() { return gameList.size(); }
+
+    public void setIcon(Bitmap bm) { this.icon = bm; }
+
+    public Bitmap getIcon() { return this.icon; }
 
     public ArrayList<Integer> getAchievementObtainedList() {
         return achievementObtainedList;
@@ -196,6 +204,7 @@ public class GameConfiguration {
                 return NORMAL_MULTIPLIER;
         }
     }
+
 
     public class Game {
         private final String dateTimeCreated;

@@ -1,7 +1,12 @@
 package ca.cmpt276.Calcium;
 
+import static ca.cmpt276.Calcium.Camera.TAKE_PHOTO;
+
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,6 +25,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
@@ -72,6 +80,26 @@ public class GameConfigurationActivity extends AppCompatActivity {
         setupGameConfigPropertyTextWatchers();
         setupAchievementLevelsTextWatcher();
         setupAchievementLevelsGraph();
+        setupPhotoChangeButton();
+    }
+
+    private void setupPhotoChangeButton(){
+        Button photo_change = findViewById(R.id.change_photo);
+        photo_change.setOnClickListener(view -> {
+            if (!name.equals("")){
+                Intent intent2=new Intent(this,Camera.class);
+                if (ContextCompat.checkSelfPermission(GameConfigurationActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(GameConfigurationActivity.this, new String[]{Manifest.permission.CAMERA}, TAKE_PHOTO);
+                } else {
+                    intent2.putExtra("name of game config", displayedNameString);
+                    startActivity(intent2);
+                    valuesChanged = true;
+                }
+            }
+            else {
+                Toast.makeText(this, getString(R.string.enter_game_name_pls), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setupAchievementLevelsGraph() {
@@ -334,6 +362,7 @@ public class GameConfigurationActivity extends AppCompatActivity {
             modifiedGameConfig.setGreatPerPlayerScore(displayedGreatScore);
             modifiedGameConfig.setPoorPerPlayerScore(displayedPoorScore);
             modifiedGameConfig.setScoreSystemDescription(displayedDescriptionString);
+            modifiedGameConfig.setIcon(BitmapFactory.decodeFile(getFilesDir().getAbsolutePath() + "/Pictures/" + displayedNameString + ".jpg"));
             finish();
         });
 
