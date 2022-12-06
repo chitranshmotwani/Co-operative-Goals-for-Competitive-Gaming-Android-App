@@ -90,7 +90,7 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
                 }
             }
             else {
-                Toast.makeText(this, "Please enter the name of game.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.enter_game_name_pls), Toast.LENGTH_SHORT).show();
             }
         });
     }

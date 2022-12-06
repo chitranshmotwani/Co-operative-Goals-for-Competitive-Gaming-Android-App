@@ -2,6 +2,9 @@ package ca.cmpt276.Calcium;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,11 +41,11 @@ public class ImageList extends ArrayAdapter<String> {
         TextView textViewCountry = (TextView) row.findViewById(R.id.name);
         ImageView imageFlag = (ImageView) row.findViewById(R.id.icon);
 
-        if (icon.get(position) != null){
-            Toast.makeText(context, "BBHBKHBKJ", Toast.LENGTH_SHORT).show();
-        }
+
         textViewCountry.setText(name.get(position));
-//        imageFlag.setImageBitmap(icon.get(position));
+//        Drawable drawable = new BitmapDrawable(context.getResources(), icon.get(position));
+        imageFlag.setImageBitmap(icon.get(position));
+//        imageFlag.setBackground(drawable);
         return  row;
     }
 }

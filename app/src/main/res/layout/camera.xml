@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/space_background"
+    android:fitsSystemWindows="true">
 
     <Button
         android:id="@+id/pictureSave"
@@ -9,9 +11,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_marginLeft="80dp"
-        android:layout_marginEnd="137dp"
-        android:text="保存图像"
-        android:textSize="20dp" />
+        android:layout_marginEnd="163dp"
+        android:text="@string/save"
+        android:textSize="20dp"
+        android:backgroundTint="@color/yellow"
+        android:textColor="@color/black"/>
 
     <ImageView
         android:id="@+id/picture"
