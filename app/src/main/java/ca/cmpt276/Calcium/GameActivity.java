@@ -1,11 +1,19 @@
 package ca.cmpt276.Calcium;
 
+import static ca.cmpt276.Calcium.Camera.TAKE_PHOTO;
+
+import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -23,8 +31,13 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -34,14 +47,33 @@ import ca.cmpt276.Calcium.model.GameConfiguration;
 
 public class GameActivity extends AppCompatActivity {
 
+    ArrayList<Integer> scoreList = new ArrayList<>();
     private int numOfPlayers;
     private int currNumOfPlayers = 0;
     private int currSumScore = 0;
     private GameConfigManager manager;
     private GameConfiguration gameConfig;
+    private ImageView capturedImage1;
+    private ImageView capturedImage2;
+    private final ActivityResultLauncher<Intent> activityResultLaunch = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+
+                @Override
+                public void onActivityResult(ActivityResult result) {
+
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        Bitmap image = (Bitmap) data.getExtras().get("data");
+
+                        capturedImage1.setImageBitmap(image);
+                        capturedImage2.setImageBitmap(image);
+                    }
+                }
+            }
+    );
     private GameConfiguration.Game game;
     private Menu optionsMenu;
-    ArrayList<Integer> scoreList = new ArrayList<>();
     private int index = 0;
     private boolean ini = true;
     private boolean validPlayers = true;
@@ -51,7 +83,7 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_game);
+        setContentView(R.layout.activity_game);
         Intent in = getIntent();
         index = in.getIntExtra("passing selected gameConfig", 0);
         manager = GameConfigManager.getInstance(null);
@@ -67,13 +99,16 @@ public class GameActivity extends AppCompatActivity {
         setupCombinedScore();
         setupGameNumPlayersTextWatcher();
         setupGameDifficultyRadioGroup();
+        viewImage();
     }
-
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        achievementPopup.dismiss();
+        if (achievementPopup != null) {
+            achievementPopup.dismiss();
+        }
+
     }
 
     @Override
@@ -92,18 +127,17 @@ public class GameActivity extends AppCompatActivity {
             case R.id.save_button:
                 if (validPlayers && playerIndScoreChanged) {
                     GameConfiguration.DifficultyLevel lvl = getDifficultyLevelSelected();
-                    for (int i = 0; i < numOfPlayers; i++){
-                        if (i < game.getNumPlayers()){
+                    for (int i = 0; i < numOfPlayers; i++) {
+                        if (i < game.getNumPlayers()) {
                             game.setPlayerScore(i, scoreList.get(i));
-                        }
-                        else if (i >= game.getNumPlayers()){
+                        } else if (i >= game.getNumPlayers()) {
                             game.addPlayerScore(scoreList.get(i));
                         }
                     }
                     game.setDifficultyLevel(lvl);
                     gameConfig.changeGameScore(index, currSumScore);
                     gameConfig.changeGameNumberOfPlayers(index, numOfPlayers);
-                    showAchievementLevelEarned();
+                    selfieCapture(game);
                 } else {
                     Toast.makeText(this, getString(R.string.incomplete_game_prompt), Toast.LENGTH_LONG).show();
                 }
@@ -131,7 +165,7 @@ public class GameActivity extends AppCompatActivity {
             btn.setTextSize(18);
             group.addView(btn);
 
-            if (game.getDifficultyLevel().toString().charAt(0) == difficulty.charAt(0)){
+            if (game.getDifficultyLevel().toString().charAt(0) == difficulty.charAt(0)) {
                 group.check(btn.getId());
             }
         }
@@ -143,12 +177,12 @@ public class GameActivity extends AppCompatActivity {
         description.setText(gameConfig.getScoreSystemDescription());
     }
 
-    private void setupNumOfPlayers(){
+    private void setupNumOfPlayers() {
         TextView combScore = findViewById(R.id.num_players);
         combScore.setText(String.valueOf(numOfPlayers));
     }
 
-    private void setupPlayerScores(){
+    private void setupPlayerScores() {
         LinearLayout scoreListView = findViewById(R.id.individual_score_list);
         TextView combScore = findViewById(R.id.combined_score);
 
@@ -156,17 +190,17 @@ public class GameActivity extends AppCompatActivity {
         scoreListView.removeAllViews();
         currNumOfPlayers = 0;
 
-        for (int i = 0; i < numOfPlayers; i++){
+        for (int i = 0; i < numOfPlayers; i++) {
             currNumOfPlayers++;
             addOnePlayer(scoreListView);
         }
     }
 
-    private void setupCombinedScore(){
+    private void setupCombinedScore() {
         TextView combinedScore = findViewById(R.id.combined_score);
         currSumScore = 0;
 
-        for (int i = 0; i < currNumOfPlayers; i++){
+        for (int i = 0; i < currNumOfPlayers; i++) {
             currSumScore += scoreList.get(i);
         }
         combinedScore.setText(String.valueOf(currSumScore));
@@ -186,12 +220,11 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 String input = String.valueOf(numPlayers.getText());
-                if (!input.equals("")  && (Integer.parseInt(input) != currNumOfPlayers)){
+                if (!input.equals("") && (Integer.parseInt(input) != currNumOfPlayers)) {
                     validPlayers = true;
                     numOfPlayers = Integer.parseInt(input);
                     setupPlayerScores();
-                }
-                else if (input.equals("")) {
+                } else if (input.equals("")) {
                     validPlayers = false;
                 }
             }
@@ -204,7 +237,7 @@ public class GameActivity extends AppCompatActivity {
 
         RadioButton btn = findViewById(selected);
 
-        if(btn != null) {
+        if (btn != null) {
             String difficulty = btn.getText().toString().toUpperCase(Locale.ROOT);
 
             for (GameConfiguration.DifficultyLevel level :
@@ -234,29 +267,28 @@ public class GameActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (!String.valueOf(score.getText()).equals("")){
+                if (!String.valueOf(score.getText()).equals("")) {
                     scoreList.set(indexPlayerScore, Integer.parseInt(String.valueOf(score.getText())));
                     playerIndScoreChanged = true;
                     setupCombinedScore();
-                }
-                else {
+                } else {
                     playerIndScoreChanged = false;
                 }
             }
         });
     }
 
-    private void addOnePlayer(LinearLayout scoreListView){
+    private void addOnePlayer(LinearLayout scoreListView) {
         TextView addPlayerTitle = new TextView(this);
         EditText addPlayerScore = new EditText(this);
         String txt = getResources().getString(R.string.player_and_space) + currNumOfPlayers;
 
-        addPlayerTitle.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT,1.0f));
+        addPlayerTitle.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f));
         addPlayerTitle.setText(txt);
         addPlayerTitle.setTextColor(Color.WHITE);
         addPlayerTitle.setTextSize(20);
         addPlayerTitle.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
-        addPlayerScore.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT,1.0f));
+        addPlayerScore.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f));
         addPlayerScore.setTextColor(Color.WHITE);
         addPlayerScore.setInputType(InputType.TYPE_CLASS_NUMBER);
         addPlayerScore.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
@@ -265,25 +297,104 @@ public class GameActivity extends AppCompatActivity {
         scoreListView.addView(addPlayerTitle);
         scoreListView.addView(addPlayerScore);
 
-        if (ini){
-            if (currNumOfPlayers == numOfPlayers){
+        if (ini) {
+            if (currNumOfPlayers == numOfPlayers) {
                 ini = false;
             }
             addPlayerScore.setText(String.valueOf(game.getPlayerScore(currNumOfPlayers - 1)));
-            scoreList.add(game.getPlayerScore(currNumOfPlayers-1));
+            scoreList.add(game.getPlayerScore(currNumOfPlayers - 1));
             playerIndScoreChanged = true;
-        }
-        else {
-            if(currNumOfPlayers <= scoreList.size()) {
+        } else {
+            if (currNumOfPlayers <= scoreList.size()) {
                 addPlayerScore.setText(String.valueOf(scoreList.get(currNumOfPlayers - 1)));
             } else {
                 scoreList.add(0);
             }
             playerIndScoreChanged = false;
         }
-        setupPlayerScoreListTextWatcher(addPlayerScore, currNumOfPlayers-1);
+        setupPlayerScoreListTextWatcher(addPlayerScore, currNumOfPlayers - 1);
     }
 
+    private void selfieCapture(GameConfiguration.Game game) {
+        Dialog dialogSelfieCapture = new Dialog(this);
+        dialogSelfieCapture.setContentView(R.layout.selfie_capture);
+
+        Button captureImagebtn = dialogSelfieCapture.findViewById(R.id.capture_image_btn);
+
+        capturedImage1 = dialogSelfieCapture.findViewById(R.id.captured_image);
+        if (game.getGameImageBitmap() != null) {
+            capturedImage1.setImageBitmap(game.getGameImageBitmap());
+        }
+        captureImagebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityCompat.requestPermissions(GameActivity.this, new String[]{Manifest.permission.CAMERA}, TAKE_PHOTO);
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                activityResultLaunch.launch(intent);
+
+            }
+        });
+
+        Button selfieOkBtn = dialogSelfieCapture.findViewById(R.id.view_image_ok);
+        selfieOkBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (hasImage(capturedImage1)) {
+                    BitmapDrawable bmpDrawable = (BitmapDrawable) capturedImage1.getDrawable();
+                    Bitmap bitmap = bmpDrawable.getBitmap();
+                    game.setGameImageBitmap(bitmap);
+                    showAchievementLevelEarned();
+                    dialogSelfieCapture.dismiss();
+                } else {
+                    Toast.makeText(v.getContext(), getString(R.string.no_image_prompt), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        dialogSelfieCapture.setCancelable(false);
+        dialogSelfieCapture.show();
+
+    }
+
+    private void viewImage() {
+        Dialog dialogViewImg = new Dialog(this);
+        dialogViewImg.setContentView(R.layout.view_image);
+
+        Button viewImagebtn = findViewById(R.id.view_image_btn);
+        capturedImage2 = dialogViewImg.findViewById(R.id.captured_image);
+        if (game.getGameImageBitmap() != null) {
+            capturedImage2.setImageBitmap(game.getGameImageBitmap());
+        }
+        Button viewImageOk = dialogViewImg.findViewById(R.id.view_image_ok);
+        viewImagebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (hasImage(capturedImage2)) {
+                    dialogViewImg.show();
+                    dialogViewImg.setCancelable(false);
+                    viewImageOk.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialogViewImg.dismiss();
+                        }
+                    });
+                } else {
+                    Toast.makeText(v.getContext(), getString(R.string.no_image_prompt), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+    }
+
+    private boolean hasImage(@NonNull ImageView view) {
+        Drawable drawable = view.getDrawable();
+        boolean imagePresent = (drawable != null);
+
+        if (imagePresent && (drawable instanceof BitmapDrawable)) {
+            imagePresent = ((BitmapDrawable) drawable).getBitmap() != null;
+        }
+
+        return imagePresent;
+    }
 
     private void showAchievementLevelEarned() {
         GameConfiguration.Game newestGame = gameConfig.getGame(gameConfig.getNumOfGames() - 1);
@@ -294,7 +405,7 @@ public class GameActivity extends AppCompatActivity {
         difficulty = difficulty.substring(0, 1).toUpperCase(Locale.ROOT) + difficulty.substring(1);
         String level = getString(manager.getLevelID(index));
 
-        if (ThemeApplication.currentPosition==0) {
+        if (ThemeApplication.currentPosition == 0) {
             MediaPlayer mp = MediaPlayer.create(this, R.raw.achievement_sound);
             mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
@@ -309,8 +420,7 @@ public class GameActivity extends AppCompatActivity {
                     mp.release();
                 }
             });
-        }
-        else if (ThemeApplication.currentPosition==1) {
+        } else if (ThemeApplication.currentPosition == 1) {
             MediaPlayer mp = MediaPlayer.create(this, R.raw.achievement_sound1);
             mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
@@ -325,8 +435,7 @@ public class GameActivity extends AppCompatActivity {
                     mp.release();
                 }
             });
-        }
-        else if (ThemeApplication.currentPosition==2){
+        } else if (ThemeApplication.currentPosition == 2) {
             MediaPlayer mp = MediaPlayer.create(this, R.raw.achievement_sound2);
             mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
@@ -341,8 +450,7 @@ public class GameActivity extends AppCompatActivity {
                     mp.release();
                 }
             });
-        }
-        else if (ThemeApplication.currentPosition==3){
+        } else if (ThemeApplication.currentPosition == 3) {
             MediaPlayer mp = MediaPlayer.create(this, R.raw.achievement_sound3);
             mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
@@ -362,16 +470,13 @@ public class GameActivity extends AppCompatActivity {
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
         String s = getString(R.string.achievement_name) + "\n" + level + getString(R.string.on_difficulty_lvl) + difficulty;
         Dialog dialog = new Dialog(this);
-        if (ThemeApplication.currentPosition==0) {
+        if (ThemeApplication.currentPosition == 0) {
             dialog.setContentView(R.layout.popup_achievement);
-        }
-        else if (ThemeApplication.currentPosition==1) {
+        } else if (ThemeApplication.currentPosition == 1) {
             dialog.setContentView(R.layout.popup_achievement1);
-        }
-        else if (ThemeApplication.currentPosition==2) {
+        } else if (ThemeApplication.currentPosition == 2) {
             dialog.setContentView(R.layout.popup_achievement2);
-        }
-        else if (ThemeApplication.currentPosition==2) {
+        } else if (ThemeApplication.currentPosition == 2) {
             dialog.setContentView(R.layout.popup_achievement3);
         }
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -386,7 +491,7 @@ public class GameActivity extends AppCompatActivity {
         popupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                dialog.dismiss();
             }
         });
         dialog.show();
