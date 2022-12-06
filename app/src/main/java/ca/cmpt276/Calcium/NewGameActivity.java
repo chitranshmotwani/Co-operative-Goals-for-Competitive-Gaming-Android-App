@@ -1,12 +1,20 @@
 package ca.cmpt276.Calcium;
 
+import static ca.cmpt276.Calcium.Camera.TAKE_PHOTO;
+
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -26,8 +34,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -42,6 +55,7 @@ public class NewGameActivity extends AppCompatActivity {
     private int currSumScore = 0;
     private GameConfigManager manager;
     private GameConfiguration gameConfig;
+    private ImageView capturedImage;
     private Menu optionsMenu;
     ArrayList<Integer> scoreList = new ArrayList<>();
     private int index = 0;
@@ -49,6 +63,24 @@ public class NewGameActivity extends AppCompatActivity {
     private Spinner spThemes;
     private Dialog achievementPopup;
     private Spinner themespinner;
+
+    private final ActivityResultLauncher<Intent> activityResultLaunch = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+
+                @Override
+                public void onActivityResult(ActivityResult result) {
+
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        Bitmap image = (Bitmap) data.getExtras().get("data");
+
+                        capturedImage.setImageBitmap(image);
+                        capturedImage.setImageBitmap(image);
+                    }
+                }
+            }
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +127,8 @@ public class NewGameActivity extends AppCompatActivity {
                     for (int i = 0; i < currNumOfPlayers; i++){
                         g.addPlayerScore(scoreList.get(i));
                     }
-                    showAchievementLevelEarned();
+                    selfieCapture(g);
+
                 } else {
                     Toast.makeText(this, getString(R.string.incomplete_game_prompt), Toast.LENGTH_LONG).show();
                 }
@@ -126,7 +159,6 @@ public class NewGameActivity extends AppCompatActivity {
 
     }
 
-
     private void setupSpinnerItemSelection() {
         spThemes = (Spinner) findViewById(R.id.select_theme_spinner);
         spThemes.setSelection(ThemeApplication.currentPosition);
@@ -149,7 +181,6 @@ public class NewGameActivity extends AppCompatActivity {
         });
 
     }
-
 
     private void setupGameScoreDescription() {
         TextView description = findViewById(R.id.score_system_description);
@@ -179,7 +210,7 @@ public class NewGameActivity extends AppCompatActivity {
                     scoreListView.removeAllViews();
                     currNumOfPlayers = 0;
 
-                    for (int i = 0; i < numOfPlayers; i++){
+                    for (int i = 0; i < numOfPlayers; i++) {
                         currNumOfPlayers++;
                         addOnePlayer(scoreListView);
                     }
@@ -207,7 +238,7 @@ public class NewGameActivity extends AppCompatActivity {
 
         RadioButton btn = findViewById(selected);
 
-        if(btn != null) {
+        if (btn != null) {
             String difficulty = btn.getText().toString().toUpperCase(Locale.ROOT);
 
             for (GameConfiguration.DifficultyLevel level :
@@ -244,29 +275,28 @@ public class NewGameActivity extends AppCompatActivity {
                     currSumScore = 0;
                     playerIndScoreChanged = true;
 
-                    for (int i = 0; i < currNumOfPlayers; i++){
+                    for (int i = 0; i < currNumOfPlayers; i++) {
                         currSumScore += scoreList.get(i);
                     }
                     combinedScore.setText(String.valueOf(currSumScore));
-                }
-                else {
+                } else {
                     playerIndScoreChanged = false;
                 }
             }
         });
     }
 
-    private void addOnePlayer(LinearLayout scoreListView){
+    private void addOnePlayer(LinearLayout scoreListView) {
         TextView addPlayerTitle = new TextView(this);
         EditText addPlayerScore = new EditText(this);
         String txt = getResources().getString(R.string.player_and_space) + currNumOfPlayers;
 
-        addPlayerTitle.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT,1.0f));
+        addPlayerTitle.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f));
         addPlayerTitle.setText(txt);
         addPlayerTitle.setTextColor(Color.WHITE);
         addPlayerTitle.setTextSize(20);
         addPlayerTitle.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
-        addPlayerScore.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT,1.0f));
+        addPlayerScore.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f));
         addPlayerScore.setTextColor(Color.WHITE);
         addPlayerScore.setInputType(InputType.TYPE_CLASS_NUMBER);
         addPlayerScore.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
@@ -282,6 +312,54 @@ public class NewGameActivity extends AppCompatActivity {
         setupPlayerScoreListTextWatcher(addPlayerScore, currNumOfPlayers-1);
     }
 
+    private void selfieCapture(GameConfiguration.Game game) {
+        Dialog dialogSelfieCapture = new Dialog(this);
+        dialogSelfieCapture.setContentView(R.layout.selfie_capture);
+
+        Button captureImagebtn = dialogSelfieCapture.findViewById(R.id.capture_image_btn);
+
+        capturedImage = dialogSelfieCapture.findViewById(R.id.captured_image);
+
+        captureImagebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityCompat.requestPermissions(NewGameActivity.this, new String[]{Manifest.permission.CAMERA}, TAKE_PHOTO);
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                activityResultLaunch.launch(intent);
+
+            }
+        });
+
+        Button selfieOkBtn = dialogSelfieCapture.findViewById(R.id.view_image_ok);
+        selfieOkBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (hasImage(capturedImage)) {
+                    BitmapDrawable bmpDrawable = (BitmapDrawable) capturedImage.getDrawable();
+                    Bitmap bitmap = bmpDrawable.getBitmap();
+                    game.setGameImageBitmap(bitmap);
+                    showAchievementLevelEarned();
+                    dialogSelfieCapture.dismiss();
+                } else {
+                    Toast.makeText(v.getContext(), getString(R.string.no_image_prompt), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        dialogSelfieCapture.setCancelable(false);
+        dialogSelfieCapture.show();
+
+    }
+
+    private boolean hasImage(@NonNull ImageView view) {
+        Drawable drawable = view.getDrawable();
+        boolean imagePresent = (drawable != null);
+
+        if (imagePresent && (drawable instanceof BitmapDrawable)) {
+            imagePresent = ((BitmapDrawable) drawable).getBitmap() != null;
+        }
+
+        return imagePresent;
+    }
 
     private void showAchievementLevelEarned() {
         GameConfiguration.Game newestGame = gameConfig.getGame(gameConfig.getNumOfGames() - 1);
@@ -290,9 +368,9 @@ public class NewGameActivity extends AppCompatActivity {
 
         String difficulty = newestGame.getDifficultyLevel().toString().toLowerCase(Locale.ROOT);
         difficulty = difficulty.substring(0, 1).toUpperCase(Locale.ROOT) + difficulty.substring(1);
-        String level = getString(manager.getLevelID(index));
+        String level = getString(GameConfigManager.getLevelID(index));
 
-        if (ThemeApplication.currentPosition==0) {
+        if (ThemeApplication.currentPosition == 0) {
             MediaPlayer mp = MediaPlayer.create(this, R.raw.achievement_sound);
             mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
@@ -307,8 +385,7 @@ public class NewGameActivity extends AppCompatActivity {
                     mp.release();
                 }
             });
-        }
-        else if (ThemeApplication.currentPosition==1) {
+        } else if (ThemeApplication.currentPosition == 1) {
             MediaPlayer mp = MediaPlayer.create(this, R.raw.achievement_sound1);
             mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
@@ -323,8 +400,7 @@ public class NewGameActivity extends AppCompatActivity {
                     mp.release();
                 }
             });
-        }
-        else if (ThemeApplication.currentPosition==2){
+        } else if (ThemeApplication.currentPosition == 2) {
             MediaPlayer mp = MediaPlayer.create(this, R.raw.achievement_sound2);
             mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
@@ -339,8 +415,7 @@ public class NewGameActivity extends AppCompatActivity {
                     mp.release();
                 }
             });
-        }
-        else if (ThemeApplication.currentPosition==3){
+        } else if (ThemeApplication.currentPosition == 3) {
             MediaPlayer mp = MediaPlayer.create(this, R.raw.achievement_sound3);
             mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
@@ -360,16 +435,13 @@ public class NewGameActivity extends AppCompatActivity {
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
         String s = getString(R.string.achievement_name) + "\n" + level + getString(R.string.on_difficulty_lvl) + difficulty;
         Dialog dialog = new Dialog(this);
-        if (ThemeApplication.currentPosition==0) {
+        if (ThemeApplication.currentPosition == 0) {
             dialog.setContentView(R.layout.popup_achievement);
-        }
-        else if (ThemeApplication.currentPosition==1) {
+        } else if (ThemeApplication.currentPosition == 1) {
             dialog.setContentView(R.layout.popup_achievement1);
-        }
-        else if (ThemeApplication.currentPosition==2) {
+        } else if (ThemeApplication.currentPosition == 2) {
             dialog.setContentView(R.layout.popup_achievement2);
-        }
-        else if (ThemeApplication.currentPosition==3) {
+        } else if (ThemeApplication.currentPosition == 3) {
             dialog.setContentView(R.layout.popup_achievement3);
         }
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

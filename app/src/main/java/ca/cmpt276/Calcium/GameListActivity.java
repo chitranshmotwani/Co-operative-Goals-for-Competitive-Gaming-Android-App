@@ -97,6 +97,7 @@ public class GameListActivity extends AppCompatActivity {
                 in.putExtra("passing selected game", position);
                 in.putExtra("passing selected gameConfig", index);
                 startActivity(in);
+                finish();
             }
         });
     }
