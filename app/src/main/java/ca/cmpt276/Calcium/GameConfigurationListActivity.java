@@ -3,6 +3,8 @@ package ca.cmpt276.Calcium;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,6 +26,7 @@ public class GameConfigurationListActivity extends AppCompatActivity {
     public static final String SHAREDPREF = "Shared Preferences";
     public static final String SHAREDPREF_MANAGER = "Manager";
     private GameConfigManager manager;
+    private Menu optionsMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,29 @@ public class GameConfigurationListActivity extends AppCompatActivity {
         populateGameConfigList();
         registerListItemClick();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.save_menu, menu);
+        optionsMenu = menu;
+        optionsMenu.findItem(R.id.delete_button).setVisible(false);
+        optionsMenu.findItem(R.id.save_button).setVisible(false);
+        optionsMenu.findItem(R.id.back_button).setVisible(false);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected( MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.about_button:
+                Intent intent = new Intent(this, AboutActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
     @Override
     protected void onStart() {

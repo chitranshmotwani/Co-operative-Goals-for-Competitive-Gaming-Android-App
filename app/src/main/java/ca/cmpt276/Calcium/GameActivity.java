@@ -9,7 +9,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -17,16 +16,13 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TableLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -37,11 +33,9 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
-
 import java.util.Locale;
 
 import ca.cmpt276.Calcium.model.GameConfigManager;
@@ -61,8 +55,9 @@ public class GameActivity extends AppCompatActivity {
     ArrayList<Integer> scoreList = new ArrayList<>();
     private int index = 0;
     private boolean ini = true;
-    private boolean playersChanged = true;
+    private boolean validPlayers = true;
     private boolean playerIndScoreChanged = true;
+    private Dialog achievementPopup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,11 +81,19 @@ public class GameActivity extends AppCompatActivity {
         viewImage();
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        achievementPopup.dismiss();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.save_menu, menu);
         optionsMenu = menu;
         optionsMenu.findItem(R.id.delete_button).setVisible(false);
+        optionsMenu.findItem(R.id.about_button).setVisible(false);
         return true;
     }
 
@@ -99,7 +102,7 @@ public class GameActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.save_button:
-                if (playersChanged && playerIndScoreChanged) {
+                if (validPlayers && playerIndScoreChanged) {
                     GameConfiguration.DifficultyLevel lvl = getDifficultyLevelSelected();
                     for (int i = 0; i < numOfPlayers; i++){
                         if (i < game.getNumPlayers()){
@@ -164,7 +167,6 @@ public class GameActivity extends AppCompatActivity {
         combScore.setText("");
         scoreListView.removeAllViews();
         currNumOfPlayers = 0;
-        scoreList = new ArrayList<>();
 
         for (int i = 0; i < numOfPlayers; i++){
             currNumOfPlayers++;
@@ -195,13 +197,14 @@ public class GameActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (!String.valueOf(numPlayers.getText()).equals("")){
-                    playersChanged = true;
-                    numOfPlayers = Integer.parseInt(String.valueOf(numPlayers.getText()));
+                String input = String.valueOf(numPlayers.getText());
+                if (!input.equals("")  && (Integer.parseInt(input) != currNumOfPlayers)){
+                    validPlayers = true;
+                    numOfPlayers = Integer.parseInt(input);
                     setupPlayerScores();
                 }
-                else {
-                    playersChanged = false;
+                else if (input.equals("")) {
+                    validPlayers = false;
                 }
             }
         });
@@ -283,7 +286,11 @@ public class GameActivity extends AppCompatActivity {
             playerIndScoreChanged = true;
         }
         else {
-            scoreList.add(0);
+            if(currNumOfPlayers <= scoreList.size()) {
+                addPlayerScore.setText(String.valueOf(scoreList.get(currNumOfPlayers - 1)));
+            } else {
+                scoreList.add(0);
+            }
             playerIndScoreChanged = false;
         }
         setupPlayerScoreListTextWatcher(addPlayerScore, currNumOfPlayers-1);
@@ -485,5 +492,6 @@ public class GameActivity extends AppCompatActivity {
             }
         });
         dialog.show();
+        achievementPopup = dialog;
     }
 }

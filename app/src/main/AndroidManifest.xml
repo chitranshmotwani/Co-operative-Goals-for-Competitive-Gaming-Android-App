@@ -31,6 +31,10 @@
             android:name=".NewGameConfigurationActivity"
             android:exported="false" />
         <activity
+            android:name=".AboutActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".GameConfigurationListActivity"
             android:exported="true">
             <intent-filter>
