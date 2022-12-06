@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -38,7 +37,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -126,6 +124,7 @@ public class NewGameActivity extends AppCompatActivity {
                         g.addPlayerScore(scoreList.get(i));
                     }
                     selfieCapture();
+                    g.setGameImage(capturedImage1);
                 } else {
                     Toast.makeText(this, getString(R.string.incomplete_game_prompt), Toast.LENGTH_LONG).show();
                 }
@@ -334,6 +333,7 @@ public class NewGameActivity extends AppCompatActivity {
                 if (hasImage(capturedImage1)) {
                     showAchievementLevelEarned();
                     dialogSelfieCapture.dismiss();
+                    finish();
                 } else {
                     Toast.makeText(v.getContext(), getString(R.string.no_image_prompt), Toast.LENGTH_LONG).show();
                 }
