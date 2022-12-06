@@ -56,7 +56,6 @@ public class GameActivity extends AppCompatActivity {
     private boolean playerIndScoreChanged = true;
     private Dialog achievementPopup;
     private Spinner spThemes;
-    private Dialog achievementPopup;
     private Spinner themespinner;
 
     @Override
