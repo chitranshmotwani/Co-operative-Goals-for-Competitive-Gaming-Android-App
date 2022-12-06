@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -19,6 +18,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
@@ -52,8 +52,9 @@ public class GameActivity extends AppCompatActivity {
     ArrayList<Integer> scoreList = new ArrayList<>();
     private int index = 0;
     private boolean ini = true;
-    private boolean playersChanged = true;
+    private boolean validPlayers = true;
     private boolean playerIndScoreChanged = true;
+    private Dialog achievementPopup;
     private Spinner spThemes;
     private Dialog achievementPopup;
     private Spinner themespinner;
@@ -80,6 +81,13 @@ public class GameActivity extends AppCompatActivity {
         setupSpinnerItemSelection();
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        achievementPopup.dismiss();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.save_menu, menu);
@@ -94,7 +102,7 @@ public class GameActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.save_button:
-                if (playersChanged && playerIndScoreChanged) {
+                if (validPlayers && playerIndScoreChanged) {
                     GameConfiguration.DifficultyLevel lvl = getDifficultyLevelSelected();
                     for (int i = 0; i < numOfPlayers; i++){
                         if (i < game.getNumPlayers()){
@@ -182,7 +190,6 @@ public class GameActivity extends AppCompatActivity {
         combScore.setText("");
         scoreListView.removeAllViews();
         currNumOfPlayers = 0;
-        scoreList = new ArrayList<>();
 
         for (int i = 0; i < numOfPlayers; i++){
             currNumOfPlayers++;
@@ -213,13 +220,14 @@ public class GameActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (!String.valueOf(numPlayers.getText()).equals("")){
-                    playersChanged = true;
-                    numOfPlayers = Integer.parseInt(String.valueOf(numPlayers.getText()));
+                String input = String.valueOf(numPlayers.getText());
+                if (!input.equals("")  && (Integer.parseInt(input) != currNumOfPlayers)){
+                    validPlayers = true;
+                    numOfPlayers = Integer.parseInt(input);
                     setupPlayerScores();
                 }
-                else {
-                    playersChanged = false;
+                else if (input.equals("")) {
+                    validPlayers = false;
                 }
             }
         });
@@ -301,7 +309,11 @@ public class GameActivity extends AppCompatActivity {
             playerIndScoreChanged = true;
         }
         else {
-            scoreList.add(0);
+            if(currNumOfPlayers <= scoreList.size()) {
+                addPlayerScore.setText(String.valueOf(scoreList.get(currNumOfPlayers - 1)));
+            } else {
+                scoreList.add(0);
+            }
             playerIndScoreChanged = false;
         }
         setupPlayerScoreListTextWatcher(addPlayerScore, currNumOfPlayers-1);
