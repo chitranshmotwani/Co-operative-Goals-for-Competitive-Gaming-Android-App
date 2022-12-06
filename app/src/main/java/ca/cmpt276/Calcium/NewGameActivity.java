@@ -4,6 +4,7 @@ import static ca.cmpt276.Calcium.Camera.TAKE_PHOTO;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -61,6 +62,7 @@ public class NewGameActivity extends AppCompatActivity {
     private boolean playerIndScoreChanged = false;
     private Spinner spThemes;
     private Dialog achievementPopup;
+    private Spinner themespinner;
 
     private final ActivityResultLauncher<Intent> activityResultLaunch = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -457,6 +459,34 @@ public class NewGameActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        Button popupBtn2 = dialog.findViewById(R.id.replay_button);
+        popupBtn2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                TextView tv = dialog.findViewById(R.id.achievement_name);
+                ImageView iv = dialog.findViewById(R.id.achievement_star);
+                iv.setAnimation(animation);
+                tv.setText(s);
+                tv.setAnimation(animation);
+            }
+        });
+
+        themespinner = (Spinner) dialog.findViewById(R.id.theme_spinner);
+        themespinner.setSelection(ThemeApplication.currentPosition);
+        ThemeApplication.currentPosition = themespinner.getSelectedItemPosition();
+        themespinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         dialog.show();
         achievementPopup = dialog;
     }

@@ -19,6 +19,8 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -26,6 +28,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.Spinner;
+import android.widget.TableLayout;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -36,10 +42,12 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import java.util.ArrayList;
+
 import java.util.Locale;
 
 import ca.cmpt276.Calcium.model.GameConfigManager;
@@ -79,6 +87,8 @@ public class GameActivity extends AppCompatActivity {
     private boolean validPlayers = true;
     private boolean playerIndScoreChanged = true;
     private Dialog achievementPopup;
+    private Spinner spThemes;
+    private Spinner themespinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +110,7 @@ public class GameActivity extends AppCompatActivity {
         setupGameNumPlayersTextWatcher();
         setupGameDifficultyRadioGroup();
         viewImage();
+        setupSpinnerItemSelection();
     }
 
     @Override
@@ -169,6 +180,29 @@ public class GameActivity extends AppCompatActivity {
                 group.check(btn.getId());
             }
         }
+
+    }
+
+    private void setupSpinnerItemSelection() {
+        spThemes = (Spinner) findViewById(R.id.select_theme_spinner);
+        spThemes.setSelection(ThemeApplication.currentPosition);
+        ThemeApplication.currentPosition = spThemes.getSelectedItemPosition();
+        spThemes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                if (ThemeApplication.currentPosition != position) {
+                    Utils.changeToTheme(GameActivity.this, position);
+                }
+                ThemeApplication.currentPosition = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
     }
 
@@ -476,7 +510,7 @@ public class GameActivity extends AppCompatActivity {
             dialog.setContentView(R.layout.popup_achievement1);
         } else if (ThemeApplication.currentPosition == 2) {
             dialog.setContentView(R.layout.popup_achievement2);
-        } else if (ThemeApplication.currentPosition == 2) {
+        } else if (ThemeApplication.currentPosition == 3) {
             dialog.setContentView(R.layout.popup_achievement3);
         }
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -494,6 +528,34 @@ public class GameActivity extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
+
+        Button popupBtn2 = dialog.findViewById(R.id.replay_button);
+        popupBtn2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                TextView tv = dialog.findViewById(R.id.achievement_name);
+                ImageView iv = dialog.findViewById(R.id.achievement_star);
+                iv.setAnimation(animation);
+                tv.setText(s);
+                tv.setAnimation(animation);
+            }
+        });
+
+        themespinner = (Spinner) dialog.findViewById(R.id.theme_spinner);
+        themespinner.setSelection(ThemeApplication.currentPosition);
+        ThemeApplication.currentPosition = themespinner.getSelectedItemPosition();
+        themespinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         dialog.show();
         achievementPopup = dialog;
     }

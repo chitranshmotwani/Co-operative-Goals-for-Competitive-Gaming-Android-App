@@ -1,4 +1,4 @@
-Scrum Master: Thomas Reginold George
-Product Owner: Chitransh Motwani
-Repo Manager: Jennifer Gu
-Team Member: Weipeng Yao
+Team Member: Thomas Reginold George
+Repo Manager: Chitransh Motwani
+Scrum Master: Jennifer Gu
+Product Owner: Weipeng Yao
