@@ -44,7 +44,6 @@ public class NewGameActivity extends AppCompatActivity {
     private Menu optionsMenu;
     ArrayList<Integer> scoreList = new ArrayList<>();
     private int index = 0;
-    private boolean playersChanged = false;
     private boolean playerIndScoreChanged = false;
     private Spinner spThemes;
     private Dialog achievementPopup;
@@ -60,6 +59,7 @@ public class NewGameActivity extends AppCompatActivity {
         gameConfig = manager.getConfig(index);
         setTitle(gameConfig.getName());
 
+        setupDefaultPlayerScores();
         setupGameScoreDescription();
         setupGameNumPlayersTextWatcher();
         setupGameDifficultyRadioGroup();
@@ -86,11 +86,11 @@ public class NewGameActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.save_button:
-                if (playersChanged && playerIndScoreChanged) {
+                if (playerIndScoreChanged) {
                     GameConfiguration.DifficultyLevel lvl = getDifficultyLevelSelected();
                     gameConfig.addGame(numOfPlayers, currSumScore, lvl);
                     GameConfiguration.Game g = gameConfig.getGame(gameConfig.getNumOfGames() - 1);
-                    for (int i = 0; i < scoreList.size(); i++){
+                    for (int i = 0; i < currNumOfPlayers; i++){
                         g.addPlayerScore(scoreList.get(i));
                     }
                     showAchievementLevelEarned();
@@ -167,16 +167,15 @@ public class NewGameActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (!String.valueOf(numPlayers.getText()).equals("")){
-                    numOfPlayers = Integer.parseInt(String.valueOf(numPlayers.getText()));
+                String input = String.valueOf(numPlayers.getText());
+                if (!input.equals("")  && (Integer.parseInt(input) != currNumOfPlayers)){
+                    numOfPlayers = Integer.parseInt(input);
                     LinearLayout scoreListView = findViewById(R.id.individual_score_list);
                     TextView combScore = findViewById(R.id.combined_score);
 
                     combScore.setText("");
                     scoreListView.removeAllViews();
                     currNumOfPlayers = 0;
-                    scoreList = new ArrayList<>();
-                    playersChanged = true;
 
                     for (int i = 0; i < numOfPlayers; i++){
                         currNumOfPlayers++;
@@ -185,6 +184,19 @@ public class NewGameActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void setupDefaultPlayerScores() {
+        TextView numPlayersView = findViewById(R.id.num_players);
+        Integer defaultNumPlayers = gameConfig.getDefaultNumPlayers();
+        numPlayersView.setText(String.valueOf(defaultNumPlayers));
+
+        numOfPlayers = defaultNumPlayers;
+        for (int i = 0; i < defaultNumPlayers; i++) {
+            currNumOfPlayers++;
+            addOnePlayer(findViewById(R.id.individual_score_list));
+        }
+
     }
 
     private GameConfiguration.DifficultyLevel getDifficultyLevelSelected() {
@@ -224,8 +236,9 @@ public class NewGameActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 TextView combinedScore = findViewById(R.id.combined_score);
-                if (!String.valueOf(score.getText()).equals("")){
-                    scoreList.set(indexPlayerScore, Integer.parseInt(String.valueOf(score.getText())));
+                String input = String.valueOf(score.getText());
+                if (!input.equals("")){
+                    scoreList.set(indexPlayerScore, Integer.parseInt(input));
                     currSumScore = 0;
                     playerIndScoreChanged = true;
 
@@ -259,7 +272,11 @@ public class NewGameActivity extends AppCompatActivity {
         addPlayerScore.setHint(getResources().getString(R.string.enter_player_score) + currNumOfPlayers);
         scoreListView.addView(addPlayerTitle);
         scoreListView.addView(addPlayerScore);
-        scoreList.add(0);
+        if(currNumOfPlayers <= scoreList.size()) {
+            addPlayerScore.setText(String.valueOf(scoreList.get(currNumOfPlayers - 1)));
+        } else {
+            scoreList.add(0);
+        }
         setupPlayerScoreListTextWatcher(addPlayerScore, currNumOfPlayers-1);
     }
 
