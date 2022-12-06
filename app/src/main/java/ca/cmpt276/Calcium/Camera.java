@@ -107,7 +107,6 @@ public class Camera extends Activity {
     }
 
     public void saveToLocal(Bitmap bmp) {
-        //  File appDir = new File(Environment.getExternalStorageDirectory(), "Pictures");
 
         File appDir = new File(this.getFilesDir(), "Pictures");
         if (!appDir.exists()) {

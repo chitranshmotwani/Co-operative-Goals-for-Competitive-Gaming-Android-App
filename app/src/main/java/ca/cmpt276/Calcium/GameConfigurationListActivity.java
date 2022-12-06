@@ -114,7 +114,7 @@ public class GameConfigurationListActivity extends AppCompatActivity {
             icon.add(manager.getConfig(i).getIcon());
         }
 
-        ImageList im = new ImageList(this, name, icon);
+        ImageList im = new ImageList(this, name);
 
         ListView list = findViewById(R.id.game_config_list);
         list.setAdapter(im);

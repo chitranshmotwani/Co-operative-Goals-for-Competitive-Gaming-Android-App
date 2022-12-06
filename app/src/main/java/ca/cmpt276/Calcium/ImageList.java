@@ -16,18 +16,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class ImageList extends ArrayAdapter<String> {
     Context context;
     ArrayList<String> name;
-    ArrayList<Bitmap> icon;
 
-    public ImageList(@NonNull Context context, ArrayList<String> s, ArrayList<Bitmap> b) {
+    public ImageList(@NonNull Context context, ArrayList<String> s) {
         super(context, R.layout.config_item, R.id.name, s);
         this.context = context;
         this.name = s;
-        this.icon = b;
     }
 
     @NonNull
@@ -43,9 +42,14 @@ public class ImageList extends ArrayAdapter<String> {
 
 
         textViewCountry.setText(name.get(position));
-//        Drawable drawable = new BitmapDrawable(context.getResources(), icon.get(position));
-        imageFlag.setImageBitmap(icon.get(position));
-//        imageFlag.setBackground(drawable);
+
+        File f = new File("data/data/ca.cmpt276.Calcium/files/Pictures/" + name.get(position) + ".jpg");
+        if (!f.exists()){
+            imageFlag.setImageResource(R.drawable.ic_default_box);
+        }
+        else{
+            imageFlag.setImageURI(Uri.fromFile(f));
+        }
         return  row;
     }
 }
