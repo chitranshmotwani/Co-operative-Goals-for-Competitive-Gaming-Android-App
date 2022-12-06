@@ -510,7 +510,7 @@ public class GameActivity extends AppCompatActivity {
             dialog.setContentView(R.layout.popup_achievement1);
         } else if (ThemeApplication.currentPosition == 2) {
             dialog.setContentView(R.layout.popup_achievement2);
-        } else if (ThemeApplication.currentPosition == 2) {
+        } else if (ThemeApplication.currentPosition == 3) {
             dialog.setContentView(R.layout.popup_achievement3);
         }
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
