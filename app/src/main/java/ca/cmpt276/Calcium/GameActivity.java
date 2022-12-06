@@ -82,7 +82,6 @@ public class GameActivity extends AppCompatActivity {
     );
     private GameConfiguration.Game game;
     private Menu optionsMenu;
-    ArrayList<Integer> scoreList = new ArrayList<>();
     private int index = 0;
     private boolean ini = true;
     private boolean validPlayers = true;
