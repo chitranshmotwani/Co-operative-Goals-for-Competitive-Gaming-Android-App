@@ -1,14 +1,43 @@
 package ca.cmpt276.Calcium;
 
+import android.Manifest;
+import android.content.ContentValues;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.core.os.EnvironmentCompat;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import ca.cmpt276.Calcium.model.GameConfigManager;
 import ca.cmpt276.Calcium.model.GameConfiguration;
@@ -23,6 +52,10 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
     private int lowerScore = 0;
     private GameConfigManager manager;
     private Menu optionsMenu;
+    public static final int TAKE_PHOTO = 1;
+    private boolean photo_changed = false;
+    private Intent intent2;
+    private Bitmap bi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +67,41 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
         setupGameConfigNameTextWatcher();
         setupGameConfigScoreDescriptionTextWatcher();
         setupGameConfigScoreRangeTextWatchers();
+        setupTakePhotoButton();
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        showPhoto();
+    }
+
+    private void setupTakePhotoButton(){
+        Button take_photo = findViewById(R.id.take_photo);
+        take_photo.setOnClickListener(view -> {
+            if (!name.equals("")){
+                intent2 = new Intent(this,Camera.class);
+                if (ContextCompat.checkSelfPermission(NewGameConfigurationActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(NewGameConfigurationActivity.this, new String[]{Manifest.permission.CAMERA}, TAKE_PHOTO);
+                } else {
+                    intent2.putExtra("name of game config", name);
+                    startActivity(intent2);
+                    photo_changed = true;
+                }
+            }
+            else {
+                Toast.makeText(this, getString(R.string.enter_game_name_pls), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showPhoto(){
+        ImageView photo = findViewById(R.id.picture);
+        if (!name.equals("")){
+            String s = getFilesDir().getAbsolutePath() + "/Pictures/" + name + ".jpg";
+            bi = BitmapFactory.decodeFile(s);
+            photo.setImageBitmap(bi);
+        }
     }
 
     private void setupGameConfigScoreRangeTextWatchers() {
@@ -137,6 +204,12 @@ public class NewGameConfigurationActivity extends AppCompatActivity {
             case R.id.save_button:
                 GameConfiguration newGameConfig = new GameConfiguration(name, scoreDescription, highScore, lowerScore);
                 manager.addConfig(newGameConfig);
+                if (photo_changed){
+                    newGameConfig.setIcon(bi);
+                }
+                else{
+                    newGameConfig.setIcon(BitmapFactory.decodeResource(getResources(),R.drawable.ic_default_box));
+                }
                 finish();
                 break;
 
