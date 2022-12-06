@@ -1,7 +1,6 @@
 package ca.cmpt276.Calcium.model;
 
 import android.graphics.Bitmap;
-import android.widget.ImageView;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -213,7 +212,7 @@ public class GameConfiguration {
         private DifficultyLevel difficultyLevel;
         private ArrayList<Integer> scoreList;
 
-        private ImageView gameImage;
+        private Bitmap gameImageBitmap;
 
         public Game(LocalDateTime dateTimeCreated, int numPlayers, int score, AchievementLevel achievementLevel, DifficultyLevel difficultyLevel) {
             //no setter for dateTimeCreated as it should only be set on the game creation
@@ -267,12 +266,12 @@ public class GameConfiguration {
             this.difficultyLevel = difficultyLevel;
         }
 
-        public ImageView getGameImage() {
-            return gameImage;
+        public Bitmap getGameImageBitmap() {
+            return gameImageBitmap;
         }
 
-        public void setGameImage(ImageView gameImage) {
-            this.gameImage = gameImage;
+        public void setGameImageBitmap(Bitmap gameImageBitmap) {
+            this.gameImageBitmap = gameImageBitmap;
         }
     }
 }
